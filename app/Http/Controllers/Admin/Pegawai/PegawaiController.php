@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\IndikatorKerja;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class PegawaiController extends Controller
 {
@@ -29,7 +30,7 @@ class PegawaiController extends Controller
         }
     }
 
-    public function created(Request $req)
+    public function create(Request $req)
     {
         try {
             $pegawai = new User();
@@ -37,14 +38,51 @@ class PegawaiController extends Controller
             $pegawai->nama = $req->nama;
             $pegawai->email = $req->email;
             $pegawai->role = 'pegawai';
-            $pegawai->goglongan = $req->goglongan;
+            $pegawai->golongan = $req->golongan;
             $pegawai->unit_kerja = $req->unit_kerja;
             $pegawai->jabatan = $req->jabatan;
+            $pegawai->password = Hash::make($req->password);
             if ($pegawai->save()) {
                 return redirect()->route('admin_pegawai')->with(['success' => 'berhasil menambahkan pegawai']);
             }
         } catch (\Exception $err) {
-            return redirect()->route('admin_pegawai')->with(['error' => 'gagal menambahkan pegawai']);
+            return redirect()->route('admin_pegawai')->with(['error' => 'gagal menambahkan pegawai ']);
         }
+    }
+
+    public function update(Request $req)
+    {        
+        try {
+            $pegawai = User::find($req->id);
+            $pegawai->nip = $req->nip;
+            $pegawai->nama = $req->nama;
+            $pegawai->email = $req->email;            
+            $pegawai->golongan = $req->golongan;
+            $pegawai->unit_kerja = $req->unit_kerja;
+            $pegawai->jabatan = $req->jabatan;
+            $req->password ? $pegawai->password = Hash::make($req->password) : false;
+            if ($pegawai->save()) {
+                return redirect()->route('admin_pegawai')->with(['success' => 'berhasil merubah pegawai']);
+            }
+        } catch (\Exception $err) {
+            return redirect()->route('admin_pegawai')->with(['error' => 'gagal merubah pegawai | ']);
+        }
+    }
+
+    public function byId(Request $req)
+    {
+        $pegawai = User::find($req->id);
+        return $pegawai;
+    }
+
+    public function delete(Request $req)
+    {
+        $pegawai = User::find($req->id);
+        if($pegawai){
+            $pegawai->status = 0;
+            $pegawai->save();
+            return redirect()->route('admin_pegawai')->with(['success' => 'berhasil menonaktifkan pegawai']);
+        }
+        return redirect()->route('admin_pegawai')->with(['error' => 'gagal menonaktifkan pegawai | ']);
     }
 }

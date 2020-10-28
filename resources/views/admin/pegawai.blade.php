@@ -1,26 +1,16 @@
 @extends('admin_template')
 
 @section('content')
-    @if (Auth::user()->role != 'admin')
-        <script>
-            window.location.href = {
-                {
-                    route('home')
-                }
-            }
-
-        </script>
-    @endif
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                    <h3 class="card-title">{{$page_title}}</h3>
+                        <h3 class="card-title">{{ $page_title }}</h3>
                         <div class="float-right">
                             <button id="add_kegiatan_id" type="button"
                                 class="btn btn-block bg-gradient-primary btn-flat add_kegiatan" data-toggle="modal"
-                                data-target="#tambahKegiatan">
+                                data-target="#addModal">
                                 <ion-icon name="add-circle-sharp"></ion-icon>
                             </button>
                         </div>
@@ -32,7 +22,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>NIP</th>
-                                    <th>Nama</th>                                    
+                                    <th>Nama</th>
                                     <th>Golongan</th>
                                     <th>Jabatan</th>
                                     <th>Unit Kerja</th>
@@ -46,16 +36,15 @@
                                         <td>{{ $item->nip }}</td>
                                         <td>{{ $item->nama }}</td>
                                         <td>{{ $item->golongan }}</td>
-                                        <td>{{ $item->jabatan }}</td>                 
-                                        <td>{{ $item->unit_kerja }}</td>                                        
+                                        <td>{{ $item->jabatan }}</td>
+                                        <td>{{ $item->unit_kerja }}</td>
                                         <td>
                                             <meta name="csrf-token" content="{{ csrf_token() }}">
-                                            <a href="#editModal" data-toggle="modal" data-id="{{ $item->id }}"
-                                                title="Ubah">
+                                            <a href="#editModal" data-toggle="modal" data-id="{{ $item->id }}" title="Ubah">
                                                 <ion-icon name="create-outline">Edit</ion-icon>
                                             </a>
                                             <a title="Hapus" onclick="return tanya()"
-                                                href={{ url("kegiatan/delete?id=$item->id") }}>
+                                                href={{ url("admin/pegawai/delete?id=$item->id") }}>
                                                 <ion-icon name="trash-outline"></ion-icon>
                                             </a>
                                         </td>
@@ -67,7 +56,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>NIP</th>
-                                    <th>Nama</th>                                    
+                                    <th>Nama</th>
                                     <th>Golongan</th>
                                     <th>Jabatan</th>
                                     <th>Unit Kerja</th>
@@ -88,46 +77,46 @@
 
     <!-- Add Modal -->
 
-    <div class="modal fade" id="tambahKegiatan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
+    <!-- add Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Tambahkan Kegiatan</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">Tambah Pegawai</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('add_kegiatan') }} method="POST">
+                    <form action={{ route('add_admin_pegawai') }} method="POST">
                         @csrf
+                        <input type="text" name="id" class="form-control" id="id" hidden="true">
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Nama Kegiatan:</label>
-                            <input type="text" name="nama_kegiatan" class="form-control" required="true" id="nama-kegiatan">
+                            <label for="nip" class="control-label">NIP:</label>
+                            <input type="text" name="nip" class="form-control" required="true" id="nip">
                         </div>
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Periode:</label>
-                            <input type="date" name="periode" class="form-control" required="true" id="perioder">
+                            <label for="email" class="control-label">Email:</label>
+                            <input type="email" name="email" class="form-control" required="true" id="email">
                         </div>
                         <div class="form-group">
-                            <label for="uraian" class="control-label">Uraian Kegiatan:</label>
-                            <textarea type="text" name="uraian" class="form-control" required="true" id="uraian"></textarea>
+                            <label for="recipient-name" class="control-label">Nama:</label>
+                            <input type="text" name="nama" class="form-control" required="true" id="nama">
                         </div>
                         <div class="form-group">
-                            <label for="ak_target" class="control-label">AK Target:</label>
-                            <input type="number" name="ak_target" class="form-control" required="true" id="ak_target">
+                            <label for="uraian" class="control-label">Golongan:</label>
+                            <input type="text" name="golongan" class="form-control" required="true" id="golongan">
                         </div>
                         <div class="form-group">
-                            <label for="qtt_target" class="control-label">Qtt Target:</label>
-                            <input type="number" name="qtt_target" class="form-control" required="true" id="qtt_target">
+                            <label for="jabatan" class="control-label">Jabatan:</label>
+                            <input type="text" name="jabatan" class="form-control" required="true" id="jabatan">
                         </div>
                         <div class="form-group">
-                            <label for="mutu_target" class="control-label">Mutu Target:</label>
-                            <input type="number" name="mutu_target" class="form-control" required="true" id="mutu_target">
+                            <label for="unit_kerja" class="control-label">Unit Kerja:</label>
+                            <input type="text" name="unit_kerja" class="form-control" required="true" id="unit_kerja">
                         </div>
                         <div class="form-group">
-                            <label for="mutu_target" class="control-label">Ditugaskan Kepada:</label>
-                            <select class="form-control" required="true" , id="ditugaskan">
-                                <option value=""></option>
-                            </select>
+                            <label for="password" class="control-label">Password:</label>
+                            <input type="password" name="password" class="form-control" required="true" id="password">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Tambah</button>
@@ -138,7 +127,6 @@
             </div>
         </div>
     </div>
-
     <!-- Edit Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog modal-lg" role="document">
@@ -149,40 +137,39 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('edit_kegiatan') }} method="POST">
+                    <form action={{ route('edit_admin_pegawai') }} method="POST">
                         @csrf
-                        <input type="text" name="id" class="form-control" id="id" hidden="true">
+                        <input type="text" name="id" class="form-control" id="id_edit" hidden="true">
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Nama Kegiatan:</label>
-                            <input type="text" name="nama_kegiatan" class="form-control" required="true" id="nama_kegiatan">
+                            <label for="nip" class="control-label">NIP:</label>
+                            <input type="text" name="nip" class="form-control" required="true" id="nip_id">
                         </div>
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Periode:</label>
-                            <input type="date" name="periode" class="form-control" required="true" id="periode">
+                            <label for="email" class="control-label">Email:</label>
+                            <input type="email" name="email" class="form-control" required="true" id="email_id">
                         </div>
                         <div class="form-group">
-                            <label for="uraian" class="control-label">Uraian Kegiatan:</label>
-                            <textarea type="text" name="uraian" class="form-control" required="true" id="uraian"></textarea>
+                            <label for="recipient-name" class="control-label">Nama:</label>
+                            <input type="text" name="nama" class="form-control" required="true" id="nama_id">
                         </div>
                         <div class="form-group">
-                            <label for="ak_target" class="control-label">AK Target:</label>
-                            <input type="number" name="ak_target" class="form-control" required="true" id="ak_target">
+                            <label for="uraian" class="control-label">Golongan:</label>
+                            <input type="text" name="golongan" class="form-control" required="true" id="golongan_id">
                         </div>
                         <div class="form-group">
-                            <label for="qtt_target" class="control-label">Qtt Target:</label>
-                            <input type="number" name="qtt_target" class="form-control" required="true" id="qtt_target">
+                            <label for="jabatan" class="control-label">Jabatan:</label>
+                            <input type="text" name="jabatan" class="form-control" required="true" id="jabatan_id">
                         </div>
                         <div class="form-group">
-                            <label for="mutu_target" class="control-label">Mutu Target:</label>
-                            <input type="number" name="mutu_target" class="form-control" required="true" id="mutu_target">
+                            <label for="unit_kerja" class="control-label">Unit Kerja:</label>
+                            <input type="text" name="unit_kerja" class="form-control" required="true" id="unit_kerja_id">
                         </div>
                         <div class="form-group">
-                            <label for="ditugaskan" class="control-label">Ditugaskan Kepada:</label>
-                            <select required="true" class="form-control" name="ditugaskan" id="ditugaskan_id">
-                                <option>
-                                </option>
-                            </select>
+                            <label for="checked_change_passwor" class="control-label">Ceklis Jika Ingin Ubah Sandi :</label>
+                            <input type="checkbox" name="checked_change_passwor" class="" id="checked_change_passwor">
                         </div>
+                        <input type="password" name="password" hidden="true" placeholder="Change Password"
+                            class="form-control" id="password_id">
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Ubah</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
@@ -214,37 +201,44 @@
 
         $(document).ready(function() {
             $('#editModal').on('show.bs.modal', function(e) {
-                var kegiatan_id = $(e.relatedTarget).data('id');
+                var pegawai_id = $(e.relatedTarget).data('id');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/pegawai') }}?is_api=1",
+                    url: "{{ url('admin/pegawai/id') }}?id=" + pegawai_id,
                     success: function(data) {
-                        for (i = 0; i < data.pegawai.length; i++) {
-                            $('#ditugaskan_id').append(
-                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
-                            );
-                        }
-                        console.log(data);
-                    }
-                });
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ url('kegiatan/id') }}?id=" + kegiatan_id,
-                    success: function(data) {
-                        console.log(data)
-                        $('#id').val(data.id);
-                        $('#nama_kegiatan').val(data.kegiatan);
-                        $('#periode').val(data.periode);
-                        $('textarea#uraian').val(data.uraian_kegiatan.uraian_kegiatan);
-                        $('#ak_target').val(data.ak_target);
-                        $('#qtt_target').val(data.qtt_target);
-                        $('#mutu_target').val(data.mutu_target);                        
-                        $("#ditugaskan_id option[value=" + data.user.id +
-                            "]").attr('selected',
-                            'selected');
+                        console.log(data.nama)
+                        $('#id_edit').val(data.id);
+                        $('#nip_id').val(data.nip);
+                        $('#nama_id').val(data.nama);
+                        $('#email_id').val(data.email);
+                        $('#golongan_id').val(data.golongan);
+                        $('#jabatan_id').val(data.jabatan);
+                        $('#unit_kerja_id').val(data.unit_kerja);
 
                     }
                 });
+            });
+
+            $('#checked_change_passwor').change(function() {
+
+                if (this.checked) {
+                    var returnVal = confirm("Yakin ingin mengubah sandi ?");
+                    if(returnVal){
+                        $('#password_id').attr('hidden', false); 
+                        $(this).prop("checked", returnVal);    
+                    } else {
+                        $('#password_id').attr('hidden', true);
+                        $('#password_id').val(null);
+                        $(this).prop("checked", returnVal); 
+                    }
+                                       
+                    console.log('berhasil kesini');
+                } else {
+                    $('#password_id').attr('hidden', true);
+                }
+                $('#checked_change_passwor').val(this.checked);
+
+
             });
         });
 

@@ -31,8 +31,10 @@ Route::get('/kegiatan/delete', [App\Http\Controllers\HomeController::class, 'keg
 
 Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\Admin\Pegawai'], function($router){
     $router->get('/', 'PegawaiController@index')->name('admin_pegawai');
-    $router->get('kegiatan', 'PegawaiController@kegiatan')->name('admin_kegiatan_pegawai');
-    $router->get('laporan', 'PegawaiController@laporan')->name('admin_laporan_pegawai');
+    $router->get('id', 'PegawaiController@byId')->name('admin_id_pegawai');
+    $router->post('/', 'PegawaiController@create')->name('add_admin_pegawai');
+    $router->post('update', 'PegawaiController@update')->name('edit_admin_pegawai');
+    $router->get('delete', 'PegawaiController@delete')->name('delete_admin_pegawai');
     
 });
 
