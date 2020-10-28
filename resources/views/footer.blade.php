@@ -5,7 +5,7 @@
     <div class="float-right d-none d-sm-inline">      
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2020 <a href={{ url('/admin')}}>PAM Maju Makmur</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2020 <a href={{ url('/admin')}}>Kepegawaian MK</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
