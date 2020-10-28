@@ -16,7 +16,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Data Kegiatan</h3>
+                    <h3 class="card-title">{{$page_title}}</h3>
                         <div class="float-right">
                             <button id="add_kegiatan_id" type="button"
                                 class="btn btn-block bg-gradient-primary btn-flat add_kegiatan" data-toggle="modal"
@@ -31,34 +31,31 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kegiatan</th>
-                                    <th>Tanggal</th>
-                                    <th>AK Target</th>
-                                    <th>QTT Target</th>
-                                    <th>Mutu Target</th>
+                                    <th>NIP</th>
+                                    <th>Nama</th>                                    
+                                    <th>Golongan</th>
+                                    <th>Jabatan</th>
+                                    <th>Unit Kerja</th>
                                     <th>Pilihan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($kegiatans as $kegiatan)
+                                @foreach ($pegawai as $item)
                                     <tr>
                                         <td>{{ $i++ }}</td>
-                                        <td>{{ $kegiatan->kegiatan }}</td>
-                                        <td>{{ $kegiatan->periode }}</td>
-                                        <td>{{ $kegiatan->uraianKegiatan ? $kegiatan->uraianKegiatan->ak_target : null }}
-                                        </td>
-                                        <td>{{ $kegiatan->uraianKegiatan ? $kegiatan->uraianKegiatan->qtt_target : null }}
-                                        </td>
-                                        <td>{{ $kegiatan->uraianKegiatan ? $kegiatan->uraianKegiatan->mutu_target : null }}
-                                        </td>                                        
+                                        <td>{{ $item->nip }}</td>
+                                        <td>{{ $item->nama }}</td>
+                                        <td>{{ $item->golongan }}</td>
+                                        <td>{{ $item->jabatan }}</td>                 
+                                        <td>{{ $item->unit_kerja }}</td>                                        
                                         <td>
                                             <meta name="csrf-token" content="{{ csrf_token() }}">
-                                            <a href="#editModal" data-toggle="modal" data-id="{{ $kegiatan->id }}"
+                                            <a href="#editModal" data-toggle="modal" data-id="{{ $item->id }}"
                                                 title="Ubah">
                                                 <ion-icon name="create-outline">Edit</ion-icon>
                                             </a>
                                             <a title="Hapus" onclick="return tanya()"
-                                                href={{ url("kegiatan/delete?id=$kegiatan->id") }}>
+                                                href={{ url("kegiatan/delete?id=$item->id") }}>
                                                 <ion-icon name="trash-outline"></ion-icon>
                                             </a>
                                         </td>
@@ -69,11 +66,11 @@
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kegiatan</th>
-                                    <th>Tanggal</th>
-                                    <th>AK Target</th>
-                                    <th>QTT Target</th>
-                                    <th>Mutu Target</th>
+                                    <th>NIP</th>
+                                    <th>Nama</th>                                    
+                                    <th>Golongan</th>
+                                    <th>Jabatan</th>
+                                    <th>Unit Kerja</th>
                                     <th>Pilihan</th>
                                 </tr>
                             </tfoot>

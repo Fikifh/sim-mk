@@ -23,11 +23,23 @@ Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/kegiatan', [App\Http\Controllers\HomeController::class, 'kegiatan'])->name('kegiatan')->middleware('role:admin');
+Route::get('/kegiatan/id', [App\Http\Controllers\HomeController::class, 'kegiatanById'])->name('kegiatan_by_id')->middleware('role:admin');
 Route::post('/kegiatan', [App\Http\Controllers\HomeController::class, 'tambahKegiatan'])->name('add_kegiatan')->middleware('role:admin');
+Route::post('/kegiatan/edit', [App\Http\Controllers\HomeController::class, 'editKegiatan'])->name('edit_kegiatan')->middleware('role:admin');
 Route::get('/laporan', [App\Http\Controllers\HomeController::class, 'laporanKegiatan'])->name('laporan_kegiatan')->middleware('role:admin');
 Route::get('/kegiatan/delete', [App\Http\Controllers\HomeController::class, 'kegiatanDelete'])->name('kegiatan_delete')->middleware('role:admin');
 
-Route::group(['prefix' => 'pegawai', 'namespace' => App\Http\Controllers\Pegawai\PegawaiController::class, 'middleware'=>'role:pegawai'], function($router){
+Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\Admin\Pegawai'], function($router){
+    $router->get('/', 'PegawaiController@index')->name('admin_pegawai');
+    $router->get('kegiatan', 'PegawaiController@kegiatan')->name('admin_kegiatan_pegawai');
+    $router->get('laporan', 'PegawaiController@laporan')->name('admin_laporan_pegawai');
+    
+});
+
+
+Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawai'], function($router){
+    $router->get('/', 'PegawaiController@index')->name('pegawai');
     $router->get('kegiatan', 'PegawaiController@kegiatan')->name('kegiatan_pegawai');
     $router->get('laporan', 'PegawaiController@laporan')->name('laporan_pegawai');
+    
 });

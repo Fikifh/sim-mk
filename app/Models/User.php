@@ -24,7 +24,8 @@ class User extends Authenticatable
         'nip',
         'golongan',
         'jabatan',
-        'unit_kerja'
+        'unit_kerja',
+        'status'
     ];
 
     /**
