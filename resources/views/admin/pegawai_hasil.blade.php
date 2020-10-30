@@ -6,15 +6,14 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="float-left">                            
-                            <div class="clo-6">
-                                <button id="add_kegiatan_id" type="button"
-                                    class="btn purple-gradient bg-gradient-primary btn-flat add_kegiatan"
-                                    data-toggle="modal" data-target="#addModal">
-                                    <i class="fa fa-plus"> Tambah</i>
-                                </button>
-                            </div>
-                        </div>                        
+                        <h3 class="card-title">{{ $page_title }}</h3>
+                        <div class="float-right">
+                            <button id="add_kegiatan_id" type="button"
+                                class="btn purple-gradient bg-gradient-primary btn-flat add_kegiatan" data-toggle="modal"
+                                data-target="#addModal">
+                                <ion-icon name="add-circle-sharp"></ion-icon>
+                            </button>
+                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -27,9 +26,6 @@
                                     <th>Golongan</th>
                                     <th>Jabatan</th>
                                     <th>Unit Kerja</th>
-                                    <th>Nilai Perhitungan</th>
-                                    <th>Nilai Capaian</th>
-                                    <th>Capaian Kinerja</th>
                                     <th>Pilihan</th>
                                 </tr>
                             </thead>
@@ -42,19 +38,6 @@
                                         <td>{{ $item->golongan }}</td>
                                         <td>{{ $item->jabatan }}</td>
                                         <td>{{ $item->unit_kerja }}</td>
-                                        <td>{{round($item->nilai_perhitungan, 2)}}</td>
-                                        <td>{{round($item->nilai_capaian, 2)}}</td>
-                                        <td>
-                                            <?php
-                                                $nilaiCapaian = round($item->nilai_capaian,0);
-                                                $hasil = \App\Models\NilaiCapaian::where('nilai_angka_min', '<=', $nilaiCapaian)->where('nilai_angka','>=', $nilaiCapaian)->first();                                                
-                                                if($hasil){
-                                                    echo $hasil->nilai_text;
-                                                } else {
-                                                    echo "nilai tidak pada range !";
-                                                }                                                   
-                                            ?>
-                                        </td>
                                         <td>
                                             <meta name="csrf-token" content="{{ csrf_token() }}">
                                             <a href="#editModal" data-toggle="modal" data-id="{{ $item->id }}" title="Ubah">
@@ -64,8 +47,8 @@
                                                 href={{ url("admin/pegawai/delete?id=$item->id") }}>
                                                 <ion-icon name="trash-outline"></ion-icon>
                                             </a>
-                                            <a title="Detail"
-                                                href={{ url("admin/pegawai/kegiatan?user_id=$item->id&id=$item->id") }}>
+                                            <a title="Detail" onclick="return tanya()"
+                                                href={{ url("admin/pegawai/detail?id=$item->id") }}>
                                                 <ion-icon name="eye"></ion-icon>
                                             </a>
                                         </td>
@@ -81,9 +64,6 @@
                                     <th>Golongan</th>
                                     <th>Jabatan</th>
                                     <th>Unit Kerja</th>
-                                    <th>Nilai Perhitungan</th>
-                                    <th>Nilai Capaian</th>
-                                    <th>Capaian Kinerja</th>
                                     <th>Pilihan</th>
                                 </tr>
                             </tfoot>
@@ -247,15 +227,15 @@
 
                 if (this.checked) {
                     var returnVal = confirm("Yakin ingin mengubah sandi ?");
-                    if (returnVal) {
-                        $('#password_id').attr('hidden', false);
-                        $(this).prop("checked", returnVal);
+                    if(returnVal){
+                        $('#password_id').attr('hidden', false); 
+                        $(this).prop("checked", returnVal);    
                     } else {
                         $('#password_id').attr('hidden', true);
                         $('#password_id').val(null);
-                        $(this).prop("checked", returnVal);
+                        $(this).prop("checked", returnVal); 
                     }
-
+                                       
                     console.log('berhasil kesini');
                 } else {
                     $('#password_id').attr('hidden', true);

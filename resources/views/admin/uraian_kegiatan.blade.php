@@ -6,11 +6,12 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Data Kegiatan</h3>
+                        <h3 class="card-title">Uraian Kegiatan</h3>
                         <div class="float-right">
                             <button id="add_kegiatan_id" type="button"
-                                class="btn purple-gradient bg-gradient-primary btn-flat add_kegiatan" data-toggle="modal"
-                                data-target="#tambahKegiatan">
+                                class="btn btn-block bg-gradient-primary btn-flat add_kegiatan" data-toggle="modal" 
+                                data-id="{{ $kegiatan_id }}" 
+                                data-target="#tambahUraianKegiatan">
                                 <ion-icon name="add-circle-sharp"></ion-icon>
                             </button>
                         </div>
@@ -20,36 +21,34 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Kegiatan</th>
-                                    <th>Tanggal</th>
-                                    <th>Ditugaskan</th>
+                                <th>{{$kegiatan_id}}</th>
+                                    <th>Uraian Kegiatan</th>
+                                    <th>Ak Target</th>
+                                    <th>Qtt Target</th>
+                                    <th>Mutu Target</th>
                                     <th>Pilihan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($kegiatans as $kegiatan)
+                                @foreach ($uraian as $uraianItem)
                                     <tr>
                                         <td>{{ $i++ }}</td>
-                                        <td>{{ $kegiatan->kegiatan }}</td>
-                                        <td>{{ $kegiatan->periode }}</td>
-                                        <td>{{ $kegiatan->pegawai->nama }}</td>
+                                        <td>{{ $uraianItem->uraian_kegiatan }}</td>
+                                        <td>{{ $uraianItem->ak_target }}</td>
+                                        <td>{{ $uraianItem->qtt_target }}</td>
+                                        <td>{{ $uraianItem->mutu_target }}</td>
                                         </td>
                                         <td>
                                             {{-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> --}}
                                                 <meta name="csrf-token" content="{{ csrf_token() }}">
                                                 <a href="#editModal" data-toggle="modal"
-                                                    data-id="{{ $kegiatan->id }}" title="Edit Data">
+                                                    data-id="{{ $uraianItem->id }}" data-kegiatanid="{{ $kegiatan_id }}" title="Edit Data">
                                                     <ion-icon name="create-outline"></ion-icon> Edit
                                                 </a><br>
                                                 <a onclick="return tanya()"
-                                                    href={{ url("kegiatan/delete?id=$kegiatan->id") }}>
+                                                    href={{ url("kegiatan/uraian/delete?id=$uraianItem->id&id_indikator_kerjas=$kegiatan_id") }}>
                                                     <ion-icon name="trash-outline"></ion-icon> Hapus
-                                                </a><br>
-                                                <a
-                                                    href={{ url("kegiatan/uraian?id=$kegiatan->id") }}>
-                                                    <ion-icon name="eye"></ion-icon> Uraian
-                                                </a>
+                                                </a><br>                                               
                                             {{-- </div> --}}
                                         </td>                                        
                                     </tr>
@@ -58,9 +57,10 @@
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kegiatan</th>
-                                    <th>Tanggal</th>
-                                    <th>Ditugaskan</th>
+                                    <th>Uraian Kegiatan</th>
+                                    <th>Ak Target</th>
+                                    <th>Qtt Target</th>
+                                    <th>Mutu Target</th>
                                     <th>Pilihan</th>
                                 </tr>
                             </tfoot>
@@ -78,31 +78,34 @@
 
     <!-- Add Modal -->
 
-    <div class="modal fade" id="tambahKegiatan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal fade" id="tambahUraianKegiatan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Tambahkan Kegiatan</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">Tambahkan Uraian Kegiatan</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('add_kegiatan') }} method="POST">
+                    <form action={{ route('add_uraian_kegiatan') }} method="POST">
                         @csrf
+                        <input type="number" hidden name="id" class="form-control" required="true" id="id_indikator_kerjas">
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Nama Kegiatan:</label>
-                            <input type="text" name="nama_kegiatan" class="form-control" required="true" id="nama-kegiatan">
+                            <label for="recipient-name" class="control-label">Uraian Kegiatan:</label>
+                            <textarea type="text" name="uraian_kegiatan" class="form-control" required="true" id="uraian_kegiatan_add"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Periode:</label>
-                            <input type="date" name="periode" class="form-control" required="true" id="perioder">
+                            <label for="recipient-name" class="control-label">AK Target:</label>
+                            <input type="number" name="ak_target" class="form-control" required="true" id="ak_target_add">
                         </div>                        
                         <div class="form-group">
-                            <label for="mutu_target" class="control-label">Ditugaskan Kepada:</label>
-                            <select name="pegawai" class="form-control" required="true" , id="ditugaskan">
-                                <option value=""></option>
-                            </select>
+                            <label for="qtt_target" class="control-label">Qtt Target:</label>
+                            <input type="number" name="qtt_target" class="form-control" required="true" id="qtt_target_add">
                         </div>
+                        <div class="form-group">
+                            <label for="mutu_target" class="control-label">Mutu Target:</label>
+                            <input type="number" name="mutu_target" class="form-control" required="true" id="mutu_target_add">
+                        </div>                        
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Tambah</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
@@ -123,24 +126,26 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('edit_kegiatan') }} method="POST">
+                    <form action={{ route('edit_uraian_kegiatan') }} method="POST">
                         @csrf
-                        <input type="text" name="id" class="form-control" id="id" hidden="true">
+                        <input type="text" name="id" class="form-control" id="id_edit" hidden="true">                        
+                        <input type="text" name="id_indikator_kerjas" class="form-control" id="id_edit" hidden="true">                        
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Nama Kegiatan:</label>
-                            <input type="text" name="nama_kegiatan" class="form-control" required="true" id="nama_kegiatan">
+                            <label for="uraian" class="control-label">Uraian Kegiatan:</label>
+                            <textarea type="text" name="uraian_kegiatan" class="form-control" required="true" id="uraian"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Periode:</label>
-                            <input type="date" name="periode" class="form-control" required="true" id="periode">
+                            <label for="ak_target" class="control-label">AK Target:</label>
+                            <input type="number" name="ak_target" class="form-control" required="true" id="ak_target">
+                        </div>
+                        <div class="form-group">
+                            <label for="qtt_target" class="control-label">Qtt Target:</label>
+                            <input type="number" name="qtt_target" class="form-control" required="true" id="qtt_target">
+                        </div>
+                        <div class="form-group">
+                            <label for="mutu_target" class="control-label">Mutu Target:</label>
+                            <input type="number" name="mutu_target" class="form-control" required="true" id="mutu_target">
                         </div>                        
-                        <div class="form-group">
-                            <label for="ditugaskan" class="control-label">Ditugaskan Kepada:</label>
-                            <select required="true" class="form-control" name="ditugaskan" id="ditugaskan_id">
-                                <option>
-                                </option>
-                            </select>
-                        </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Ubah</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
@@ -170,33 +175,26 @@
             });
         });
 
+        
+
         $(document).ready(function() {
+            $('#tambahUraianKegiatan').on('show.bs.modal', function(e){
+                var id_indikator_kerjas = $(e.relatedTarget).data('id');
+                $('#id_indikator_kerjas').val(id_indikator_kerjas);                
+            });
+
             $('#editModal').on('show.bs.modal', function(e) {
-                var kegiatan_id = $(e.relatedTarget).data('id');
+                var uraian_id = $(e.relatedTarget).data('id');                                  
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/pegawai') }}?is_api=1",
-                    success: function(data) {
-                        for (i = 0; i < data.pegawai.length; i++) {
-                            $('#ditugaskan_id').append(
-                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
-                            );
-                        }
-                        console.log(data);
-                    }
-                });
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ url('kegiatan/id') }}?id=" + kegiatan_id,
+                    url: "{{ url('kegiatan/uraian/id') }}?id=" + uraian_id,
                     success: function(data) {
                         console.log(data)
-                        $('#id').val(data.id);
-                        $('#nama_kegiatan').val(data.kegiatan);
-                        $('#periode').val(data.periode);                        
-                        $("#ditugaskan_id option[value=" + data.pegawai.id +
-                            "]").attr('selected',
-                            'selected');
-
+                        $('#id_edit').val(data.id);                          
+                        $('textarea#uraian').val(data.uraian_kegiatan);
+                        $('#ak_target').val(data.ak_target);
+                        $('#qtt_target').val(data.qtt_target);
+                        $('#mutu_target').val(data.mutu_target);
                     }
                 });
             });

@@ -11,16 +11,17 @@ class TransIndikatoriKinerja extends Model
     protected $table = 'trans_indikator_kinerjas';
     protected $fillable = [
         'users_id',
-        'id_indikator_kerjas',
+        'id_uraian_kegiatan',
         'ak_realisasi',        
         'qtt_realisasi', 
         'mutu_realisasi',
+        'keterangan',
         'created_at',
         'updated_at'
     ];
 
-    public function indikatorKerja(){
-        return $this->belongsTo(\App\Models\IndikatorKerja::class, 'id_indikator_kerjas');
+    public function uraianKegiatan(){
+        return $this->belongsTo(\App\Models\UraianKegiatan::class, 'id_uraian_kegiatan');
     }
 
 

@@ -51,14 +51,9 @@ class HomeController extends Controller
 
     public function kegiatanById(Request $req)
     {
-        $data = IndikatorKerja::find($req->id);        
-        if ($data) {            
-            $data['ditugaskan'] = $data->user->nama;
-            $data['uraian_kegiatan'] = $data->uraianKegiatan ? $data->uraianKegiatan->uraian_kegiatan : null;
-            $data['ak_target'] = $data->uraianKegiatan ? $data->uraianKegiatan->ak_target : null;
-            $data['qtt_target'] = $data->uraianKegiatan ? $data->uraianKegiatan->qtt_target : null;
-            $data['mutu_target'] = $data->uraianKegiatan ? $data->uraianKegiatan->mutu_target : null;
-            $data['ditugaskan'] = $data->user ? $data->user->nama : null;
+        $data = IndikatorKerja::find($req->id);
+        if ($data) {
+            $data['ditugaskan'] = $data->pegawai ? $data->pegawai->nama : null;
             return $data;
         }
         return redirect()->route('kegiatan')->with(['info' => 'data tidak ditemukan!']);
@@ -80,29 +75,80 @@ class HomeController extends Controller
             $kegiatan = new IndikatorKerja();
             $kegiatan->kegiatan = $req->nama_kegiatan;
             $kegiatan->periode = $req->periode;
-            $kegiatan->users_id = Auth::user()->id;
-            $kegiatan->save();
-            if ($kegiatan) {
-                $uraianKegiatan = new UraianKegiatan();
-                $uraianKegiatan->id_indikator_kerjas = $kegiatan->id;
-                $uraianKegiatan->uraian_kegiatan = $req->uraian;
-                $uraianKegiatan->ak_target = $req->ak_target;
-                $uraianKegiatan->qtt_target = $req->qtt_target;
-                $uraianKegiatan->mutu_target = $req->mutu_target;
-                $uraianKegiatan->save();
-                if ($uraianKegiatan) {
-                    return redirect()->route('kegiatan')->with(['success' => 'Berhasil menambah kegiatan !']);
-                }
+            $kegiatan->created_by = Auth::user()->id;
+            $kegiatan->users_id = $req->pegawai;
+            
+            if ($kegiatan->save()) {               
                 return redirect()->route('kegiatan')->with(['success' => 'Berhasil menambah kegiatan !']);
             }
             return redirect()->route('kegiatan')->with(['error' => 'Gagal menambah kegiatan !']);
         } catch (\Exception $err) {
-            return redirect()->route('kegiatan')->with(['error' => 'Gagal menambah kegiatan !']);
+            return redirect()->route('kegiatan')->with(['error' => 'Gagal menambah kegiatan !'.$err ]);
         }
     }
 
+    /**
+     * Uraian
+     */
+    public function uraianKegiatan(Request $req)
+    {
+        $data['uraian'] = UraianKegiatan::where('id_indikator_kerjas', $req->id)->get();
+        $data['page_title'] = 'Uraian kegiatan';
+        $data['i'] = 1;
+        $data['kegiatan_id'] = $req->id;
+        return view('admin.uraian_kegiatan')->with($data);
+    }
+    
+    public function uraianKegiatanById(Request $req)
+    {
+        $data = UraianKegiatan::find($req->id);
+        return $data;
+    }
+    
+
+    public function createUraianKegiatan(Request $req)
+    {
+        try {
+            $uraian = new UraianKegiatan();
+            $uraian->id_indikator_kerjas = $req->id;
+            $uraian->uraian_kegiatan = $req->uraian_kegiatan;
+            $uraian->ak_target = $req->ak_target;
+            $uraian->qtt_target = $req->qtt_target;
+            $uraian->mutu_target = $req->mutu_target;
+            $uraian->save();
+
+            return redirect()->route('uraian_kegiatan', ['id' => $req->id])->with(['success' => 'Berhasil menambah uraian kegiatan !']);
+        } catch (\Exception $err) {
+            return redirect()->route('uraian_kegiatan', ['id' => $req->id])->with(['error' => 'Gagal menambah uraian kegiatan !']);
+        }
+    }
+
+    public function editUraianKegiatan(Request $req) {
+        try {            
+            $uraian = UraianKegiatan::find($req->id);                                    
+            $uraian->uraian_kegiatan = $req->uraian_kegiatan;
+            $uraian->ak_target = $req->ak_target;
+            $uraian->qtt_target = $req->qtt_target;
+            $uraian->mutu_target = $req->mutu_target;
+            $uraian->save();
+
+            return redirect()->route('uraian_kegiatan', ['id' => $uraian->id_indikator_kerjas])->with(['success' => 'Berhasil mengubah uraian kegiatan !']);
+        } catch (\Exception $err) {            
+            return redirect()->route('uraian_kegiatan')->with(['error' => 'Gagal mengubah uraian kegiatan ! '.$err]);
+        }
+    }
+
+    public function deleteUraianKegiatan(Request $req) {
+        $uraian = UraianKegiatan::find($req->id);
+        if($uraian){
+            $uraian->delete();
+            return redirect()->route('uraian_kegiatan', ['id' => $req->id_indikator_kerjas])->with(['success' => 'Berhasil menghapus uraian kegiatan !']);
+        }
+        return redirect()->route('uraian_kegiatan', ['id' => $req->id_indikator_kerjas])->with(['warning' => 'Data tidak dapat ditemukan !']);
+    }
+
     public function editKegiatan(Request $req)
-    {        
+    {
         try {
             $kegiatan = IndikatorKerja::find($req->id);
             $kegiatan->kegiatan = $req->nama_kegiatan;
@@ -113,7 +159,7 @@ class HomeController extends Controller
                 $kegiatan->uraianKegiatan->uraian_kegiatan = $req->uraian;
                 $kegiatan->uraianKegiatan->ak_target = $req->ak_target;
                 $kegiatan->uraianKegiatan->qtt_target = $req->qtt_target;
-                $kegiatan->uraianKegiatan->mutu_target = $req->mutu_target;                
+                $kegiatan->uraianKegiatan->mutu_target = $req->mutu_target;
                 if ($kegiatan->uraianKegiatan->save()) {
                     return redirect()->route('kegiatan')->with(['success' => 'Berhasil merubah kegiatan !']);
                 }
@@ -123,8 +169,8 @@ class HomeController extends Controller
                 $uraianKegiatan->uraian_kegiatan = $req->uraian;
                 $uraianKegiatan->ak_target = $req->ak_target;
                 $uraianKegiatan->qtt_target = $req->qtt_target;
-                $uraianKegiatan->mutu_target = $req->mutu_target; 
-                $uraianKegiatan->id_indikator_kerjas = $kegiatan->id;                
+                $uraianKegiatan->mutu_target = $req->mutu_target;
+                $uraianKegiatan->id_indikator_kerjas = $kegiatan->id;
                 if ($uraianKegiatan->save()) {
                     return redirect()->route('kegiatan')->with(['success' => 'Berhasil merubah kegiatan !']);
                 }
@@ -132,7 +178,7 @@ class HomeController extends Controller
             }
             return redirect()->route('kegiatan')->with(['error' => 'Gagal merubah kegiatan !']);
         } catch (\Exception $err) {
-            return redirect()->route('kegiatan')->with(['error' => 'Gagal merubah kegiatan !'.$err]);
+            return redirect()->route('kegiatan')->with(['error' => 'Gagal merubah kegiatan !' . $err]);
         }
     }
 }

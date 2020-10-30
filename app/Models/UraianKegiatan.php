@@ -23,4 +23,8 @@ class UraianKegiatan extends Model
     public function indikatorKerja(){
         return $this->belongsTo(\App\Models\IndikatorKerja::class, 'id_indikator_kerjas');
     }
+
+    public function transIndikator(){
+        return $this->hasOne(\App\Models\TransIndikatoriKinerja::class, 'id_uraian_kegiatan');
+    }
 }

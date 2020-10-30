@@ -1,18 +1,24 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-        <img src="dist/img/AdminLTELogo.png" alt="MK Logo" class="brand-image img-circle elevation-3"
-            style="opacity: .8">
-        <span class="brand-text font-weight-light"></span>
+    <a href="index3.html" class="brand-link" style="color: #AF5296 !important;">
+        <img src={{ asset('bower_components/AdminLTE/dist/img/AdminLTELogo.png') }} alt="AdminLTE Logo"
+            class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">
+            @if (Auth::user()->role == 'admin')
+                Admin
+            @else
+                Pegawai
+            @endif
+        </span>
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" style="color: #AF5296 !important;">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src={{ asset('bower_components/AdminLTE-3.0.5/dist/img/user2-160x160.jpg') }}
+                <img src={{ asset('bower_components/AdminLTE/dist/img/user2-160x160.jpg') }}
                     class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
@@ -69,7 +75,7 @@
                     <li class="nav-header">Data Pegawai</li>
                     <li class="nav-item">
                         <a href={{ route('admin_pegawai') }} class="nav-link">
-                            <i class="nav-icon fas fa-calendar-alt"></i>
+                            <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Pegawai
                             </p>
@@ -78,7 +84,7 @@
                 @else
                     <li class="nav-item">
                         <a href={{ route('kegiatan_pegawai') }} class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="nav-icon fas fa-calendar"></i>
                             <p>
                                 Kegiatan
                             </p>
@@ -86,7 +92,7 @@
                     </li>
                     <li class="nav-item">
                         <a href={{ route('laporan_pegawai') }} class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Laporan Saya
                             </p>

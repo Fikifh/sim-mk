@@ -8,10 +8,15 @@ use App\Models\User;
 use App\Models\IndikatorKerja;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PegawaiController extends Controller
 {
 
+    public function __construct(){
+        $this->middleware('auth');
+    }
 
     /**
      * Show the application dashboard.
@@ -20,7 +25,21 @@ class PegawaiController extends Controller
      */
     public function index(Request $req)
     {
-        $data['pegawai'] = User::where('role', 'pegawai')->where('status', 1)->get();
+        // $data['pegawai'] = User::where('role', 'pegawai')->where('status', 1)->get();
+        $data['pegawai'] = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
+                ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
+                ->leftJoin('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
+                ->where('users.role', 'pegawai')
+                ->select([
+                    'users.id',
+                    'users.nama',
+                    'users.golongan',
+                    'users.jabatan',
+                    'users.unit_kerja',
+                    'users.nip',
+                    DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
+                    DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan')
+                ])->groupBy('users.id')->get();
         if ($req->is_api) {
             return response()->json($data, 200);
         } else {
@@ -84,5 +103,63 @@ class PegawaiController extends Controller
             return redirect()->route('admin_pegawai')->with(['success' => 'berhasil menonaktifkan pegawai']);
         }
         return redirect()->route('admin_pegawai')->with(['error' => 'gagal menonaktifkan pegawai | ']);
+    }
+
+    public function detail(Request $req) {
+        $from = $req->from;
+        $to = $req->to;
+        if($from && $to){
+            $allTaskResult = IndikatorKerja::join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
+                ->join('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
+                ->where('indikator_kerjas.users_id', $req->user_id)
+                ->whereBetween('indikator_kerjas.periode', [$from, $to])
+
+                ->first();
+        } elseif($req->this_month) {
+            $allKegiata = IndikatorKerja::where('users_id', $req->user_id)->whereMonth('periode', Carbon::now()->month)->whereYear('periode', Carbon::now()->year)->get();
+            $allTaskResult = IndikatorKerja::join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
+                ->join('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
+                ->where('indikator_kerjas.users_id', $req->user_id)
+                ->whereMonth('indikator_kerjas.periode', Carbon::now()->month)
+                ->whereYear('indikator_kerjas.periode', Carbon::now()->year)
+                ->select( [DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
+                    DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan')
+
+                ])->first();
+        } else {
+            $allKegiata = IndikatorKerja::where('users_id', $req->user_id)->whereMonth('periode', Carbon::now()->month)->whereYear('periode', Carbon::now()->year)->get();
+            $allTaskResult = IndikatorKerja::join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
+                ->join('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
+                ->where('indikator_kerjas.users_id', $req->user_id)                
+                ->select( [DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
+                    DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan')
+
+                ])->first();
+        }
+        return $allTaskResult;
+    }
+
+    public function kegiatanByUser(Request $req){        
+        if($req->from &&  $req->to){            
+            $data['kegiatan'] = IndikatorKerja::where('users_id',$req->user_id)->whereBetween('periode',[Carbon::parse($req->to)->toDateString(), Carbon::parse($req->from)->toDateString ])->get();
+        } else {
+            $data['kegiatan'] = IndikatorKerja::where('users_id',$req->user_id)->whereYear('periode', Carbon::now()->year)->whereMonth('periode', Carbon::now()->month)->get();
+        } 
+        $data['page_title'] = 'Pegawai / Kegiatan';
+        $data['i'] = 1;
+        return view('admin.pegawai_kegiatan')->with($data);
+    }
+
+    public function detailKegiatanPegawai(Request $req) {
+        $kegiatan = IndikatorKerja::find($req->id);
+        if ($kegiatan) {
+            $data['kegiatan'] = $kegiatan;
+            $data['i'] = 1;
+            $data['page_title'] = 'Detail Kegiatan';
+            $data['uraian'] = $kegiatan->uraianKegiatan;
+            $data['trans_indikator'] = $kegiatan->uraianKegiatan;
+            return view('admin.pegawai_kegiatan_detail')->with($data);
+        }
+        return redirect()->route('kegiatan_pegawai')->with(['info' => 'tidak dapat menemukan data!']);
     }
 }

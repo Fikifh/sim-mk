@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class IndikatorKerja extends Model
 {
@@ -12,14 +13,19 @@ class IndikatorKerja extends Model
     protected $fillable = [
         'kegiatan',
         'periode',
-        'user_id',        
+        'users_id',        
+        'created_by'
     ];
 
-    public function user(){
+    public function admin(){
+        return $this->belongsTo(\App\Models\User::class, 'created_by');
+    }
+
+    public function pegawai(){
         return $this->belongsTo(\App\Models\User::class, 'users_id');
     }
 
     public function uraianKegiatan(){
-        return $this->hasOne(\App\Models\UraianKegiatan::class, 'id_indikator_kerjas');
-    }
+        return $this->hasMany(\App\Models\UraianKegiatan::class, 'id_indikator_kerjas');
+    }   
 }
