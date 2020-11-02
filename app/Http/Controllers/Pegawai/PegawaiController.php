@@ -50,9 +50,16 @@ class PegawaiController extends Controller
      */
     public function kegiatan(Request $req)
     {
-        $data['kegiatans'] = IndikatorKerja::whereMonth('periode', Carbon::now()->month)
-            ->where('users_id', $req->user()->id)
-            ->whereYear('periode', Carbon::now()->year)->get();
+        $pegawai_id = $req->pegawai_id;        
+        $user_id = Auth::user()->id;        
+        $from = Carbon::parse($req->from)->hour(0)->minute(0)->second(0)->toDateTimeString();
+        $to =  Carbon::parse($req->to)->hour(0)->minute(0)->second(0)->toDateTimeString();
+        if($req->from && $req->to){                      
+            $kegiatan = IndikatorKerja::where('users_id', $user_id)->whereBetween('periode',  [$from, $to])->get();
+        } else{                        
+            $kegiatan = IndikatorKerja::where('users_id', $user_id)->whereMonth('periode', Carbon::now()->month)->whereYear('periode', Carbon::now()->year)->get();
+        }
+        $data['kegiatans'] = $kegiatan;
         $data['i'] = 1;
         $data['page_title'] = 'Kegiatan';
         $data['pegawai'] = User::where('role', 'pegawai')->select('id', 'nama')->get();

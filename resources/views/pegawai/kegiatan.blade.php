@@ -8,6 +8,30 @@
                     <div class="card-header">
                         <h3 class="card-title">Data Kegiatan</h3>
                         <div class="float-right">
+                            <p>
+                                <button class="btn-sm btn purple-gradient" type="button" data-toggle="collapse"
+                                    data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                                    <i class="fas fa-filter"></i>
+                                    Filter
+                                </button>
+                            </p>
+                            <meta name="csrf-token" content="{{ csrf_token() }}">
+                            <div class="container collapse" id="collapseFilter">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <form>                                        
+                                            dari <input id="from_id" type="date" class="form-control">
+                                            sampai <input id="to_id" type="date" class="form-control">
+                                        </form>
+                                        <a href="" id="filter_id" title="Filter">
+                                            <ion-icon name="funnel"></ion-icon> Filter
+                                        </a>
+                                        <a href="_blank" id="print_id" title="Print">
+                                            <ion-icon name="print"></ion-icon> Report
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -174,6 +198,15 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+
+        $(document).ready(function(){
+            $('#filter_id').on('click', function() {                
+                var from = $('#from_id').val();
+                var to = $('#to_id').val();
+                var filterUrl = "{{ url('pegawai/kegiatan') }}?from=" + from +"&to=" + to;
+                $('#filter_id').attr('href', filterUrl);
+            });
+        });
         $('.add_kegiatan').on('click', function(e) {
 
             // var rowid = $(e.relatedTarget).data('id');                

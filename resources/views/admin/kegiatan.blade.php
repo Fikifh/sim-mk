@@ -6,13 +6,42 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Data Kegiatan</h3>
-                        <div class="float-right">
+                        <div class="float-left">
                             <button id="add_kegiatan_id" type="button"
                                 class="btn purple-gradient bg-gradient-primary btn-flat add_kegiatan" data-toggle="modal"
                                 data-target="#tambahKegiatan">
                                 <ion-icon name="add-circle-sharp"></ion-icon>
                             </button>
+                        </div>
+                        <div class="float-right">
+                            <p>
+                                <button class="btn-sm btn purple-gradient" type="button" data-toggle="collapse"
+                                    data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                                    <i class="fas fa-filter"></i>
+                                    Filter
+                                </button>
+                            </p>
+                            <meta name="csrf-token" content="{{ csrf_token() }}">
+                            <div class="container collapse" id="collapseFilter">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <form>
+                                            <label for="pegawai_id">Pegawai</label>
+                                            <select id="pegawai_id" class="form-control">
+                                                <option></option>
+                                            </select>
+                                            dari <input id="from_id" type="date" class="form-control">
+                                            sampai <input id="to_id" type="date" class="form-control">
+                                        </form>
+                                        <a href="" id="filter_id" title="Filter">
+                                            <ion-icon name="funnel"></ion-icon> Filter
+                                        </a>
+                                        <a href="_blank" id="print_id" title="Print">
+                                            <ion-icon name="print"></ion-icon> Report
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -36,22 +65,23 @@
                                         <td>{{ $kegiatan->pegawai->nama }}</td>
                                         </td>
                                         <td>
-                                            {{-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> --}}
+                                            {{-- <div class="dropdown-menu"
+                                                aria-labelledby="dropdownMenuButton"> --}}
                                                 <meta name="csrf-token" content="{{ csrf_token() }}">
-                                                <a href="#editModal" data-toggle="modal"
-                                                    data-id="{{ $kegiatan->id }}" title="Edit Data">
+                                                <a href="#editModal" data-toggle="modal" data-id="{{ $kegiatan->id }}"
+                                                    title="Edit Data">
                                                     <ion-icon name="create-outline"></ion-icon> Edit
                                                 </a><br>
                                                 <a onclick="return tanya()"
                                                     href={{ url("kegiatan/delete?id=$kegiatan->id") }}>
                                                     <ion-icon name="trash-outline"></ion-icon> Hapus
                                                 </a><br>
-                                                <a
-                                                    href={{ url("kegiatan/uraian?id=$kegiatan->id") }}>
+                                                <a href={{ url("kegiatan/uraian?id=$kegiatan->id") }}>
                                                     <ion-icon name="eye"></ion-icon> Uraian
                                                 </a>
-                                            {{-- </div> --}}
-                                        </td>                                        
+                                                {{--
+                                            </div> --}}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -96,7 +126,7 @@
                         <div class="form-group">
                             <label for="recipient-name" class="control-label">Periode:</label>
                             <input type="date" name="periode" class="form-control" required="true" id="perioder">
-                        </div>                        
+                        </div>
                         <div class="form-group">
                             <label for="mutu_target" class="control-label">Ditugaskan Kepada:</label>
                             <select name="pegawai" class="form-control" required="true" , id="ditugaskan">
@@ -133,7 +163,7 @@
                         <div class="form-group">
                             <label for="recipient-name" class="control-label">Periode:</label>
                             <input type="date" name="periode" class="form-control" required="true" id="periode">
-                        </div>                        
+                        </div>
                         <div class="form-group">
                             <label for="ditugaskan" class="control-label">Ditugaskan Kepada:</label>
                             <select required="true" class="form-control" name="ditugaskan" id="ditugaskan_id">
@@ -153,6 +183,30 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: "{{ url('/pegawai') }}?is_api=1",
+                success: function(data) {
+                    for (i = 0; i < data.pegawai.length; i++) {
+                        $('#pegawai_id').append(
+                            `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                        );
+                    }
+                    console.log(data);
+                }
+            });
+
+            $('#filter_id').on('click', function() {
+                var selectedOfficer = $('#pegawai_id').children("option:selected").val();
+                var from = $('#from_id').val();
+                var to = $('#to_id').val();
+                var filterUrl = "{{ url('kegiatan?pegawai_id=') }}" + selectedOfficer + "&from=" + from +
+                    "&to=" + to;
+                $('#filter_id').attr('href', filterUrl);
+            });
+        })
+
         $('.add_kegiatan').on('click', function(e) {
 
             // var rowid = $(e.relatedTarget).data('id');                
@@ -192,7 +246,7 @@
                         console.log(data)
                         $('#id').val(data.id);
                         $('#nama_kegiatan').val(data.kegiatan);
-                        $('#periode').val(data.periode);                        
+                        $('#periode').val(data.periode);
                         $("#ditugaskan_id option[value=" + data.pegawai.id +
                             "]").attr('selected',
                             'selected');
@@ -214,7 +268,13 @@
         }
 
     </script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
 @endSection

@@ -41,8 +41,20 @@ class HomeController extends Controller
      */
     public function kegiatan(Request $req)
     {
-
-        $data['kegiatans'] = IndikatorKerja::whereMonth('periode', Carbon::now()->month)->whereYear('periode', Carbon::now()->year)->get();
+        $pegawai_id = $req->pegawai_id;        
+        $from = Carbon::parse($req->from)->hour(0)->minute(0)->second(0)->toDateTimeString();
+        $to =  Carbon::parse($req->to)->hour(0)->minute(0)->second(0)->toDateTimeString();
+        if($req->from && $req->to && $pegawai_id){            
+            $kegiatan = IndikatorKerja::whereBetween('periode',  [$from, $to])
+                ->where('users_id', $req->pegawai_id)->get();
+        } elseif($pegawai_id && !$from && !$to )  {            
+            $kegiatan = IndikatorKerja::where('users_id', $req->pegawai_id)->get();
+        } elseif($req->from && $req->to && !$pegawai_id){            
+            $kegiatan = IndikatorKerja::whereBetween('periode',  [$from, $to])->get();
+        } else{            
+            $kegiatan = IndikatorKerja::whereMonth('periode', Carbon::now()->month)->whereYear('periode', Carbon::now()->year)->get();
+        }
+        $data['kegiatans'] = $kegiatan;
         $data['i'] = 1;
         $data['page_title'] = 'Kegiatan';
         $data['pegawais'] = User::where('role', 'pegawai')->select('id', 'nama')->get();
