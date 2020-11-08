@@ -1,34 +1,35 @@
 @extends('admin_template')
 
-@section('content')   
+@section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Kegiatan</h3>
-                        <div class="float-right">
-                            <p>
+                        <div class="float-right" style="width:250px; ">
+                            <button class="btn-sm btn purple-gradient" style="float : left;" type="button" data-toggle="modal"
+                            data-target="#tambahKegiatan">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div style="float : left;">
                                 <button class="btn-sm btn purple-gradient" type="button" data-toggle="collapse"
                                     data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                                     <i class="fas fa-filter"></i>
                                     Filter
                                 </button>
-                            </p>
-                            <meta name="csrf-token" content="{{ csrf_token() }}">
-                            <div class="container collapse" id="collapseFilter">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <form>                                        
-                                            dari <input id="from_id" type="date" class="form-control">
-                                            sampai <input id="to_id" type="date" class="form-control">
-                                        </form>
-                                        <a href="" id="filter_id" title="Filter">
-                                            <ion-icon name="funnel"></ion-icon> Filter
-                                        </a>
-                                        <a href="_blank" id="print_id" title="Print">
-                                            <ion-icon name="print"></ion-icon> Report
-                                        </a>
+                                <meta name="csrf-token" content="{{ csrf_token() }}">
+                                <div class="container collapse" id="collapseFilter">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <form>
+                                                dari <input id="from_id" type="date" class="form-control">
+                                                sampai <input id="to_id" type="date" class="form-control">
+                                            </form>
+                                            <a href="" id="filter_id" title="Filter">
+                                                <ion-icon name="funnel"></ion-icon> Filter
+                                            </a>                                            
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -59,11 +60,17 @@
                                         </td>
                                         <td>
                                             <meta name="csrf-token" content="{{ csrf_token() }}">
-                                            <a href="{{ url('pegawai/detail') . '?id=' . $kegiatan->id }}"
-                                                title="Lihat">
-                                                Lihat <ion-icon name="eye"></ion-icon>
+                                            <a href="{{ url('pegawai/detail') . '?id=' . $kegiatan->id }}" title="Lihat">
+                                                <button class="btn btn-sm blue-gradient">
+                                                    <i class="fa fa-eye" style="text-transform: lowercase"> Laporan</i>
+                                                </button>
                                             </a>
-                                        </td>                                        
+                                            <a href="{{ route('pegawai_uraian_kegiatan', ['id' => $kegiatan->id] )}}" title="Lihat">
+                                                <button class="btn btn-sm blue-gradient">
+                                                    <i class="fa fa-edit" style="text-transform: lowercase"> Uraian</i>
+                                                </button>
+                                            </a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -100,7 +107,7 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('add_kegiatan') }} method="POST">
+                    <form action={{ route('pegawai_add_kegiatan') }} method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="recipient-name" class="control-label">Nama Kegiatan:</label>
@@ -109,28 +116,10 @@
                         <div class="form-group">
                             <label for="recipient-name" class="control-label">Periode:</label>
                             <input type="date" name="periode" class="form-control" required="true" id="perioder">
-                        </div>
-                        <div class="form-group">
-                            <label for="uraian" class="control-label">Uraian Kegiatan:</label>
-                            <textarea type="text" name="uraian" class="form-control" required="true" id="uraian"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="ak_target" class="control-label">AK Target:</label>
-                            <input type="number" name="ak_target" class="form-control" required="true" id="ak_target">
-                        </div>
-                        <div class="form-group">
-                            <label for="qtt_target" class="control-label">Qtt Target:</label>
-                            <input type="number" name="qtt_target" class="form-control" required="true" id="qtt_target">
-                        </div>
-                        <div class="form-group">
-                            <label for="mutu_target" class="control-label">Mutu Target:</label>
-                            <input type="number" name="mutu_target" class="form-control" required="true" id="mutu_target">
-                        </div>
+                        </div>                        
                         <div class="form-group">
                             <label for="mutu_target" class="control-label">Ditugaskan Kepada:</label>
-                            <select class="form-control" required="true" , id="ditugaskan">
-                                <option value=""></option>
-                            </select>
+                            <input type="text" name="ditugaskan" id ="di_ditugaskan"class="form-control" disabled>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Tambah</button>
@@ -194,16 +183,15 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-
-        $(document).ready(function(){
-            $('#filter_id').on('click', function() {                
+        $(document).ready(function() {
+            $('#filter_id').on('click', function() {
                 var from = $('#from_id').val();
                 var to = $('#to_id').val();
-                var filterUrl = "{{ url('pegawai/kegiatan') }}?from=" + from +"&to=" + to;
+                var filterUrl = "{{ url('pegawai/kegiatan') }}?from=" + from + "&to=" + to;
                 $('#filter_id').attr('href', filterUrl);
             });
         });
@@ -225,6 +213,11 @@
         });
 
         $(document).ready(function() {
+            $('#tambahKegiatan').on('show.bs.modal', function(e) {
+                var namaPegawai = "{{Auth::user()->nama}}";
+                console.log(namaPegawai);
+                $('#di_ditugaskan').val(namaPegawai);
+            });
             $('#editModal').on('show.bs.modal', function(e) {
                 var kegiatan_id = $(e.relatedTarget).data('id');
                 $.ajax({

@@ -44,9 +44,29 @@ class PegawaiController extends Controller
     }
 
     /**
+     * menambahkan kegiatan
+     */
+    public function addKegiatan(Request $req)
+    {
+        try {
+            $my_id = Auth::user()->id;
+            $kegiatan = new IndikatorKerja();
+            $kegiatan->kegiatan = $req->nama_kegiatan;
+            $kegiatan->periode = $req->periode;
+            $kegiatan->created_by = $my_id;
+            $kegiatan->users_id = $my_id;
+            
+            if ($kegiatan->save()) {               
+                return redirect()->route('kegiatan_pegawai')->with(['success' => 'Berhasil menambah kegiatan !']);
+            }
+            return redirect()->route('kegiatan_pegawai')->with(['error' => 'Gagal menambah kegiatan !']);
+        } catch (\Exception $err) {
+            return redirect()->route('kegiatan_pegawai')->with(['error' => 'Gagal menambah kegiatan !'.$err ]);
+        }
+    }    
+
+    /**
      * menampilkan kegiatan
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function kegiatan(Request $req)
     {
@@ -64,6 +84,73 @@ class PegawaiController extends Controller
         $data['page_title'] = 'Kegiatan';
         $data['pegawai'] = User::where('role', 'pegawai')->select('id', 'nama')->get();
         return view('pegawai.kegiatan')->with($data);
+    }
+
+     /**
+     * Menampilkan Uraian Kegiatan
+     */
+    public function uraianKegiatan(Request $req)
+    {
+        $data['uraian'] = UraianKegiatan::where('id_indikator_kerjas', $req->id)->get();
+        $data['page_title'] = 'Uraian kegiatan';
+        $data['i'] = 1;
+        $data['kegiatan_id'] = $req->id;
+        return view('pegawai.uraian_kegiatan')->with($data);
+    }
+
+    /**
+     * get uraian by id
+     */
+    public function uraianById(Request $req) {
+        $uraian = uraianKegiatan::find($req->id);
+        return $uraian;
+    }
+
+    /**
+     * edit uraian by id
+     */
+    public function editUraianKegiatan(Request $req) {
+        try {            
+            $uraian = UraianKegiatan::find($req->id);                                    
+            $uraian->uraian_kegiatan = $req->uraian_kegiatan;
+            $uraian->ak_target = $req->ak_target;
+            $uraian->qtt_target = $req->qtt_target;
+            $uraian->mutu_target = $req->mutu_target;
+            $uraian->save();
+
+            return redirect()->route('pegawai_uraian_kegiatan', ['id' => $uraian->id_indikator_kerjas])->with(['success' => 'Berhasil mengubah uraian kegiatan !']);
+        } catch (\Exception $err) {            
+            return redirect()->route('pegawai_uraian_kegiatan')->with(['error' => 'Gagal mengubah uraian kegiatan ! '.$err]);
+        }
+    }
+
+    public function deleteUraianKegiatan(Request $req) {
+        $uraian = UraianKegiatan::find($req->id);
+        if($uraian){
+            $uraian->delete();
+            return redirect()->route('pegawai_uraian_kegiatan', ['id' => $uraian->id_indikator_kerjas])->with(['success' => 'Berhasil menghapus uraian kegiatan !']);
+        }
+        return redirect()->route('pegawai_uraian_kegiatan', ['id' => $req->id_indikator_kerjas])->with(['warning' => 'Data tidak dapat ditemukan !']);
+    }
+    
+    /**
+     * Menambahkan Uraian Kegiatan
+     */
+    public function addUraianKegiatan(Request $req)
+    {
+        try {
+            $uraian = new UraianKegiatan();
+            $uraian->id_indikator_kerjas = $req->id;
+            $uraian->uraian_kegiatan = $req->uraian_kegiatan;
+            $uraian->ak_target = $req->ak_target;
+            $uraian->qtt_target = $req->qtt_target;
+            $uraian->mutu_target = $req->mutu_target;
+            $uraian->save();
+
+            return redirect()->route('pegawai_uraian_kegiatan', ['id' => $req->id])->with(['success' => 'Berhasil menambah uraian kegiatan !']);
+        } catch (\Exception $err) {
+            return redirect()->route('pegawai_uraian_kegiatan', ['id' => $req->id])->with(['error' => 'Gagal menambah uraian kegiatan !']);
+        }
     }
 
     public function detail(Request $req)
@@ -150,30 +237,30 @@ class PegawaiController extends Controller
         return redirect()->route('kegiatan')->with(['error' => 'Gagal menghapus kegiatan !']);
     }
 
-    public function tambahKegiatan(Request $req)
-    {
-        try {
-            $kegiatan = new IndikatorKerja();
-            $kegiatan->kegiatan = $req->nama_kegiatan;
-            $kegiatan->periode = $req->periode;
-            $kegiatan->users_id = Auth::user()->id;
-            $kegiatan->save();
-            if ($kegiatan) {
-                $uraianKegiatan = new UraianKegiatan();
-                $uraianKegiatan->id_indikator_kerjas = $kegiatan->id;
-                $uraianKegiatan->uraian_kegiatan = $req->uraian;
-                $uraianKegiatan->ak_target = $req->ak_target;
-                $uraianKegiatan->qtt_target = $req->qtt_target;
-                $uraianKegiatan->mutu_target = $req->mutu_target;
-                $uraianKegiatan->save();
-                if ($uraianKegiatan) {
-                    return redirect()->route('kegiatan')->with(['success' => 'Berhasil menambah kegiatan !']);
-                }
-                return redirect()->route('kegiatan')->with(['success' => 'Berhasil menambah kegiatan !']);
-            }
-            return redirect()->route('kegiatan')->with(['error' => 'Gagal menambah kegiatan !']);
-        } catch (\Exception $err) {
-            return redirect()->route('kegiatan')->with(['error' => 'Gagal menambah kegiatan !']);
-        }
-    }
+    // public function tambahKegiatan(Request $req)
+    // {
+    //     try {
+    //         $kegiatan = new IndikatorKerja();
+    //         $kegiatan->kegiatan = $req->nama_kegiatan;
+    //         $kegiatan->periode = $req->periode;
+    //         $kegiatan->users_id = Auth::user()->id;
+    //         $kegiatan->save();
+    //         if ($kegiatan) {
+    //             $uraianKegiatan = new UraianKegiatan();
+    //             $uraianKegiatan->id_indikator_kerjas = $kegiatan->id;
+    //             $uraianKegiatan->uraian_kegiatan = $req->uraian;
+    //             $uraianKegiatan->ak_target = $req->ak_target;
+    //             $uraianKegiatan->qtt_target = $req->qtt_target;
+    //             $uraianKegiatan->mutu_target = $req->mutu_target;
+    //             $uraianKegiatan->save();
+    //             if ($uraianKegiatan) {
+    //                 return redirect()->route('kegiatan')->with(['success' => 'Berhasil menambah kegiatan !']);
+    //             }
+    //             return redirect()->route('kegiatan')->with(['success' => 'Berhasil menambah kegiatan !']);
+    //         }
+    //         return redirect()->route('kegiatan')->with(['error' => 'Gagal menambah kegiatan !']);
+    //     } catch (\Exception $err) {
+    //         return redirect()->route('kegiatan')->with(['error' => 'Gagal menambah kegiatan !']);
+    //     }
+    // }
 }

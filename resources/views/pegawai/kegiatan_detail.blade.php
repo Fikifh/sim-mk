@@ -81,7 +81,7 @@
                                         <div class="row">
                                             <!-- deskripsi kegiatan column -->
                                             <div class="col-6">
-                                                <p class="lead">Deskripsi Kegiatan:</p>
+                                                <p class="lead">Uraian Kegiatan:</p>
                                                 <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
                                                     {{ $item->uraian_kegiatan }}
 
