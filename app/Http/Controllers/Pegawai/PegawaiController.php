@@ -12,8 +12,9 @@ use App\Models\UraianKegiatan;
 use Illuminate\Support\Facades\Exception;
 use App\Http\Controllers\Controller;
 use App\Models\TransIndikatoriKinerja;
+use App\Models\NilaiCapaian;
 use File;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class PegawaiController extends Controller
 {
@@ -26,6 +27,132 @@ class PegawaiController extends Controller
     {
         $this->middleware('auth');
     }
+
+    /**
+     * Show the application dashboard.          
+     */
+    public function dashboard(Request $req)
+    {        
+        $bulanan = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
+            ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
+            ->leftJoin('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
+            ->where('users.role', 'pegawai')
+            ->where('users.id', Auth::user()->id)
+            // ->whereMonth('trans_indikator_kinerjas.created_at', Carbon::now()->month)
+            // ->whereYear('trans_indikator_kinerjas.created_at', Carbon::now()->year)
+            ->select([
+                'users.id',
+                'users.nama',
+                'users.golongan',
+                'users.jabatan',
+                'users.unit_kerja',
+                'users.nip',
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan'),
+                DB::raw('month(trans_indikator_kinerjas.created_at) as month')
+            ])->groupBy('month')->orderBy('month')->get();
+
+        $tahunan = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
+            ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
+            ->leftJoin('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
+            ->where('users.role', 'pegawai')
+            ->where('users.id', Auth::user()->id)
+            // ->whereYear('trans_indikator_kinerjas.created_at', Carbon::now()->year)
+            ->select([
+                'users.id',
+                'users.nama',
+                'users.golongan',
+                'users.jabatan',
+                'users.unit_kerja',
+                'users.nip',
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan'),
+                DB::raw('year(trans_indikator_kinerjas.created_at) as year')
+            ])->groupBy('year')->orderBy('year')->get();
+
+        $summary = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
+            ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
+            ->leftJoin('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
+            ->where('users.role', 'pegawai')
+            ->where('users.id', Auth::user()->id)
+            ->select([
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan'),
+            ])->first();
+                
+        $monthNames = [];
+        $monthlyPerformance = [];
+        foreach ($bulanan as $item) {
+            $monthNames[] = $this->month($item->month);
+            $monthlyPerformance[] = $item->nilai_capaian == null ? 0 : $item->nilai_capaian;
+        }
+
+
+        $yearlyPerformance = [];
+        $year =  [];
+        foreach ($tahunan as $item) {
+            $yearlyPerformance[] = $item->nilai_capaian == null ? 0 : $item->nilai_capaian;
+            $year[] = $item->year ==  null ? 0 : $item->year;
+        }
+
+        $data['monthly_performance'] = $monthlyPerformance;
+        $data['month_names'] = $monthNames;
+
+        $data['kriteria'] = NilaiCapaian::where('nilai_angka_min', '<=', $summary->nilai_capaian)->where('nilai_angka', '>=',  $summary->nilai_capaian)->first();
+        $data['summary'] = $summary;
+
+        $data['yearly_performance'] = $yearlyPerformance;
+        $data['year'] = $year;
+        $data['page_title'] = 'Dashboard';
+
+        return view('dashboard')->with($data);
+    }
+
+    function month($number)
+    {
+        $month = 'Jan';
+        switch ($number) {
+            case 1:
+                $month = 'Jan';
+                break;
+            case 2:
+                $month = 'Feb';
+                break;
+            case 3:
+                $month = 'Mar';
+                break;
+            case 4:
+                $month = 'Apr';
+                break;
+            case 5:
+                $month = 'Mei';
+                break;
+            case 6:
+                $month = 'Jun';
+                break;
+            case 7:
+                $month = 'Jul';
+                break;
+            case 8:
+                $month = 'Aug';
+            case 9:
+                $month = 'Sep';
+                break;
+            case 10:
+                $month = 'Okt';
+                break;
+            case 11:
+                $month = 'Nov';
+                break;
+            case 12:
+                $month = 'Des';
+                break;
+            default:
+                $month = 'null';
+        }
+        return $month;
+    }
+
 
     /**
      * Show the application dashboard.
@@ -55,28 +182,28 @@ class PegawaiController extends Controller
             $kegiatan->periode = $req->periode;
             $kegiatan->created_by = $my_id;
             $kegiatan->users_id = $my_id;
-            
-            if ($kegiatan->save()) {               
+
+            if ($kegiatan->save()) {
                 return redirect()->route('kegiatan_pegawai')->with(['success' => 'Berhasil menambah kegiatan !']);
             }
             return redirect()->route('kegiatan_pegawai')->with(['error' => 'Gagal menambah kegiatan !']);
         } catch (\Exception $err) {
-            return redirect()->route('kegiatan_pegawai')->with(['error' => 'Gagal menambah kegiatan !'.$err ]);
+            return redirect()->route('kegiatan_pegawai')->with(['error' => 'Gagal menambah kegiatan !' . $err]);
         }
-    }    
+    }
 
     /**
      * menampilkan kegiatan
      */
     public function kegiatan(Request $req)
     {
-        $pegawai_id = $req->pegawai_id;        
-        $user_id = Auth::user()->id;        
+        $pegawai_id = $req->pegawai_id;
+        $user_id = Auth::user()->id;
         $from = Carbon::parse($req->from)->hour(0)->minute(0)->second(0)->toDateTimeString();
         $to =  Carbon::parse($req->to)->hour(0)->minute(0)->second(0)->toDateTimeString();
-        if($req->from && $req->to){                      
+        if ($req->from && $req->to) {
             $kegiatan = IndikatorKerja::where('users_id', $user_id)->whereBetween('periode',  [$from, $to])->get();
-        } else{                        
+        } else {
             $kegiatan = IndikatorKerja::where('users_id', $user_id)->whereMonth('periode', Carbon::now()->month)->whereYear('periode', Carbon::now()->year)->get();
         }
         $data['kegiatans'] = $kegiatan;
@@ -86,7 +213,7 @@ class PegawaiController extends Controller
         return view('pegawai.kegiatan')->with($data);
     }
 
-     /**
+    /**
      * Menampilkan Uraian Kegiatan
      */
     public function uraianKegiatan(Request $req)
@@ -101,7 +228,8 @@ class PegawaiController extends Controller
     /**
      * get uraian by id
      */
-    public function uraianById(Request $req) {
+    public function uraianById(Request $req)
+    {
         $uraian = uraianKegiatan::find($req->id);
         return $uraian;
     }
@@ -109,9 +237,10 @@ class PegawaiController extends Controller
     /**
      * edit uraian by id
      */
-    public function editUraianKegiatan(Request $req) {
-        try {            
-            $uraian = UraianKegiatan::find($req->id);                                    
+    public function editUraianKegiatan(Request $req)
+    {
+        try {
+            $uraian = UraianKegiatan::find($req->id);
             $uraian->uraian_kegiatan = $req->uraian_kegiatan;
             $uraian->ak_target = $req->ak_target;
             $uraian->qtt_target = $req->qtt_target;
@@ -119,20 +248,21 @@ class PegawaiController extends Controller
             $uraian->save();
 
             return redirect()->route('pegawai_uraian_kegiatan', ['id' => $uraian->id_indikator_kerjas])->with(['success' => 'Berhasil mengubah uraian kegiatan !']);
-        } catch (\Exception $err) {            
-            return redirect()->route('pegawai_uraian_kegiatan')->with(['error' => 'Gagal mengubah uraian kegiatan ! '.$err]);
+        } catch (\Exception $err) {
+            return redirect()->route('pegawai_uraian_kegiatan')->with(['error' => 'Gagal mengubah uraian kegiatan ! ' . $err]);
         }
     }
 
-    public function deleteUraianKegiatan(Request $req) {
+    public function deleteUraianKegiatan(Request $req)
+    {
         $uraian = UraianKegiatan::find($req->id);
-        if($uraian){
+        if ($uraian) {
             $uraian->delete();
             return redirect()->route('pegawai_uraian_kegiatan', ['id' => $uraian->id_indikator_kerjas])->with(['success' => 'Berhasil menghapus uraian kegiatan !']);
         }
         return redirect()->route('pegawai_uraian_kegiatan', ['id' => $req->id_indikator_kerjas])->with(['warning' => 'Data tidak dapat ditemukan !']);
     }
-    
+
     /**
      * Menambahkan Uraian Kegiatan
      */
@@ -205,7 +335,7 @@ class PegawaiController extends Controller
     }
 
     public function editLaporan(Request $req)
-    {        
+    {
         $transIndikator = TransIndikatoriKinerja::find($req->id);
         if ($transIndikator) {
             $transIndikator->ak_realisasi = $req->ak_realisasi;
@@ -217,7 +347,7 @@ class PegawaiController extends Controller
         return redirect()->route('detail_kegiatan')->with(['warning' => 'laporan tidak dapat ditemukan!']);
     }
 
-    
+
     public function byId(Request $req)
     {
         $transIndikator = TransIndikatoriKinerja::find($req->id);

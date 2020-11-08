@@ -53,6 +53,7 @@ Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\
 
 Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawai'], function($router){
     $router->get('/', 'PegawaiController@index')->name('pegawai');
+    $router->get('dashboard', 'PegawaiController@dashboard')->name('dashboard_pegawai');
     $router->get('kegiatan', 'PegawaiController@kegiatan')->name('kegiatan_pegawai');
     $router->get('detail', 'PegawaiController@detail')->name('detail_kegiatan');
     $router->get('laporan', 'PegawaiController@laporan')->name('laporan_pegawai');
@@ -65,5 +66,6 @@ Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawa
     $router->post('edit_uraian_kegiatan', 'PegawaiController@editUraianKegiatan')->name('pegawai_edit_uraian_kegiatan');
     $router->get('uraian_kegiatan_by_id', 'PegawaiController@uraianById')->name('pegawai_getbyid_uraian_kegiatan');
     $router->get('delelte_uraian_kegiatan', 'PegawaiController@deleteUraianKegiatan')->name('delete_pegawai_uraian_kegiatan');
+    
 
 });
