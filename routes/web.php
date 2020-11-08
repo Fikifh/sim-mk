@@ -22,7 +22,7 @@ Route::get('logout', function(){
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('role:admin');
 Route::get('/kegiatan', [App\Http\Controllers\HomeController::class, 'kegiatan'])->name('kegiatan')->middleware('role:admin');
 Route::get('/kegiatan/id', [App\Http\Controllers\HomeController::class, 'kegiatanById'])->name('kegiatan_by_id')->middleware('role:admin');
 Route::post('/kegiatan', [App\Http\Controllers\HomeController::class, 'tambahKegiatan'])->name('add_kegiatan')->middleware('role:admin');
@@ -52,8 +52,8 @@ Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\
 
 
 Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawai'], function($router){
-    $router->get('/', 'PegawaiController@index')->name('pegawai');
-    $router->get('dashboard', 'PegawaiController@dashboard')->name('dashboard_pegawai');
+    // $router->get('/', 'PegawaiController@index')->name('pegawai');
+    $router->get('/', 'PegawaiController@dashboard')->name('dashboard_pegawai');
     $router->get('kegiatan', 'PegawaiController@kegiatan')->name('kegiatan_pegawai');
     $router->get('detail', 'PegawaiController@detail')->name('detail_kegiatan');
     $router->get('laporan', 'PegawaiController@laporan')->name('laporan_pegawai');

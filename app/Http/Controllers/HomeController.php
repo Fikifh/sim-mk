@@ -9,7 +9,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UraianKegiatan;
-use Illuminate\Support\Facades\Exception;
+use App\Models\NilaiCapaian;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -30,8 +31,121 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data = ['page_title' => 'Dashboard'];
-        return view('dashboard')->with($data);
+        $bulanan = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
+            ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
+            ->leftJoin('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
+            ->where('users.role', 'pegawai')            
+            // ->whereMonth('trans_indikator_kinerjas.created_at', Carbon::now()->month)
+            // ->whereYear('trans_indikator_kinerjas.created_at', Carbon::now()->year)
+            ->select([
+                'users.id',
+                'users.nama',
+                'users.golongan',
+                'users.jabatan',
+                'users.unit_kerja',
+                'users.nip',
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan'),
+                DB::raw('month(trans_indikator_kinerjas.created_at) as month')
+            ])->groupBy('month')->orderBy('month')->get();
+
+        $tahunan = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
+            ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
+            ->leftJoin('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
+            ->where('users.role', 'pegawai')            
+            // ->whereYear('trans_indikator_kinerjas.created_at', Carbon::now()->year)
+            ->select([
+                'users.id',
+                'users.nama',
+                'users.golongan',
+                'users.jabatan',
+                'users.unit_kerja',
+                'users.nip',
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan'),
+                DB::raw('year(trans_indikator_kinerjas.created_at) as year')
+            ])->groupBy('year')->orderBy('year')->get();
+
+        $summary = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
+            ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
+            ->leftJoin('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
+            ->where('users.role', 'pegawai')            
+            ->select([
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan')                
+            ])->first();
+                
+        $monthNames = [];
+        $monthlyPerformance = [];
+        foreach ($bulanan as $item) {
+            $monthNames[] = $this->month($item->month);
+            $monthlyPerformance[] = $item->nilai_capaian == null ? 0 : $item->nilai_capaian;
+        }
+
+
+        $yearlyPerformance = [];
+        $year =  [];
+        foreach ($tahunan as $item) {
+            $yearlyPerformance[] = $item->nilai_capaian == null ? 0 : $item->nilai_capaian;
+            $year[] = $item->year ==  null ? 0 : $item->year;
+        }
+
+        $data['monthly_performance'] = $monthlyPerformance;
+        $data['month_names'] = $monthNames;
+
+        $data['kriteria'] = NilaiCapaian::where('nilai_angka_min', '<=', $summary->nilai_capaian)->where('nilai_angka', '>=',  $summary->nilai_capaian)->first();
+        $data['summary'] = $summary;
+
+        $data['yearly_performance'] = $yearlyPerformance;
+        $data['year'] = $year;
+        $data['page_title'] = 'Dashboard';                 
+
+        return view('admin.dashboard')->with($data);
+    }
+
+    function month($number)
+    {
+        $month = 'Jan';
+        switch ($number) {
+            case 1:
+                $month = 'Jan';
+                break;
+            case 2:
+                $month = 'Feb';
+                break;
+            case 3:
+                $month = 'Mar';
+                break;
+            case 4:
+                $month = 'Apr';
+                break;
+            case 5:
+                $month = 'Mei';
+                break;
+            case 6:
+                $month = 'Jun';
+                break;
+            case 7:
+                $month = 'Jul';
+                break;
+            case 8:
+                $month = 'Aug';
+            case 9:
+                $month = 'Sep';
+                break;
+            case 10:
+                $month = 'Okt';
+                break;
+            case 11:
+                $month = 'Nov';
+                break;
+            case 12:
+                $month = 'Des';
+                break;
+            default:
+                $month = 'null';
+        }
+        return $month;
     }
 
     /**

@@ -96,16 +96,16 @@ class PegawaiController extends Controller
         }
 
         $data['monthly_performance'] = $monthlyPerformance;
-        $data['month_names'] = $monthNames;
+        $data['month_names'] = $monthNames;        
 
         $data['kriteria'] = NilaiCapaian::where('nilai_angka_min', '<=', $summary->nilai_capaian)->where('nilai_angka', '>=',  $summary->nilai_capaian)->first();
         $data['summary'] = $summary;
 
         $data['yearly_performance'] = $yearlyPerformance;
         $data['year'] = $year;
-        $data['page_title'] = 'Dashboard';
+        $data['page_title'] = 'Dashboard';        
 
-        return view('dashboard')->with($data);
+        return view('pegawai.dashboard')->with($data);
     }
 
     function month($number)

@@ -15,6 +15,10 @@ class RoleMiddleware {
     if($user->role == $role)
       return $next($request);
 
-    return redirect('/');
+    if($user->role == 'pegawai') {
+      return redirect('pegawai');
+    } else {
+      return redirect('logout');
+    }
   }
 }
