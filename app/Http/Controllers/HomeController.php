@@ -83,7 +83,7 @@ class HomeController extends Controller
                 DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan'),
                 DB::raw('avg(kehadirans.nilai) as kehadiran')
             ])->first();
-                
+                            
         $monthNames = [];
         $monthlyPerformance = [];
         foreach ($bulanan as $item) {

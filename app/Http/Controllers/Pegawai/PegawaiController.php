@@ -89,8 +89,9 @@ class PegawaiController extends Controller
                 DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
                 DB::raw('((avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
                 DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan'),
+                DB::raw('avg(kehadirans.nilai) as kehadiran'),
             ])->first();
-                
+            
         $monthNames = [];
         $monthlyPerformance = [];
         foreach ($bulanan as $item) {
