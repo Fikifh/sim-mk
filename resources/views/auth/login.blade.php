@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V16</title>
+	<title>Login Sistem Kepegawaian MK</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -36,8 +36,8 @@
 				</span>
 				<form class="login100-form validate-form p-b-33 p-t-5" method="POST" action="{{ route('login') }}">
                 @csrf
-					<div class="wrap-input100 validate-input" data-validate = "Enter username">                        
-                        <input id="email" type="email" class="input100 @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+					<div class="wrap-input100 validate-input" data-validate = "Enter Email">                        
+                        <input id="email" type="email"  placeholder="Email" class="input100 @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -47,7 +47,7 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">                        
-                        <input id="password" type="password" class="input100 @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                        <input id="password" type="password"  placeholder="Password" class="input100 @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">

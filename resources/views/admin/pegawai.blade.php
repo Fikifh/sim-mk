@@ -27,9 +27,11 @@
                                     <th>Golongan</th>
                                     <th>Jabatan</th>
                                     <th>Unit Kerja</th>
-                                    <th>Nilai Perhitungan</th>
-                                    <th>Nilai Capaian</th>
+                                    <th>Nilai Perhitungan</th> 
+                                    <th>Nilai Capaian</th>                                    
+                                    <th>Kehadiran</th>                                    
                                     <th>Capaian Kinerja</th>
+                                    <th>Nilai Nilai Akhir</th>
                                     <th>Pilihan</th>
                                 </tr>
                             </thead>
@@ -42,19 +44,34 @@
                                         <td>{{ $item->golongan }}</td>
                                         <td>{{ $item->jabatan }}</td>
                                         <td>{{ $item->unit_kerja }}</td>
-                                        <td>{{round($item->nilai_perhitungan, 2)}}</td>
-                                        <td>{{round($item->nilai_capaian, 2)}}</td>
+                                        <td>{{round($item->nilai_perhitungan, 2)}}</td>         
+                                        <td>{{round($item->nilai_capaian, 2)}}</td>                                                                           
+                                        <td>
+                                            <?php 
+                                                $kehadiran = \App\Models\Kehadiran::where('users_id',  $item->id)->whereMonth('bulan', \Carbon\Carbon::now()->month )->whereYear('bulan', \Carbon\Carbon::now()->year)->first();
+                                                if($kehadiran){
+                                                    echo $kehadiran->nilai;
+                                                }
+                                            ?>
+                                        </td>                                        
                                         <td>
                                             <?php
-                                                $nilaiCapaian = round($item->nilai_capaian,0);
-                                                $hasil = \App\Models\NilaiCapaian::where('nilai_angka_min', '<=', $nilaiCapaian)->where('nilai_angka','>=', $nilaiCapaian)->first();                                                
+                                                $nilaiCapaian = round($item->nilai_capaian,0);                                                
+                                                $nilaiKehadiran = 0;
+                                                $nilaiAkhir = $nilaiCapaian;
+                                                if($kehadiran){
+                                                    $nilaiKehadiran = $kehadiran->nilai;
+                                                    $nilaiAkhir = ($nilaiKehadiran + $nilaiCapaian) / 2;                                                    
+                                                }
+                                                $hasil = \App\Models\NilaiCapaian::where('nilai_angka_min', '<=', $nilaiAkhir)->where('nilai_angka','>=', $nilaiAkhir)->first();                                                
                                                 if($hasil){
-                                                    echo $hasil->nilai_text;
+                                                    echo $kehadiran ? $hasil->nilai_text : $hasil->nilai_text." (belum ditambah kehadiran)";
                                                 } else {
                                                     echo "nilai tidak pada range !";
                                                 }                                                   
                                             ?>
-                                        </td>
+                                        </td>     
+                                        <td><?php echo $nilaiAkhir ?> </td>                                   
                                         <td>
                                             <meta name="csrf-token" content="{{ csrf_token() }}">
                                             <a href="#editModal" data-toggle="modal" data-id="{{ $item->id }}" title="Ubah">
@@ -81,9 +98,11 @@
                                     <th>Golongan</th>
                                     <th>Jabatan</th>
                                     <th>Unit Kerja</th>
-                                    <th>Nilai Perhitungan</th>
-                                    <th>Nilai Capaian</th>
+                                    <th>Nilai Perhitungan</th>          
+                                    <th>Nilai Capaian</th>                                                              
+                                    <th>Kehadiran</th>                                    
                                     <th>Capaian Kinerja</th>
+                                    <th>Nilai Akhir</th>
                                     <th>Pilihan</th>
                                 </tr>
                             </tfoot>
@@ -189,6 +208,12 @@
                             <input type="text" name="unit_kerja" class="form-control" required="true" id="unit_kerja_id">
                         </div>
                         <div class="form-group">
+                            <label for="kehadiran_id" class="control-label">Tambah Nilai Kehadiran Bulan ini:</label>
+                            <input type="number" name="kehadiran" class="form-control"  id="kehadiran_id">
+                            <input type="number" hidden name="user_id" class="form-control"  id="user_id">
+                            <small class="text-muted">masukan berupa angka 0 sampai 100</small>
+                        </div>
+                        <div class="form-group">
                             <label for="checked_change_passwor" class="control-label">Ceklis Jika Ingin Ubah Sandi :</label>
                             <input type="checkbox" name="checked_change_passwor" class="" id="checked_change_passwor">
                         </div>
@@ -228,16 +253,18 @@
                 var pegawai_id = $(e.relatedTarget).data('id');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('admin/pegawai/id') }}?id=" + pegawai_id,
+                    url: "{{ url('admin/pegawai/id') }}?id=" + pegawai_id + "&user_id=" +  pegawai_id,
                     success: function(data) {
-                        console.log(data.nama)
-                        $('#id_edit').val(data.id);
-                        $('#nip_id').val(data.nip);
-                        $('#nama_id').val(data.nama);
-                        $('#email_id').val(data.email);
-                        $('#golongan_id').val(data.golongan);
-                        $('#jabatan_id').val(data.jabatan);
-                        $('#unit_kerja_id').val(data.unit_kerja);
+                        console.log(data)
+                        $('#id_edit').val(data.pegawai.id);
+                        $('#user_id').val(data.pegawai.id);
+                        $('#kehadiran_id').val(data.kehadiran ? data.kehadiran.nilai : null);
+                        $('#nip_id').val(data.pegawai.nip);
+                        $('#nama_id').val(data.pegawai.nama);
+                        $('#email_id').val(data.pegawai.email);
+                        $('#golongan_id').val(data.pegawai.golongan);
+                        $('#jabatan_id').val(data.pegawai.jabatan);
+                        $('#unit_kerja_id').val(data.pegawai.unit_kerja);
 
                     }
                 });
