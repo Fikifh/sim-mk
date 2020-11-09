@@ -31,6 +31,7 @@ class PegawaiController extends Controller
         $data['pegawai'] = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
             ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
             ->leftJoin('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
+            ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')
             ->where('users.role', 'pegawai')
             ->select([
                 'users.id',
@@ -39,7 +40,8 @@ class PegawaiController extends Controller
                 'users.jabatan',
                 'users.unit_kerja',
                 'users.nip',
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
+                DB::raw('((avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
                 DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan')
             ])->groupBy('users.id')->get();
         if ($req->is_api) {

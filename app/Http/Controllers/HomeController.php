@@ -102,7 +102,7 @@ class HomeController extends Controller
         $data['monthly_performance'] = $monthlyPerformance;
         $data['month_names'] = $monthNames;
 
-        $data['kriteria'] = NilaiCapaian::where('nilai_angka_min', '<=', $summary->nilai_capaian)->where('nilai_angka', '>=',  $summary->nilai_capaian)->first();
+        $data['kriteria'] = NilaiCapaian::where('nilai_angka_min', '=<', $summary->nilai_capaian)->where('nilai_angka', '=>',  $summary->nilai_capaian)->first();
         $data['summary'] = $summary;
 
         $data['yearly_performance'] = $yearlyPerformance;
