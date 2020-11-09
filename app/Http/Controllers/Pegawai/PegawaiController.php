@@ -37,6 +37,7 @@ class PegawaiController extends Controller
             ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
             ->join('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
             ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')
+            ->where('kehadirans.users_id', Auth::user()->id) 
             ->where('users.role', 'pegawai')
             ->where('users.id', Auth::user()->id)
             // ->whereMonth('trans_indikator_kinerjas.created_at', Carbon::now()->month)
@@ -59,6 +60,7 @@ class PegawaiController extends Controller
             ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
             ->join('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
             ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')
+            ->where('kehadirans.users_id', Auth::user()->id) 
             ->where('users.role', 'pegawai')
             ->where('users.id', Auth::user()->id)
             // ->whereYear('trans_indikator_kinerjas.created_at', Carbon::now()->year)
@@ -80,6 +82,7 @@ class PegawaiController extends Controller
             ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
             ->join('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
             ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')
+            ->where('kehadirans.users_id', Auth::user()->id) 
             ->where('users.role', 'pegawai')
             ->where('users.id', Auth::user()->id)
             ->select([
