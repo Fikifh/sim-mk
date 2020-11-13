@@ -228,7 +228,7 @@ class HomeController extends Controller
     public function uraianKegiatan(Request $req)
     {
         $data['uraian'] = UraianKegiatan::where('id_indikator_kerjas', $req->id)->get();
-        $data['page_title'] = 'Uraian kegiatan';
+        $data['page_title'] = 'Kegiatan Tugas Jabatan';
         $data['i'] = 1;
         $data['kegiatan_id'] = $req->id;
         return view('admin.uraian_kegiatan')->with($data);

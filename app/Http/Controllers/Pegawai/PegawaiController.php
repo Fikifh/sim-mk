@@ -15,7 +15,8 @@ use App\Models\TransIndikatoriKinerja;
 use App\Models\NilaiCapaian;
 use File;
 use Illuminate\Support\Facades\DB;
-
+use App\Exports\bulanan\RekupBulanan;
+use Excel;
 class PegawaiController extends Controller
 {
     /**
@@ -33,6 +34,10 @@ class PegawaiController extends Controller
      */
     public function dashboard(Request $req)
     {        
+        $data['pegawai'] = User::where('role', 'pegawai')->get();
+        if ($req->is_api) {
+            return response()->json($data, 200);
+        } 
         $bulanan = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
             ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
             ->join('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
@@ -165,6 +170,10 @@ class PegawaiController extends Controller
         return $month;
     }
 
+    public function reportMonthLy(Request $req){        
+        return Excel::download(new RekupBulanan(11, 2020), 'monthlyreport.csv');
+    }
+
 
     /**
      * Show the application dashboard.
@@ -220,7 +229,7 @@ class PegawaiController extends Controller
         }
         $data['kegiatans'] = $kegiatan;
         $data['i'] = 1;
-        $data['page_title'] = 'Kegiatan';
+        $data['page_title'] = 'Indikator Kerja';
         $data['pegawai'] = User::where('role', 'pegawai')->select('id', 'nama')->get();
         return view('pegawai.kegiatan')->with($data);
     }

@@ -39,7 +39,7 @@
                         <a href={{ route('kegiatan') }} class="nav-link">
                             <i class="nav-icon fas fa-calendar-alt"></i>
                             <p>
-                                Kegiatan
+                                Indikator Kerja
                             </p>
                         </a>
                     </li>
@@ -86,7 +86,7 @@
                         <a href={{ route('kegiatan_pegawai') }} class="nav-link">
                             <i class="nav-icon fas fa-calendar"></i>
                             <p>
-                                Kegiatan
+                                Indikator Kerja
                             </p>
                         </a>
                     </li>

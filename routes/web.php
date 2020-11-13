@@ -67,5 +67,7 @@ Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawa
     $router->get('uraian_kegiatan_by_id', 'PegawaiController@uraianById')->name('pegawai_getbyid_uraian_kegiatan');
     $router->get('delelte_uraian_kegiatan', 'PegawaiController@deleteUraianKegiatan')->name('delete_pegawai_uraian_kegiatan');
     
+    $router->get('report-monthly', 'PegawaiController@reportMonthLy')->name('get_report_monthly');
+    
 
 });

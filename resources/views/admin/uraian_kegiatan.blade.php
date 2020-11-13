@@ -5,8 +5,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Uraian Kegiatan</h3>
+                    <div class="card-header">                        
                         <div class="float-right">
                             <button id="add_kegiatan_id" type="button"
                                 class="btn btn-block bg-gradient-primary btn-flat add_kegiatan" data-toggle="modal" 
@@ -22,7 +21,7 @@
                             <thead>
                                 <tr>
                                 <th>{{$kegiatan_id}}</th>
-                                    <th>Uraian Kegiatan</th>
+                                    <th>Kegiatan Tugas Jabatan</th>
                                     <th>Ak Target</th>
                                     <th>Qtt Target</th>
                                     <th>Mutu Target</th>
@@ -57,7 +56,7 @@
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Uraian Kegiatan</th>
+                                    <th>Kegiatan Tugas Jabatan</th>
                                     <th>Ak Target</th>
                                     <th>Qtt Target</th>
                                     <th>Mutu Target</th>
@@ -91,7 +90,7 @@
                         @csrf
                         <input type="number" hidden name="id" class="form-control" required="true" id="id_indikator_kerjas">
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Uraian Kegiatan:</label>
+                            <label for="recipient-name" class="control-label">Kegiatan Tugas Jabatan:</label>
                             <textarea type="text" name="uraian_kegiatan" class="form-control" required="true" id="uraian_kegiatan_add"></textarea>
                         </div>
                         <div class="form-group">
@@ -131,7 +130,7 @@
                         <input type="text" name="id" class="form-control" id="id_edit" hidden="true">                        
                         <input type="text" name="id_indikator_kerjas" class="form-control" id="id_edit" hidden="true">                        
                         <div class="form-group">
-                            <label for="uraian" class="control-label">Uraian Kegiatan:</label>
+                            <label for="uraian" class="control-label">Kegiatan Tugas Jabatan:</label>
                             <textarea type="text" name="uraian_kegiatan" class="form-control" required="true" id="uraian"></textarea>
                         </div>
                         <div class="form-group">

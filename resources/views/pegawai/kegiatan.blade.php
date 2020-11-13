@@ -5,8 +5,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Data Kegiatan</h3>
+                    <div class="card-header">                        
                         <div class="float-right" style="width:250px; ">
                             <button class="btn-sm btn purple-gradient" style="float : left;" type="button" data-toggle="modal"
                             data-target="#tambahKegiatan">
@@ -67,7 +66,7 @@
                                             </a>
                                             <a href="{{ route('pegawai_uraian_kegiatan', ['id' => $kegiatan->id] )}}" title="Lihat">
                                                 <button class="btn btn-sm blue-gradient">
-                                                    <i class="fa fa-edit" style="text-transform: lowercase"> Uraian</i>
+                                                    <i class="fa fa-edit" style="text-transform: lowercase">kegiatan </i>
                                                 </button>
                                             </a>
                                         </td>
