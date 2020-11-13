@@ -188,11 +188,11 @@
                 type: 'GET',
                 url: "{{ url('/pegawai') }}?is_api=1",
                 success: function(data) {
-                    // for (i = 0; i < data.pegawai.length; i++) {
-                    //     $('#pegawai_id').append(
-                    //         `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
-                    //     );
-                    // }
+                    for (i = 0; i < data.pegawai.length; i++) {
+                        $('#pegawai_id').append(
+                            `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                        );
+                    }
                     console.log(data);
                 }
             });
@@ -214,11 +214,11 @@
                 type: 'GET',
                 url: "{{ url('/pegawai') }}?is_api=1",
                 success: function(data) {
-                    // for (i = 0; i < data.pegawai.length; i++) {
-                    //     $('#ditugaskan').append(
-                    //         `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
-                    //     );
-                    // }
+                    for (i = 0; i < data.pegawai.length; i++) {
+                        $('#ditugaskan').append(
+                            `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                        );
+                    }
                     console.log(data);
                 }
             });
@@ -231,12 +231,11 @@
                     type: 'GET',
                     url: "{{ url('/pegawai') }}?is_api=1",
                     success: function(data) {
-                        console.log(data);
-                        // for (i = 0; i < data.pegawai.length; i++) {
-                        //     $('#ditugaskan_id').append(
-                        //         `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
-                        //     );
-                        // }
+                        for (i = 0; i < data.pegawai.length; i++) {
+                            $('#ditugaskan_id').append(
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                            );
+                        }
                         console.log(data);
                     }
                 });
