@@ -12,8 +12,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\IndikatorKerja;
 use App\Models\User;
+use Illuminate\Validation\Rules\In;
+use PhpParser\Node\Expr\FuncCall;
 
-class RekupBulanan implements WithHeadings {
+class RekupBulanan implements FromCollection, WithHeadings,  WithMapping, WithEvents {
 
     private $month;
     private $year;
@@ -23,7 +25,7 @@ class RekupBulanan implements WithHeadings {
     }
 
     public function collection(){
-        $indikatorKerja = DB::table('indikator_kerjas')->all();//where('users_id', Auth::user()->id)->whereYear('periode', $this->year )->whereMonth('periode', $this->month)->get();
+        $indikatorKerja = IndikatorKerja::where('users_id', Auth::user()->id)->whereYear('periode', $this->year )->whereMonth('periode', $this->month)->get();
         return $indikatorKerja;
     }
     // public function query()
@@ -55,35 +57,46 @@ class RekupBulanan implements WithHeadings {
     //         return $indikatorKerja;
     // }
 
-    // public function map($indikatorKerja): array
-    // {
-    //     return [
-    //         $indikatorKerja->kegiatan,
-    //     ];
-    // }
+    public function map($indikatorKerja): array
+    {
+        return [
+            $indikatorKerja->kegiatan,
+            $indikatorKerja->uraianKegiatan->map(function($tugas){
+                return [
+                    $tugas->uraian_kegiatan,
+                    $tugas->ak_target,
+                    $tugas->mutu_target,
+                    // $tugas->transIndikator ?? $tugas->transIndikator->ak_realisasi,
+                    // $tugas->transIndikator ?? $tugas->transIndikator->mutu_realisasi
+                ];
+            }),
+        ];
+    }
 
     public function headings(): array
     {
         return [
             'Indikator Kerja',
-            // 'Kegiatan Tugas Jabatan',
-            // 'Kualitas Target',  
-            // 'Mutu Target',
-            // 'Kualitas Realisasi',  
-            // 'Mutu Realisasi',
+            [
+            'Kegiatan Tugas Jabatan',
+            'Kualitas Target',  
+            'Mutu Target',
+            'Kualitas Realisasi',  
+            'Mutu Realisasi',
             // 'Perhitungan',
             // 'Nilai Capaian Kerja'
+            ]
         ];
     }
 
-    // public function registerEvents(): array
-    // {
-    //     return [
-    //         AfterSheet::class    => function(AfterSheet $event) {
-    //             $cellRange = 'A1:W1'; // All headers
-    //             $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(12);
-    //             $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setBold(true);
-    //         },
-    //     ];
-    // }
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class    => function(AfterSheet $event) {
+                $cellRange = 'A1:W1'; // All headers
+                $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(12);
+                $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setBold(true);
+            },
+        ];
+    }
 }
