@@ -77,15 +77,8 @@ class RekupBulanan implements FromCollection, WithHeadings,  WithMapping, WithEv
     {
         return [
             'Indikator Kerja',
-            [
-            'Kegiatan Tugas Jabatan',
-            'Kualitas Target',  
-            'Mutu Target',
-            'Kualitas Realisasi',  
-            'Mutu Realisasi',
-            // 'Perhitungan',
-            // 'Nilai Capaian Kerja'
-            ]
+            'kegiatan', 
+            'ak_target',
         ];
     }
 

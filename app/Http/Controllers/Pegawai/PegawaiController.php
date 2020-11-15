@@ -326,14 +326,14 @@ class PegawaiController extends Controller
             $transIndikatorKinerja->id_uraian_kegiatan = $req->id;
             $transIndikatorKinerja->ak_realisasi = $req->ak_realisasi;
             $transIndikatorKinerja->mutu_realisasi = $req->mutu_realisasi;
-            $transIndikatorKinerja->qtt_realisasi = count($req->reportfile);
+            $transIndikatorKinerja->qtt_realisasi = $req->qty;
             $transIndikatorKinerja->keterangan = $req->keterangan;
             $transIndikatorKinerja->save();
             $id = $transIndikatorKinerja->uraianKegiatan->id_indikator_kerjas;
             $oldPath = "/qtt_realisasi/" . $transIndikatorKinerja->id;
             $path = "/qtt_realisasi/" . $transIndikatorKinerja->id;
-
-            $reportFile = $req->file('reportfile');
+            
+            $reportFile = $req->reportfile ? $req->file('reportfile') : [];
             $i = 1;
             if (count($reportFile) > 0) {
                 foreach ($reportFile as $file) {

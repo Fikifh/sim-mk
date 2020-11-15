@@ -226,8 +226,10 @@
                             <textarea type="text" name="keterangan" class="form-control" id="keterangan_add"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="qtt_realisasi_add" class="control-label">QTT Realisasi:</label>
-                        </div>
+                            <label for="qtt_realisasi_add" class="control-label">Qty Realisasi:</label>
+                            <input type="number" name="qty" class="form-control" required="true"
+                                id="qty_realisasi_add">
+                        </div>                        
                         <button id="add_file" class="btn btn-primary"><i class="fa fa-plus"></i></button>
                         <div class="form-group" id="item_file">
                             <div class="body_file">
