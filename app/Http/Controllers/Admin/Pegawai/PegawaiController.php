@@ -33,6 +33,7 @@ class PegawaiController extends Controller
             ->leftJoin('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
             ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')
             ->where('users.role', 'pegawai')
+            ->where('users.status', 1)
             ->select([
                 'users.id',
                 'users.nama',
