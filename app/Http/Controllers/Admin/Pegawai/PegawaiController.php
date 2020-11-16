@@ -29,7 +29,7 @@ class PegawaiController extends Controller
     {
         // $data['pegawai'] = User::where('role', 'pegawai')->where('status', 1)->get();
         $data['pegawai'] = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
-            ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
+            ->leftJoin('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
             ->leftJoin('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
             ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')
             ->where('users.role', 'pegawai')
@@ -69,7 +69,7 @@ class PegawaiController extends Controller
                 return redirect()->route('admin_pegawai')->with(['success' => 'berhasil menambahkan pegawai']);
             }
         } catch (\Exception $err) {
-            return redirect()->route('admin_pegawai')->with(['error' => 'gagal menambahkan pegawai ']);
+            return redirect()->route('admin_pegawai')->with(['error' => 'gagal menambahkan pegawai  '. $err->getMessage()]);
         }
     }
 
