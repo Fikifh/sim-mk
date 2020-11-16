@@ -28,7 +28,7 @@ class PegawaiController extends Controller
     public function index(Request $req)
     {
         // $data['pegawai'] = User::where('role', 'pegawai')->where('status', 1)->get();
-        $data['pegawai'] = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
+        $data['pegawai'] = User::leftJoin('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
             ->leftJoin('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
             ->leftJoin('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
             ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')
