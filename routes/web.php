@@ -35,7 +35,9 @@ Route::post('/kegiatan/uraian/edit', [App\Http\Controllers\HomeController::class
 Route::get('/kegiatan/uraian/id', [App\Http\Controllers\HomeController::class, 'uraianKegiatanById'])->name('uraian_kegiatan_by_id')->middleware('role:admin');
 Route::get('/kegiatan/uraian/delete', [App\Http\Controllers\HomeController::class, 'deleteUraianKegiatan'])->name('uraian_kegiatan_delete')->middleware('role:admin');
 
-
+Route::group(['prefix' => 'admin/laporan', 'namespace' => 'App\Http\Controllers\Admin\Laporan'], function($router){
+    $router->get('/', 'LaporanController@index')->name('laporan_pegawai');
+});
 
 Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\Admin\Pegawai'], function($router){
     $router->get('/', 'PegawaiController@index')->name('admin_pegawai');
