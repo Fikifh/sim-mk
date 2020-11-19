@@ -100,12 +100,11 @@
                                                     <td>{{ $uraianKegiatan->ak_target }}</td>
                                                     <td>{{ $uraianKegiatan->qtt_target }}</td>
                                                     <td>{{ $uraianKegiatan->mutu_target }}</td>
-                                                    <td>{{ $uraianKegiatan->transIndikator->ak_realisasi }}</td>
-                                                    <td>{{ $uraianKegiatan->transIndikator->qtt_realisasi }}</td>
-                                                    <td>{{ $uraianKegiatan->transIndikator->mutu_target }}</td>
+                                                    <td>{{ $uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->ak_realisasi : null }}</td>
+                                                    <td>{{ $uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->qtt_realisasi : null }}</td>
+                                                    <td>{{ $uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->mutu_target : null }}</td>
                                                     <?php
-                                                    $perhitungan = $uraianKegiatan->transIndikator->mutu_target +
-                                                    $uraianKegiatan->transIndikator->mutu_realisasi;
+                                                    $perhitungan = ($uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->mutu_target : null) + ($uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->mutu_realisasi : null);
                                                     $capaian = $perhitungan / 2;
                                                     ?>
                                                     <td>{{ round($perhitungan, 2) }}</td>
