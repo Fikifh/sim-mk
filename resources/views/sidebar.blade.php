@@ -99,7 +99,7 @@
                     <input type="text" name="id" class="form-control" id="id" hidden="true">
                     <div class="form-group">
                         <label for="nip" class="control-label">Pegawai :</label>
-                        <select name="pegawai" class="form-control" required="true" , id="pegawai_id">
+                        <select name="pegawai_id" class="form-control" required="true" , id="pegawai_id">
                             <option value=""></option>
                         </select>
                         <small class="text-muted">Silahkan pilih pegawai </small>
