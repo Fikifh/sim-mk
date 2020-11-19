@@ -7,8 +7,8 @@
                 <div class="card card-info card-outline">
                     <div class="card-body box-profile">
                         <div class="text-center">
-                            <img class="profile-user-img purple-gradient img-fluid img-circle" src={{ asset('asset/user_icon.png') }}
-                                alt="User profile picture">
+                            <img class="profile-user-img purple-gradient img-fluid img-circle"
+                                src={{ asset('asset/user_icon.png') }} alt="User profile picture">
                         </div>
 
                         <h3 class="profile-username text-center">{{ $pegawai ? $pegawai->nama : null }}</h3>
@@ -40,7 +40,8 @@
                             <!-- /.col -->
                             <div class="col-sm-4 border-right">
                                 <div class="description-block">
-                                    <h5 class="description-header">{{ $pegawai ? round($pegawai->nilai_capaian, 2) : null }}
+                                    <h5 class="description-header">
+                                        {{ $pegawai ? round($pegawai->nilai_capaian, 2) : null }}
                                     </h5>
                                     <span class="description-text">Capaian</span>
                                 </div>
@@ -60,7 +61,16 @@
                         <!-- /.row -->
                     </div>
                 </div>
-                <!-- /.card-body -->
+            </div>
+            <div class="col-md-12">
+                <div class="float-right">
+                    <a href="#" target="_blank">
+                        <button id="add_kegiatan_id" type="button"
+                            class="btn purple-gradient bg-gradient-primary btn-flat add_kegiatan" >
+                            <i class="fas fa-print"></i>
+                        </button>
+                    </a>
+                </div>
             </div>
             <div class="col-12">
                 <!-- /.card-header -->
@@ -100,11 +110,17 @@
                                                     <td>{{ $uraianKegiatan->ak_target }}</td>
                                                     <td>{{ $uraianKegiatan->qtt_target }}</td>
                                                     <td>{{ $uraianKegiatan->mutu_target }}</td>
-                                                    <td>{{ $uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->ak_realisasi : null }}</td>
-                                                    <td>{{ $uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->qtt_realisasi : null }}</td>
-                                                    <td>{{ $uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->mutu_target : null }}</td>
+                                                    <td>{{ $uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->ak_realisasi : null }}
+                                                    </td>
+                                                    <td>{{ $uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->qtt_realisasi : null }}
+                                                    </td>
+                                                    <td>{{ $uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->mutu_target : null }}
+                                                    </td>
                                                     <?php
-                                                    $perhitungan = ($uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->mutu_target : null) + ($uraianKegiatan->transIndikator ? $uraianKegiatan->transIndikator->mutu_realisasi : null);
+                                                    $perhitungan = ($uraianKegiatan->transIndikator ?
+                                                    $uraianKegiatan->transIndikator->mutu_target : null) +
+                                                    ($uraianKegiatan->transIndikator ?
+                                                    $uraianKegiatan->transIndikator->mutu_realisasi : null);
                                                     $capaian = $perhitungan / 2;
                                                     ?>
                                                     <td>{{ round($perhitungan, 2) }}</td>
@@ -119,7 +135,8 @@
                     </div>
                 @endforeach
             </div>
-            <!-- Add Modal -->
+        </div>
+    </div>
 
             <!-- add Modal -->
             <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
