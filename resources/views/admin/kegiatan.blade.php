@@ -26,8 +26,8 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <form>
-                                            <label for="pegawai_id">Pegawai</label>
-                                            <select id="pegawai_id" class="form-control">
+                                            <label for="filter_pegawai_id">Pegawai</label>
+                                            <select name = "pegawai_id" id="filter_pegawai_id" class="form-control">
                                                 <option></option>
                                             </select>
                                             dari <input id="from_id" type="date" class="form-control">
@@ -109,7 +109,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Tambahkan Kegiatan</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">Tambahkan Indikator Kerja</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
@@ -117,7 +117,7 @@
                     <form action={{ route('add_kegiatan') }} method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Nama Kegiatan:</label>
+                            <label for="recipient-name" class="control-label">Indikator Kerja:</label>
                             <input type="text" name="nama_kegiatan" class="form-control" required="true" id="nama-kegiatan">
                         </div>
                         <div class="form-group">
@@ -126,7 +126,7 @@
                         </div>
                         <div class="form-group">
                             <label for="mutu_target" class="control-label">Ditugaskan Kepada:</label>
-                            <select name="pegawai" class="form-control" required="true" , id="ditugaskan">
+                            <select name="pegawai" class="form-control" required="true"  id="ditugaskan">
                                 <option value=""></option>
                             </select>
                         </div>
@@ -145,7 +145,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Ubah Kegiatan</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">Ubah Indikator Kerja</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
@@ -154,7 +154,7 @@
                         @csrf
                         <input type="text" name="id" class="form-control" id="id" hidden="true">
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Nama Kegiatan:</label>
+                            <label for="recipient-name" class="control-label">Indikator Kerja:</label>
                             <input type="text" name="nama_kegiatan" class="form-control" required="true" id="nama_kegiatan">
                         </div>
                         <div class="form-group">
@@ -182,20 +182,20 @@
     <script>
         $(document).ready(function() {
             $.ajax({
-                type: 'GET',
-                url: "{{ url('/pegawai') }}?is_api=1",
-                success: function(data) {
-                    for (i = 0; i < data.pegawai.length; i++) {
-                        $('#pegawai_id').append(
-                            `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
-                        );
+                    type: 'GET',
+                    url: "{{ url('/pegawai') }}?is_api=1",
+                    success: function(data) {
+                        for (i = 0; i < data.pegawai.length; i++) {
+                            $('#filter_pegawai_id').append(
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                            );
+                        }
+                        console.log(data);
                     }
-                    console.log(data);
-                }
-            });
+                });
 
             $('#filter_id').on('click', function() {
-                var selectedOfficer = $('#pegawai_id').children("option:selected").val();
+                var selectedOfficer = $('#filter_pegawai_id').children("option:selected").val();
                 var from = $('#from_id').val();
                 var to = $('#to_id').val();
                 var filterUrl = "{{ url('kegiatan?pegawai_id=') }}" + selectedOfficer + "&from=" + from +

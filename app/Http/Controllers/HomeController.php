@@ -179,7 +179,7 @@ class HomeController extends Controller
         }
         $data['kegiatans'] = $kegiatan;
         $data['i'] = 1;
-        $data['page_title'] = 'Kegiatan';
+        $data['page_title'] = 'Indikator Kerja';
         $data['pegawais'] = User::where('role', 'pegawai')->select('id', 'nama')->get();
         return view('admin.kegiatan')->with($data);
     }
