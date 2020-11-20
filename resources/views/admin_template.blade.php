@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>Kepegawaian MK</title>
+    <title>Aplikasi Rekap Kinerja</title>
 
+    <link rel="shortcut icon" href={{asset('asset/logo_icon.jpg')}} type="image/x-icon">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href={{ asset('bower_components/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}>
     <!-- IonIcons -->

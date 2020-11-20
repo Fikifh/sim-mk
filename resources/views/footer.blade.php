@@ -6,6 +6,7 @@
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2020 <a href={{ url('/admin')}}>Kepegawaian MK</a>.</strong> All rights reserved.
+    <strong class="float-right">By: Armelia Noviyanti, S.H.</strong>
   </footer>
 </div>
 <!-- ./wrapper -->

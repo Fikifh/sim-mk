@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>Kepegawaian MK</title>
+    <title>Laporan {{$pegawai ? $pegawai->nama : null}} dari {{\Carbon\Carbon::parse($from)->format('d M Y')}} sampai {{\Carbon\Carbon::parse($to)->format('d M Y')}}</title>
 
+    <link rel="shortcut icon" href={{asset('asset/logo_icon.jpg')}} type="image/x-icon">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href={{ asset('bower_components/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}>
     <!-- IonIcons -->
@@ -39,12 +40,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card card-info card-outline">
-                    <div class="card-body box-profile">
-                        <div class="text-center">
-                            <img class="profile-user-img purple-gradient img-fluid img-circle"
-                                src={{ asset('asset/user_icon.png') }} alt="User profile picture">
-                        </div>
-
+                    <div class="card-body box-profile">                        
                         <h3 class="profile-username text-center">{{ $pegawai ? $pegawai->nama : null }}</h3>
 
                         <p class="text-muted text-center">{{ $pegawai ? $pegawai->jabatan : null }}</p>
@@ -95,17 +91,7 @@
                         <!-- /.row -->
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <div class="float-right">
-                    <a href="#" target="_blank">
-                        <button id="add_kegiatan_id" type="button"
-                            class="btn purple-gradient bg-gradient-primary btn-flat add_kegiatan" >
-                            <i class="fas fa-print"></i>
-                        </button>
-                    </a>
-                </div>
-            </div>
+            </div>            
             <div class="col-12">
                 <!-- /.card-header -->
 
@@ -130,8 +116,7 @@
                                                 <th>AK Realisasi</th>
                                                 <th>Qty Realisasi</th>
                                                 <th>Mutu Realisasi</th>
-                                                <th>Perhitungan</th>
-                                                <th>Nilai Perhitungan</th>
+                                                <th>Perhitungan</th>                                                
                                                 <th>Nilai Capaian</th>
                                             </tr>
                                         </thead>
@@ -171,19 +156,16 @@
             </div>
         </div>
     </div>
-</body>
-    <!-- Main Footer -->
-  <footer class="main-footer">
-    <!-- To the right -->
-    <div class="float-right d-none d-sm-inline">      
-    </div>
-    <!-- Default to the left -->
-    <strong>Copyright &copy; 2020 <a href={{ url('/admin')}}>Kepegawaian MK</a>.</strong> All rights reserved.
-  </footer>
-</div>
+</body>  
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $( window ).on( "load",  window.print());
+    });
+</script>
 
 <!-- ion icons -->
 <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
@@ -212,24 +194,5 @@
  <!-- MDB core JavaScript -->
  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
 
-
-<!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true,
-      "autoWidth": false,
-    });
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
 </body>
 </html>
