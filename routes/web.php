@@ -58,7 +58,7 @@ Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawa
     $router->get('/', 'PegawaiController@dashboard')->name('dashboard_pegawai');
     $router->get('kegiatan', 'PegawaiController@kegiatan')->name('kegiatan_pegawai');
     $router->get('detail', 'PegawaiController@detail')->name('detail_kegiatan');
-    $router->get('laporan', 'PegawaiController@laporan')->name('laporan_pegawai');
+    $router->get('laporan', 'LaporanController@laporan')->name('laporan_pegawai');
     $router->post('laporkan', 'PegawaiController@createLaporan')->name('laporkan');
     $router->post('edit_laporan', 'PegawaiController@editLaporan')->name('edit_laporan');
     $router->get('laporan_by_id', 'PegawaiController@byId')->name('laporan_by_id');

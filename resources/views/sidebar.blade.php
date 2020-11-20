@@ -80,12 +80,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href={{ route('laporan_pegawai') }} class="nav-link">
+                        <a href='#' class="nav-link" data-toggle="modal" data-target="#laporanSayaModal">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Laporan Saya
                             </p>
-                        </a>
+                        </a>                        
                     </li>
                 @endif
             </ul>
@@ -113,6 +113,35 @@
                         </select>
                         <small class="text-muted">Silahkan pilih pegawai </small>
                     </div>
+                    <div class="form-group">
+                        <label for="email" class="control-label">Periode:</label><br>
+                        Dari
+                        <input type="date" name="from" class="form" required="true" id="periode">
+                        Sampai <input type="date" name="to" class="form" required="true" id="periode">
+                        <small class="text-muted">pilih rentang waktu </small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Lihat</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="laporanSayaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="laporanModal">Lihat Laporan</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form action={{ url('pegawai/laporan') }} method="GET">
+                    @csrf
+                    <input type="text" name="id" class="form-control" id="id" hidden="true">                    
                     <div class="form-group">
                         <label for="email" class="control-label">Periode:</label><br>
                         Dari

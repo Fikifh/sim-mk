@@ -18,10 +18,7 @@
                                     <a href="" id="filter_id" title="Filter">
                                         {{-- <ion-icon name="funnel"></ion-icon> Filter --}}
                                         <i class="fa fa-filter"></i>
-                                    </a>
-                                    <a href="" id="print_id" title="Print">
-                                        <i class="fa fa-print"></i>
-                                    </a>
+                                    </a>                                    
                                 </div>
                             </div>
                         </div>

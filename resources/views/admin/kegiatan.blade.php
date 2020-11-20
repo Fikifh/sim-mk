@@ -35,10 +35,7 @@
                                         </form>
                                         <a href="" id="filter_id" title="Filter">
                                             <ion-icon name="funnel"></ion-icon> Filter
-                                        </a>
-                                        <a href="_blank" id="print_id" title="Print">
-                                            <ion-icon name="print"></ion-icon> Report
-                                        </a>
+                                        </a>                                        
                                     </div>
                                 </div>
                             </div>
