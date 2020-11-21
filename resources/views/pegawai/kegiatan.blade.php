@@ -101,7 +101,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Tambahkan Kegiatan</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">Tambahkan Indikator Kerja</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
@@ -109,7 +109,7 @@
                     <form action={{ route('pegawai_add_kegiatan') }} method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Nama Kegiatan:</label>
+                            <label for="recipient-name" class="control-label">Indikator Kerja:</label>
                             <input type="text" name="nama_kegiatan" class="form-control" required="true" id="nama-kegiatan">
                         </div>
                         <div class="form-group">
