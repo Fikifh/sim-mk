@@ -175,7 +175,7 @@ class HomeController extends Controller
         } elseif($req->from && $req->to && !$pegawai_id){            
             $kegiatan = IndikatorKerja::whereBetween('periode',  [$from, $to])->get();
         } else{            
-            $kegiatan = IndikatorKerja::whereMonth('periode', Carbon::now()->month)->whereYear('periode', Carbon::now()->year)->get();
+            $kegiatan = IndikatorKerja::whereYear('periode', Carbon::now()->year)->whereYear('periode', Carbon::now()->year)->get();
         }
         $data['kegiatans'] = $kegiatan;
         $data['i'] = 1;
