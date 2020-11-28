@@ -11,10 +11,14 @@ class IndikatorKerja extends Model
     use HasFactory;
     protected $table = 'indikator_kerjas';
     protected $fillable = [
-        'kegiatan',
+        'nama',
         'periode',
         'users_id',        
-        'created_by'
+        'created_by',
+        'mutu',
+        'qty',
+        'satuan',
+        'pagu_anggaran'
     ];
 
     public function admin(){

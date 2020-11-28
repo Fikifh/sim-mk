@@ -43,6 +43,25 @@
                             </p>
                         </a>
                     </li>
+
+                    <li class="nav-header">Menu</li>
+                    <li class="nav-item">
+                        <a href={{ route('perjanjian_kerja') }} class="nav-link">
+                            <i class="nav-icon fas fa-calendar-alt"></i>
+                            <p>
+                                Perjanjian Kerja (PK)
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href={{ route('penilaian_capaian_kinerja') }} class="nav-link">
+                            <i class="nav-icon fas fa-calendar-alt"></i>
+                            <p>
+                                Penilaian Capaian Kinerja (PCK)
+                            </p>
+                        </a>
+                    </li>
+
                     <li class="nav-header">Penugasan</li>
                     <li class="nav-item">
                         <a href={{ route('kegiatan') }} class="nav-link">
