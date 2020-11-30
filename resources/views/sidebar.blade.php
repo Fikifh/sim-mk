@@ -5,10 +5,12 @@
         <img src={{ asset('asset/logo_icon.jpg') }} alt="sireki"
             class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light"><b>
-            @if (Auth::user()->role == 'admin')
-                Admin
-            @else
-                Pegawai
+            @if (Auth::user())
+                @if(Auth::user()->role == 'admin')
+                    Admin
+                @else
+                    Pegawai
+                @endif
             @endif
         </b>
         </span>
@@ -23,7 +25,7 @@
                     class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ Auth::user()->nama }}</a>
+                <a href="#" class="d-block">@if(Auth::user())  {{Auth::user()->nama }}@endif</a>
             </div>
         </div>
 
@@ -54,7 +56,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href={{ route('penilaian_capaian_kinerja') }} class="nav-link">
+                        <a href="#" class="nav-link" data-toggle="modal" data-target="#adminPckModal">
                             <i class="nav-icon fas fa-calendar-alt"></i>
                             <p>
                                 Penilaian Capaian Kinerja (PCK)
@@ -178,6 +180,34 @@
     </div>
 </div>
 
+<div class="modal fade" id="adminPckModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="laporanModal">Pilih Pegawai</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form action={{ route('admin_penilaian_capaian_kinerja') }} method="GET">
+                    @csrf                    
+                    <div class="form-group">
+                        <label for="email" class="control-label">Pegawai:</label><br>
+                        <select name="user_id" id="pck_user_id" class="form-control">
+                            <option></option>
+                        </select>
+                        <small class="text-muted">silahkan untuk memilih pegawai </small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Lihat</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
@@ -189,10 +219,13 @@
                     $('#pegawai_id').append(
                         `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
                     );
-                }
-                console.log(data);
+                    $('#pck_user_id').append(
+                        `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                    );
+                }                
             }
         });
+
     });
 
 </script>

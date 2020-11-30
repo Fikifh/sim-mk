@@ -32,4 +32,8 @@ class IndikatorKerja extends Model
     public function uraianKegiatan(){
         return $this->hasMany(\App\Models\UraianKegiatan::class, 'id_indikator_kerjas');
     }   
+
+    public function kegiatanTugasJabatan(){
+        return $this->hasMany(\App\Models\UraianKegiatan::class, 'id_indikator_kerjas');
+    }   
 }

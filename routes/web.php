@@ -40,6 +40,9 @@ Route::group(['prefix' => 'admin/laporan', 'namespace' => 'App\Http\Controllers\
 });
 
 Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\Admin\Pegawai'], function($router){
+    $router->get('penilaian_cap_kinerja', 'PenilaianCapKinerjaController@index')->name('admin_penilaian_capaian_kinerja');
+    $router->post('tugas_jabatan', 'PenilaianCapKinerjaController@createTugasJabatan')->name('admin_pegawai_add_tugas_jabatan');
+    
     $router->get('/', 'PegawaiController@index')->name('admin_pegawai');
     $router->get('id', 'PegawaiController@byId')->name('admin_id_pegawai');
     $router->post('/', 'PegawaiController@create')->name('add_admin_pegawai');
@@ -53,7 +56,7 @@ Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\
 });
 
 
-Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawai'], function($router){
+Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawai', 'middleware' => 'auth'], function($router){
     $router->post('sasaran', 'PerjanjianKinerjaController@createSasaran')->name('pegawai_add_sasaran');
     $router->post('sasaran/update', 'PerjanjianKinerjaController@updateSasaran')->name('pegawai_update_sasaran');
     $router->get('sasaran/byid', 'PerjanjianKinerjaController@findSasaranById')->name('pegawai_get_sasaran_byid');
@@ -68,7 +71,7 @@ Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawa
 
 
     $router->get('perjanjian_kinerja', 'PerjanjianKinerjaController@index')->name('perjanjian_kerja');
-    $router->get('penilaian_cap_kinerja', 'PenilaianCapKinerjaController@index')->name('penilaian_capaian_kinerja');
+    $router->get('penilaian_cap_kinerja', 'PenilaianCapKinerjaController@index')->name('pegawai_penilaian_capaian_kinerja');
 
     $router->get('/', 'PegawaiController@dashboard')->name('dashboard_pegawai');
     $router->get('kegiatan', 'PegawaiController@kegiatan')->name('kegiatan_pegawai');

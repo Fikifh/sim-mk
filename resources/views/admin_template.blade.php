@@ -47,17 +47,17 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1>
+                <h3>
                     {{ $page_title ? $page_title : null }}
                     <small>{{ null }}</small>
-                </h1>
+                </h3>
                 <!-- You can dynamically generate breadcrumbs here -->
-                <div class="breadcrumb">
+                {{-- <div class="breadcrumb">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item active">{{$page_title}}</li>
                     </ol>
-                </div>
+                </div> --}}
             </section>
 
             <!-- Main content -->

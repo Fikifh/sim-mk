@@ -15,6 +15,9 @@ class UraianKegiatan extends Model
         'ak_target',        
         'qtt_target', 
         'mutu_target',
+        'ak_realisasi',        
+        'qty_realisasi', 
+        'mutu_realisasi',
         'created_at',
         'updated_at'
     ];
