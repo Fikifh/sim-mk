@@ -1,230 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>    
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-    <title>Aplikasi Rekap Kinerja</title>
-
-    <link rel="shortcut icon" href={{asset('asset/logo_icon.jpg')}} type="image/x-icon">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href={{ asset('bower_components/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}>
-    <!-- IonIcons -->
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href={{ asset('bower_components/AdminLTE/dist/css/adminlte.min.css') }}>
-    <!-- DataTables -->
-    <link rel="stylesheet"
-        href={{ asset('bower_components/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}>
-    <link rel="stylesheet"
-        href={{ asset('bower_components/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}>
-    <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
-    
-    {{-- MDB Bootstrap --}}
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <!-- Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-    <!-- Bootstrap core CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">    
-</head>
-
-<body class="hold-transition sidebar-mini">
-    <div class="container-fluid" onload="window.print();">
+@extends('admin_template')
+@section('content')
+    <div class="container-fluid">
         <div class="row">
             <div class="col-4">
                 <table class="" style="margin-bottom:10px;">
-                    <?php $user = $indikator_kinerjas->first() ? $indikator_kinerjas->first()->pegawai : null; ?>
-                    @if ($user)
-                        <tr>
-                            <td>1. </td>
-                            <td>Nama</td>
-                            <td>:</td>
-                            <td>{{ $user->nama }}</td>
-                        </tr>
-                        <tr>
-                            <td>2. </td>
-                            <td>NIP</td>
-                            <td>:</td>
-                            <td>{{ $user->nip }}</td>
-                        </tr>
-                        <tr>
-                            <td>3. </td>
-                            <td>Pangkat</td>
-                            <td>:</td>
-                            <td>{{ $user->pangkat }}</td>
-                        </tr>
-                        <tr>
-                            <td>4. </td>
-                            <td>Jabatan</td>
-                            <td>:</td>
-                            <td>{{ $user->nama }}</td>
-                        </tr>
-                        <tr>
-                            <td>5. </td>
-                            <td>Unit Kerja</td>
-                            <td>:</td>
-                            <td>{{ $user->unit_kerja }}</td>
-                        </tr>
-                    @endif
+                    <?php 
+                    $bulan = $rekap->first() ? \Carbon\Carbon::parse($rekap->first()->periode)->month : null; 
+                    $tahun = $rekap->first() ? \Carbon\Carbon::parse($rekap->first()->periode)->year : null; 
+                    $date = $rekap->first() ? \Carbon\Carbon::parse($rekap->first()->periode)->format('M Y') : null; 
+                    
+                    ?>                
+                    <tr>
+                        <td>{{$date}}</td>                        
+                    </tr>                                            
                 </table>                               
             </div>
-                        
-            {{-- <div class="col-12"> --}}
-                @foreach ($indikator_kinerjas as $indikator_kinerja)
-                    <div class="col-12">
-                        <div class="col-12">
-                            <h3 class="card-title text-muted" style="margin-top : 10px;">Indikator Kinerja:
-                                {{ $indikator_kinerja->nama }}
-                            </h3>                            
+            <div class="col-12">
+                <div class="float-right">
+                    <a href={{ route('admin_penilaian_capaian_kinerja', ['is_print' => true, 'periode' => null])}}
+                        title="Print Laporan" target="_blank    ">
+                        <button class="btn btn-sm purple-gradient">
+                           <i class="fas fa-print"></i>
+                        </button>
+                    </a>                    
+                </div> 
+            </div>
+            <div class="col-12">                
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-muted" style="margin-top : 10px;">{{$page_title}}</h3>                            
                         </div>
                         <!-- /.card-header -->
-                        <div class="col-12">
-                            {{-- <div class="table-responsive"> --}}
+                        <div class="card-body">
+                            <div class="table-responsive">
                                 <table id="table_sasaran" class="table table-bordered ">
                                     <thead>
                                         <tr>
-                                            <th rowspan="2" style="vertical-align : middle;text-align:center;">Kegiatan
-                                                Tugas Jabatan:</th>
-                                            <th rowspan="2" style="vertical-align : middle;text-align:center;">AK</th>
-                                            <th colspan="2" style="vertical-align : middle;text-align:center;">Target</th>
-                                            <th rowspan="2" style="vertical-align : middle;text-align:center;">AK Realisasi
+                                            <th>No</th>
+                                            <th style="vertical-align : middle;text-align:center;">Nama</th>
+                                            <th style="vertical-align : middle;text-align:center;">AK</th>
+                                            <th style="vertical-align : middle;text-align:center;">Jabatan</th>
+                                            <th style="vertical-align : middle;text-align:center;">Capaian Kinerja
                                             </th>
-                                            <th colspan="2" style="vertical-align : middle;text-align:center;">Realisasi
+                                            <th style="vertical-align : middle;text-align:center;">Keterangan
                                             </th>
-                                            <th rowspan="2" style="vertical-align : middle;text-align:center;">Perhitungan
-                                            </th>
-                                            <th rowspan="2" style="vertical-align : middle;text-align:center;">Nilai Capaian
-                                            </th>
-                                        <tr>
-                                            <td>Qty</td>
-                                            <td>Mutu</td>
-                                            <td>Qty</td>
-                                            <td>Mutu</td>
-                                        </tr>
-
-                                        </tr>
+                                        <tr>                                    
                                     </thead>
-                                    <tbody>
-                                        <?php
-                                        $perhitungan = 0;
-                                        $nilaiCapaian = 0;
-                                        $jumlahRow = sizeof($indikator_kinerja->kegiatanTugasJabatan) != 0 ? sizeof($indikator_kinerja->kegiatanTugasJabatan) : 1;
-                                        ?>
-                                        @foreach ($indikator_kinerja->kegiatanTugasJabatan as $tugasJabatan)
+                                    <tbody>                                        
+                                        @foreach ($rekap as $item)
                                             <tr>
+                                                <td>{{$i++}}</td>
                                                 <td>
-                                                    {{ $i++ . '. ' . $tugasJabatan->uraian_kegiatan }}                                                    
+                                                    {{$item->nama }}                                                    
                                                 </td>
-                                                <td>{{ $tugasJabatan->ak_target }}</td>
-                                                <td>{{ $tugasJabatan->qtt_target }}</td>
-                                                <td>{{ $tugasJabatan->mutu_target }}</td>
-                                                <td>{{ $tugasJabatan->ak_realisasi }}</td>
-                                                <td>{{ $tugasJabatan->qty_realisasi }}</td>
-                                                <td>{{ $tugasJabatan->mutu_realisasi }}</td>
-                                                <td>{{ $tugasJabatan->mutu_target + $tugasJabatan->mutu_realisasi }}</td>
-                                                <td>{{ ($tugasJabatan->mutu_target + $tugasJabatan->mutu_realisasi) / 2 }}
-                                                </td>
-                                                <?php
-                                                $perhitungan = $perhitungan + ($tugasJabatan->mutu_target +
-                                                $tugasJabatan->mutu_realisasi);
-                                                $nilaiCapaian = $nilaiCapaian + ($tugasJabatan->mutu_target +
-                                                $tugasJabatan->mutu_realisasi) / 2;                                                
-                                                ?>
+                                                <td>{{ $item->ak_target }}</td>
+                                                <td>{{ $item->jabatan }}</td>
+                                                <td>{{ $item->nilai_capaian }}</td>
+                                                <td></td>                                                                                                                                                
                                             </tr>
                                         @endforeach
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="7" style="vertical-align : middle;text-align:center;">Nilai Capaian
-                                            </td>
-                                            <td>{{ round($perhitungan / $jumlahRow , 3)}}</td>
-                                            <td>{{ round($nilaiCapaian  / $jumlahRow, 3)}}</td>
-                                        </tr>
-                                    </tfoot>
+                                    </tbody>                                    
                                 </table>
-                            {{-- </div> --}}
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
-                @endforeach
-            {{-- </div> --}}
-            <!-- /.col -->
-
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header bg-primary">
-                        <div class="card-title center" style="margin-top :10px;">
-                            <?php 
-                                $indikatorKerja = $indikator_kinerjas->first();                                
-                                ?>
-                            REKAPITULASI PENILAIAN CAPAIAN KINERJA 
-                            {{-- {{$indikatorKerja != null ? \Carbon\Carbon::parse($indikatorKerja->periode)->format('F Y') : null}} --}}
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="table_sasaran" class="table table-bordered ">
-                                <thead>
-                                    <tr>
-                                        <th>Kegiatan Tugas Jabatan</th>
-                                        <th>Perhitugan</th>
-                                        <th>Nilai Capaian Kinerja</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $finalPerhitungan = 0;
-                                    $finalNilaiCapaian = 0;
-                                    $numOfRow = sizeof($conclusion) != 0 ? sizeof($conclusion) : 1;
-                                    ?>
-                                    @foreach ($conclusion as $item)
-                                        <tr>
-                                            <td>{{ $item->indikator_kerja }}</td>
-                                            <td>{{ round($item->perhitungan == null ? $item->target : $item->perhitungan, 3) }}</td>
-                                            <td>{{ round($item->nilai_capaian == null ? $item->target : $item->nilai_capaian, 3) }}</td>
-                                        </tr>
-                                        <?php
-                                        $finalPerhitungan = $finalPerhitungan + ($item->perhitungan == null ? $item->target : $item->perhitungan);
-                                        $finalNilaiCapaian = $finalNilaiCapaian + ( $item->nilai_capaian == null ? $item->target : $item->nilai_capaian);                                        
-                                        ?>
-                                    @endforeach
-                                </tbody>                                
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="0" style="vertical-align : middle;text-align:center;">Hasil Capaian
-                                            Kinerja</td>
-                                        <td>{{ round($finalPerhitungan / $numOfRow, 3) }}</td>
-                                        <td>{{ round($finalNilaiCapaian / $numOfRow, 3) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" style="vertical-align : middle;text-align:center;">
-                                        </td>
-                                        <td>
-                                            <?php $nilaiCapaian =
-                                            \App\Models\NilaiCapaian::where('nilai_angka_min', '<=',
-                                                round($finalNilaiCapaian / $numOfRow, 3)) ->where('nilai_angka', '>=',
-                                                round($finalNilaiCapaian / $numOfRow, 3))
-                                                ->first(); ?>
-                                                @if ($nilaiCapaian)
-                                                    {{ $nilaiCapaian->nilai_text }}
-                                                @endif
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
+                    <!-- /.card -->                
             </div>
             <!-- /.col -->
         </div>
@@ -532,61 +373,196 @@
             </div>
         </div>
     </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            window.print();
+
+            $('#filter_id').on('click', function() {
+                var from = $('#from_id').val();
+                var to = $('#to_id').val();
+                var filterUrl = "{{ url('pegawai/kegiatan') }}?from=" + from + "&to=" + to;
+                $('#filter_id').attr('href', filterUrl);
+            });
         });
-            </script>
-<!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
+        $('.add_kegiatan').on('click', function(e) {
 
-<!-- ion icons -->
-<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
-
-<!-- jQuery -->
-<script src={{ asset("bower_components/AdminLTE/plugins/jquery/jquery.min.js") }}></script>
-<!-- Bootstrap 4 -->
-<script src={{ asset("bower_components/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js") }}></script>
-<!-- DataTables -->
-<script src={{ asset("bower_components/AdminLTE/plugins/datatables/jquery.dataTables.min.js") }}></script>
-<script src={{ asset("bower_components/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js") }}></script>
-<script src={{ asset("bower_components/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js") }}></script>
-<script src={{ asset("bower_components/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js") }}></script>
-<!-- AdminLTE App -->
-<script src={{ asset("bower_components/AdminLTE/dist/js/adminlte.min.js") }}></script>
-<!-- AdminLTE for demo purposes -->
-<script src={{ asset("bower_components/AdminLTE/dist/js/demo.js") }}></script>
-<!-- sweet alert -->
-<script src= {{ asset("bower_components/AdminLTE/plugins/sweetalert2/sweetalert2.min.js") }}></script>
-
-{{-- MDD Bootstrap --}} 
- <!-- Bootstrap tooltips -->
- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
- <!-- Bootstrap core JavaScript -->
- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
- <!-- MDB core JavaScript -->
- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+            // var rowid = $(e.relatedTarget).data('id');                
+            $.ajax({
+                type: 'GET',
+                url: "{{ url('/pegawai') }}?is_api=1",
+                success: function(data) {
+                    for (i = 0; i < data.pegawai.length; i++) {
+                        $('#ditugaskan').append(
+                            `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                        );
+                    }
+                    console.log(data);
+                }
+            });
+        });
 
 
-<!-- page script -->
-<script>
-  $(function () {
-    $("#example2").DataTable({
-      "responsive": true,
-      "autoWidth": true,
-    });
-    $('#example1').DataTable({
-      "paging": true,
-      "lengthChange": true,
-      "searching": true,
-      "ordering": true,
-      "info": true,
-      "autoWidth": true,
-      "responsive": true,
-    });
-  });
-</script>
-</body>
-</html>
+        $(document).ready(function() {
+
+            $('#editSasaran').on('show.bs.modal', function(e) {
+                var id = $(e.relatedTarget).data('id');
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url('/pegawai/sasaran/byid') }}?id=" + id,
+                    success: function(data) {
+                        $('#edit_sasaran_id').val(data.nama);
+                        $('#edit_sasaran_uid').val(data.id);
+                    }
+                });
+            });
+
+            $('#addKegiatanTugasJabatan').on('show.bs.modal', function(e) {
+                var id = $(e.relatedTarget).data('id');
+                $('#add_kegiiatan_indikator_kerja_id').val(id);
+                $('#add_kegiatan_indikator_kerja_user_id').val({
+                    {
+                        
+                    }
+                });
+            });
+
+            $('#editKegiatanTugasJabatan').on('show.bs.modal', function(e) {
+                var id = $(e.relatedTarget).data('id');
+                $('#edit_kegiatan_tugas_id').val(id);
+                $('#edit_kegiatan_tugas_user_id').val({
+                    {
+                        
+                    }
+                });
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url('admin/pegawai/pck/byid') }}?id=" + id,
+                    success: function(data) {
+                        $('#edit_kegiatan_tugas_uraian').val(data.uraian_kegiatan);
+                        $('#edit_kegiatan_indikator_kerja_id').val(data.id_indikator_kerjas);
+                        $('#edit_kegiatan_tugas_ak_target').val(data.ak_target);
+                        $('#edit_kegiatan_tugas_mutu_target').val(data.mutu_target);
+                        $('#edit_kegiatan_tugas_qty_target').val(data.qtt_target);
+                        $('#edit_kegiatan_tugas_ak_realisasi').val(data.ak_realisasi);
+                        $('#edit_kegiatan_tugas_mutu_realisasi').val(data.mutu_realisasi);
+                        $('#edit_kegiatan_tugas_qty_realisasi').val(data.qty_realisasi);
+                    }
+                });
+
+            });
+
+
+            $('#deleteKegiatanTugasJabatan').on('show.bs.modal', function(e) {
+                var id = $(e.relatedTarget).data('id');
+                $('#delete_pck_id').val(id);
+                $('#delete_user_id').val({
+                    {
+                        
+                    }
+                });
+            });
+
+            $('#deleteIndikator').on('show.bs.modal', function(e) {
+                var id = $(e.relatedTarget).data('id');
+                $('#delete_indikator_id').val(id);
+            });
+
+            $('#addIndikatorKinerja').on('show.bs.modal', function(e) {
+                var id = $(e.relatedTarget).data('id');
+                $('#add_indikator_sasaran_id').val(id);
+                console.log(id);
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url('/pegawai') }}?is_api=1",
+                    success: function(data) {
+                        for (i = 0; i < data.pegawai.length; i++) {
+                            $('#ditugaskan_id').append(
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                            );
+                        }
+                    }
+                });
+            });
+
+            $('#editIndikatorKinerja').on('show.bs.modal', function(e) {
+                var id = $(e.relatedTarget).data('id');
+                $('#update_indikator_sasaran_id').val(id);
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url('/pegawai') }}?is_api=1",
+                    success: function(data) {
+                        for (i = 0; i < data.pegawai.length; i++) {
+                            $('#update_ditugaskan_id').append(
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                            );
+                        }
+                    }
+                });
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url('pegawai/indikator/byid') }}?id=" + id,
+                    success: function(data) {
+                        console.log(data);
+                        $('#update_indikator_kinerja').val(data.nama);
+                        $('#update_mutu').val(data.mutu);
+                        $('#update_qty').val(data.qty);
+                        $('#update_satuan').val(data.satuan);
+                        $('#update_periode').val(data.periode);
+                        $('#update_pagu_anggaran').val(data.pagu_anggaran);
+                        $("#update_ditugaskan_id option[value=" + data.users_id +
+                            "]").attr('selected',
+                            'selected');
+                    }
+                });
+            });
+
+            $('#editModal').on('show.bs.modal', function(e) {
+                var kegiatan_id = $(e.relatedTarget).data('id');
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url('/pegawai') }}?is_api=1",
+                    success: function(data) {
+                        for (i = 0; i < data.pegawai.length; i++) {
+                            $('#ditugaskan_id').append(
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                            );
+                        }
+                        console.log(data);
+                    }
+                });
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url('kegiatan/id') }}?id=" + kegiatan_id,
+                    success: function(data) {
+                        console.log(data)
+                        $('#id').val(data.id);
+                        $('#nama_kegiatan').val(data.kegiatan);
+                        $('#periode').val(data.periode);
+                        $('textarea#uraian').val(data.uraian_kegiatan.uraian_kegiatan);
+                        $('#ak_target').val(data.ak_target);
+                        $('#qtt_target').val(data.qtt_target);
+                        $('#mutu_target').val(data.mutu_target);
+                        $("#ditugaskan_id option[value=" + data.user.id +
+                            "]").attr('selected',
+                            'selected');
+
+                    }
+                });
+            });
+        });
+
+
+
+
+        function tanya() {
+            var agree = confirm("Yakin ingin menghapus kegiatan ini ?");
+            if (agree)
+                return true;
+            else
+                return false
+        }
+
+    </script>
+@endSection

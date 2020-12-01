@@ -45,6 +45,7 @@ Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\
     $router->get('pck/byid', 'PenilaianCapKinerjaController@byid')->name('pck_byid');
     $router->post('pck/update', 'PenilaianCapKinerjaController@updatePck')->name('admin_pegawai_update_pck');
     $router->post('pck/delete', 'PenilaianCapKinerjaController@deletePck')->name('admin_pegawai_delete_pck');    
+    $router->get('rekup', 'PenilaianCapKinerjaController@rekup')->name('admin_rekup');    
     
     $router->get('/', 'PegawaiController@index')->name('admin_pegawai');
     $router->get('id', 'PegawaiController@byId')->name('admin_id_pegawai');

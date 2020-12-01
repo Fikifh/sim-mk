@@ -169,6 +169,35 @@ class PenilaianCapKinerjaController extends Controller
         } else {
             return redirect()->route('admin_penilaian_capaian_kinerja', ['user_id' => $req->user_id])->with(['info' => 'gagal menghapus pck, data tidak ditemukan !']);
         }
+    }
 
+    public function rekup(Request $req) {
+
+        $rekap = User::leftJoin('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
+                    ->leftJoin('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')                    
+                    ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')                    
+                    ->whereYear('indikator_kerjas.periode', $req->tahun)                    
+                    ->whereMonth('indikator_kerjas.periode', $req->bulan)                    
+                    ->select([
+                        'users.id',
+                        'users.nama',
+                        'users.golongan',
+                        'users.jabatan',
+                        'users.unit_kerja',
+                        'users.nip',                        
+                        'indikator_kerjas.periode',
+                        DB::raw('avg(uraian_kegiatans.mutu_target) as target'),
+                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
+                        DB::raw('((avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
+                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan')
+                    ])->groupBy('users.id')->get();                    
+
+                    $data['rekap'] = $rekap;                    
+                    $data['page_title'] = 'Rekapitulasi Penilaian Capaian Kinerja Pegawai';
+                    $data['i'] = 1;                  
+                    if($req->is_print){
+                        return view('admin.print_rekap')->with($data);    
+                    }
+                    return view('admin.rekap')->with($data);
     }
 }

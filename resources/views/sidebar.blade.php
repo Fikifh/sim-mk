@@ -63,6 +63,14 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-toggle="modal" data-target="#adminRekapModal">
+                            <i class="nav-icon fas fa-calendar-alt"></i>
+                            <p>
+                                Rekap
+                            </p>
+                        </a>
+                    </li>
 
                     <li class="nav-header">Penugasan</li>
                     <li class="nav-item">
@@ -197,6 +205,59 @@
                             <option></option>
                         </select>
                         <small class="text-muted">silahkan untuk memilih pegawai </small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Lihat</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="adminRekapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="laporanModal">Pilih Waktu:</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form action={{ route('admin_rekup') }} method="GET">
+                    @csrf                    
+                    <div class="form-group">
+                        <label for="email" class="control-label">Bulan:</label><br>
+                        <select name="bulan" id="rekup_bulan" class="form-control">
+                            <option value="1">Januari</option>
+                            <option value="2">Februai</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                        <small class="text-muted">silahkan untuk memilih bulan yang ingin ditampilkan </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="control-label">Tahun:</label><br>
+                        <select name="tahun" id="rekup_tahun" class="form-control">
+                            <?php 
+                                $currentYear =  \Carbon\Carbon::now()->year ;
+                                $initYear = $currentYear - 10;
+                                ?>
+                            @for($i=$initYear; $i <= $currentYear; $i++)
+                                <option value={{$i}}>{{$i}}</option>
+                            @endfor
+                        </select>
+                        <small class="text-muted">silahkan untuk memilih bulan yang ingin ditampilkan </small>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Lihat</button>

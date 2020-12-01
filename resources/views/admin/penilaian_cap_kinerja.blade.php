@@ -42,7 +42,7 @@
             <div class="col-12">
                 <div class="float-right">
                     <a href={{ route('admin_penilaian_capaian_kinerja', ['is_print' => true, 'user_id' => $user->id, 'periode' => null])}}
-                        title="Print Laporan">
+                        title="Print Laporan" target="_blank    ">
                         <button class="btn btn-sm purple-gradient">
                            <i class="fas fa-print"></i>
                         </button>
