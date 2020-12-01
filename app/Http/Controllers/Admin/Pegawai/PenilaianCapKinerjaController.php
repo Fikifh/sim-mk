@@ -194,9 +194,11 @@ class PenilaianCapKinerjaController extends Controller
 
                     $data['rekap'] = $rekap;                    
                     $data['page_title'] = 'Rekapitulasi Penilaian Capaian Kinerja Pegawai';
-                    $data['i'] = 1;                  
+                    $data['i'] = 1;        
+                    $data['bulan'] = $req->bulan;
+                    $data['tahun'] = $req->tahun;
                     if($req->is_print){
-                        return view('admin.print_rekap')->with($data);    
+                        return view('admin.rekap_print')->with($data);    
                     }
                     return view('admin.rekap')->with($data);
     }

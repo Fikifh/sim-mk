@@ -18,6 +18,10 @@ class PerjanjianKinerjaController extends Controller
         $data['page_title'] = 'Penjajian Kinerja';
         $data['i'] = 1;
         $data['j'] = 1;
+        $data['user_id'] = $req->user_id;
+        if($req->is_print){
+            return view('pegawai.perjanjian_kerja_print')->with($data);    
+        }
         return view('pegawai.perjanjian_kerja')->with($data);
     }
 

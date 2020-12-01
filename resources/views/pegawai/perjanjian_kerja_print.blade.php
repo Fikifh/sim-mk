@@ -1,139 +1,208 @@
-@extends('admin_template')
-@section('content')
+<!DOCTYPE html>
+<html lang="en">
+
+<head>    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">    
+
+    <link rel="shortcut icon" href={{asset('asset/logo_icon.jpg')}} type="image/x-icon">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href={{ asset('bower_components/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}>
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href={{ asset('bower_components/AdminLTE/dist/css/adminlte.min.css') }}>
+    <!-- DataTables -->
+    <link rel="stylesheet"
+        href={{ asset('bower_components/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}>
+    <link rel="stylesheet"
+        href={{ asset('bower_components/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}>
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    
+    {{-- MDB Bootstrap --}}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">    
+</head>
+
+<body class="hold-transition sidebar-mini">
+
     <div class="container-fluid">
         <div class="row">
-            <div class="col-4">
-                <table class="" style="margin-bottom:10px;">
-                    <?php 
-                    $bulan = $rekap->first() ? \Carbon\Carbon::parse($rekap->first()->periode)->month : null; 
-                    $tahun = $rekap->first() ? \Carbon\Carbon::parse($rekap->first()->periode)->year : null; 
-                    $date = $rekap->first() ? \Carbon\Carbon::parse($rekap->first()->periode)->format('M Y') : null; 
-                    
-                    ?>                
-                    <tr>
-                        <td>{{$date}}</td>                        
-                    </tr>                                            
-                </table>                               
-            </div>
-            <div class="col-12">
-                <div class="float-right">
-                    <a href={{ route('admin_rekup', ['is_print' => true, 'bulan' => $bulan, 'tahun' => $tahun])}}
-                        title="Print Laporan" target="_blank    ">
-                        <button class="btn btn-sm purple-gradient">
-                           <i class="fas fa-print"></i>
-                        </button>
-                    </a>                    
-                </div> 
-            </div>
-            <div class="col-12">                
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title text-muted" style="margin-top : 10px;">{{$page_title}}</h3>                            
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="table_sasaran" class="table table-bordered ">
-                                    <thead>
+            {{-- <div class="col-12"> --}}
+                <div class="col-12">                    
+                    <!-- /.card-header -->                    
+                    {{-- <div class="col-12"> --}}
+                        <div class="col-12">
+                            <table id="table_sasaran" class="table table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">Sasaran Kegiatan</th>
+                                        <th rowspan="2">Indikator Kinerja</th>
+                                        <th rowspan="2">Target Mutu</th>
+                                        <th rowspan="2">Target Qty</th>
+                                        <th rowspan="2">Satuan</th>
+                                        <th colspan="12" style="vertical-align : middle;text-align:center;">Waktu
+                                            Penyelesaian</th>
+                                        <th>Anggaran</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Jan</th>
+                                        <th>Feb</th>
+                                        <th>Mar</th>
+                                        <th>Apr</th>
+                                        <th>Mei</th>
+                                        <th>Jun</th>
+                                        <th>Jul</th>
+                                        <th>Ag</th>
+                                        <th>Sept</th>
+                                        <th>Okt</th>
+                                        <th>Nov</th>
+                                        <th>Des</th>
+                                        <th>Rp.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($sasaran_kegiatan as $sasaran)
                                         <tr>
-                                            <th>No</th>
-                                            <th style="vertical-align : middle;text-align:center;">Nama</th>
-                                            <th style="vertical-align : middle;text-align:center;">AK</th>
-                                            <th style="vertical-align : middle;text-align:center;">Jabatan</th>
-                                            <th style="vertical-align : middle;text-align:center;">Capaian Kinerja
-                                            </th>
-                                            <th style="vertical-align : middle;text-align:center;">Keterangan
-                                            </th>
-                                        <tr>                                    
-                                    </thead>
-                                    <tbody>                                        
-                                        @foreach ($rekap as $item)
+                                            <td rowspan={{ $sasaran->indikatorKerjas->count('id') + 1 }}>
+                                                {{ $i++ . '. ' . $sasaran->nama }}                                                
+                                            </td>
+                                        </tr>
+                                        @foreach ($sasaran->indikatorKerjas as $indikatorKerja)
                                             <tr>
-                                                <td>{{$i++}}</td>
                                                 <td>
-                                                    {{$item->nama }}                                                    
+                                                    {{ $j++ . '. ' . $indikatorKerja->nama }}                                                   
                                                 </td>
-                                                <td>{{ $item->ak_target }}</td>
-                                                <td>{{ $item->jabatan }}</td>
-                                                <td>{{ round($item->nilai_capaian, 3) }}
-                                                    <?php 
-                                                    $nilaiCapaian = \App\Models\NilaiCapaian::where('nilai_angka_min', '<=', round($item->nilai_capaian, 3)) ->where('nilai_angka', '>=', round($item->nilai_capaian, 3))->first(); 
-                                                    ?>
-                                                            @if ($nilaiCapaian)
-                                                                ({{ $nilaiCapaian->nilai_text }})
-                                                            @endif
+                                                <td>{{ $indikatorKerja->mutu }}</td>
+                                                <td>{{ $indikatorKerja->qty }}</td>
+                                                <td>{{ $indikatorKerja->satuan }}</td>
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($indikatorKerja->periode)->month == 1)
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @endif
                                                 </td>
-                                                <td></td>                                                                                                                                                
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($indikatorKerja->periode)->month == 2)
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($indikatorKerja->periode)->month == 3)
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($indikatorKerja->periode)->month == 4)
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($indikatorKerja->periode)->month == 5)
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($indikatorKerja->periode)->month == 6)
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($indikatorKerja->periode)->month == 7)
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($indikatorKerja->periode)->month == 8)
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($indikatorKerja->periode)->month == 9)
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($indikatorKerja->periode)->month == 10)
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($indikatorKerja->periode)->month == 11)
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($indikatorKerja->periode)->month == 12)
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $indikatorKerja->pagu_anggaran }}</td>
                                             </tr>
+                                            <?php if ($j == $sasaran->indikatorKerjas->count('id') + 1) {
+                                            $j = 1;
+                                            } ?>
                                         @endforeach
-                                    </tbody>                                    
-                                </table>
-                            </div>
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Sasaran Kegiatan</th>
+                                        <th>Indikator Kinerja</th>
+                                        <th>Target Mutu</th>
+                                        <th>Target Qty</th>
+                                        <th>Satuan</th>
+                                        <th>Jan</th>
+                                        <th>Feb</th>
+                                        <th>Mar</th>
+                                        <th>Apr</th>
+                                        <th>Mei</th>
+                                        <th>Jun</th>
+                                        <th>Jul</th>
+                                        <th>Ag</th>
+                                        <th>Sept</th>
+                                        <th>Okt</th>
+                                        <th>Nov</th>
+                                        <th>Des</th>
+                                        <th>Rp.</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->                
-            </div>
+                    {{-- </div> --}}
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            {{-- </div> --}}
             <!-- /.col -->
         </div>
     </div>
     <!-- en container fluid -->
 
 
-    <!-- Add  Kegiatan Tugas Jabatan Modal -->
-    <div class="modal fade" id="addKegiatanTugasJabatan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <!-- Add  Sasaran Kegiatan Modal -->
+    <div class="modal fade" id="addSasaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Tambahkan Kegiatan Tugas Jabatan</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">Tambahkan Sasaran Kegiatan</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('admin_pegawai_add_tugas_jabatan') }} method="POST">
+                    <form action={{ route('pegawai_add_sasaran') }} method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Kegiatan Tugas Jabatan (*):</label>
-                            <input type="text" name="uraian_kegiatan" class="form-control" required="true"
-                                id="add_kegiiatan_tugas_uraian">
-                            <input type="number" hidden="true" name="indikator_kerjas_id" class="form-control"
-                                required="true" id="add_kegiiatan_indikator_kerja_id">
-                            <input type="number" hidden="true" name="user_id" class="form-control" required="true"
-                                id="add_kegiatan_indikator_kerja_user_id">
-                            <small class="text-muted">tanda (*) adalah wajib diisi</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">AK Target(*):</label>
-                            <input type="number" name="ak_target" class="form-control" required="true"
-                                id="add_kegiiatan_tugas_ak_target">
-                            <small class="text-muted">tanda (*) adalah wajib diisi</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">Mutu Target(*):</label>
-                            <input type="number" name="mutu_target" class="form-control" required="true"
-                                id="add_kegiiatan_tugas_mutu_target">
-                            <small class="text-muted">tanda (*) adalah wajib diisi</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">Qty Target(*):</label>
-                            <input type="number" name="qty_target" class="form-control" required="true"
-                                id="add_kegiiatan_tugas_qty_target">
-                            <small class="text-muted">tanda (*) adalah wajib diisi</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">AK Realisasi:</label>
-                            <input type="number" name="ak_realisasi" class="form-control"
-                                id="add_kegiiatan_tugas_ak_realisasi">
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">Mutu Realisasi:</label>
-                            <input type="number" name="mutu_realisasi" class="form-control"
-                                id="add_kegiiatan_tugas_mutu_realisasi">
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">Qty Realisasi:</label>
-                            <input type="text" name="qty_realisasi" class="form-control"
-                                id="add_kegiiatan_tugas_qty_realisasi">
+                            <label for="recipient-name" class="control-label">Sasaran:</label>
+                            <input type="text" name="sasaran" class="form-control" required="true" id="add_sasaran_id">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Tambah</button>
@@ -144,75 +213,9 @@
             </div>
         </div>
     </div>
-
-    <!-- Edit  Kegiatan Tugas Jabatan Modal -->
-    <div class="modal fade" id="editKegiatanTugasJabatan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Ubah Kegiatan Tugas Jabatan</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <form action={{ route('admin_pegawai_update_pck') }} method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">Kegiatan Tugas Jabatan (*):</label>
-                            <input type="text" name="uraian_kegiatan" class="form-control" required="true"
-                                id="edit_kegiatan_tugas_uraian">
-                            <input type="number" hidden="true" name="id" class="form-control" required="true"
-                                id="edit_kegiatan_tugas_id">
-                            <input type="number" hidden="true" name="user_id" class="form-control" required="true"
-                                id="edit_kegiatan_tugas_user_id">
-                            <small class="text-muted">tanda (*) adalah wajib diisi</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">AK Target(*):</label>
-                            <input type="number" name="ak_target" class="form-control" required="true"
-                                id="edit_kegiatan_tugas_ak_target">
-                            <small class="text-muted">tanda (*) adalah wajib diisi</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">Mutu Target(*):</label>
-                            <input type="number" name="mutu_target" class="form-control" required="true"
-                                id="edit_kegiatan_tugas_mutu_target">
-                            <small class="text-muted">tanda (*) adalah wajib diisi</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">Qty Target(*):</label>
-                            <input type="number" name="qty_target" class="form-control" required="true"
-                                id="edit_kegiatan_tugas_qty_target">
-                            <small class="text-muted">tanda (*) adalah wajib diisi</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">AK Realisasi:</label>
-                            <input type="number" name="ak_realisasi" class="form-control"
-                                id="edit_kegiatan_tugas_ak_realisasi">
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">Mutu Realisasi:</label>
-                            <input type="number" name="mutu_realisasi" class="form-control"
-                                id="edit_kegiatan_tugas_mutu_realisasi">
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="control-label">Qty Realisasi:</label>
-                            <input type="text" name="qty_realisasi" class="form-control"
-                                id="edit_kegiatan_tugas_qty_realisasi">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Tambah</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <!-- delete Sasaran Kegiatan Modal -->
-    <div class="modal fade" id="deleteKegiatanTugasJabatan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal fade" id="deleteSasaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -221,13 +224,11 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('admin_pegawai_delete_pck') }} method="POST">
+                    <form action={{ route('pegawai_delete_sasaran') }} method="GET">
                         @csrf
                         <div class="form-group">
-                            <input type="text" name="id" hidden="true" class="form-control" required="true"
-                                id="delete_pck_id">
-                            <input type="text" name="user_id" hidden="true" class="form-control" required="true"
-                                id="delete_user_id">
+                            <input type="text" name="sasaran_id" hidden="true" class="form-control" required="true"
+                                id="delete_sasaran_id">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger">Hapus</button>
@@ -258,6 +259,33 @@
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger">Hapus</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Sasaran Kegiatan -->
+    <div class="modal fade" id="editSasaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Ubah Sasaran Kegiatan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <form action={{ route('pegawai_update_sasaran') }} method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">Sasaran:</label>
+                            <input type="text" name="id" class="form-control" id="edit_sasaran_uid" hidden="true">
+                            <input type="text" name="sasaran" class="form-control" required="true" id="edit_sasaran_id">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Ubah</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
                         </div>
                     </form>
                 </div>
@@ -425,50 +453,9 @@
                 });
             });
 
-            $('#addKegiatanTugasJabatan').on('show.bs.modal', function(e) {
+            $('#deleteSasaran').on('show.bs.modal', function(e) {
                 var id = $(e.relatedTarget).data('id');
-                $('#add_kegiiatan_indikator_kerja_id').val(id);
-                $('#add_kegiatan_indikator_kerja_user_id').val({
-                    {
-                        
-                    }
-                });
-            });
-
-            $('#editKegiatanTugasJabatan').on('show.bs.modal', function(e) {
-                var id = $(e.relatedTarget).data('id');
-                $('#edit_kegiatan_tugas_id').val(id);
-                $('#edit_kegiatan_tugas_user_id').val({
-                    {
-                        
-                    }
-                });
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ url('admin/pegawai/pck/byid') }}?id=" + id,
-                    success: function(data) {
-                        $('#edit_kegiatan_tugas_uraian').val(data.uraian_kegiatan);
-                        $('#edit_kegiatan_indikator_kerja_id').val(data.id_indikator_kerjas);
-                        $('#edit_kegiatan_tugas_ak_target').val(data.ak_target);
-                        $('#edit_kegiatan_tugas_mutu_target').val(data.mutu_target);
-                        $('#edit_kegiatan_tugas_qty_target').val(data.qtt_target);
-                        $('#edit_kegiatan_tugas_ak_realisasi').val(data.ak_realisasi);
-                        $('#edit_kegiatan_tugas_mutu_realisasi').val(data.mutu_realisasi);
-                        $('#edit_kegiatan_tugas_qty_realisasi').val(data.qty_realisasi);
-                    }
-                });
-
-            });
-
-
-            $('#deleteKegiatanTugasJabatan').on('show.bs.modal', function(e) {
-                var id = $(e.relatedTarget).data('id');
-                $('#delete_pck_id').val(id);
-                $('#delete_user_id').val({
-                    {
-                        
-                    }
-                });
+                $('#delete_sasaran_id').val(id);
             });
 
             $('#deleteIndikator').on('show.bs.modal', function(e) {
@@ -572,4 +559,44 @@
         }
 
     </script>
-@endSection
+
+</body>  
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $( window ).on( "load",  window.print());
+    });
+</script>
+
+<!-- ion icons -->
+<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+
+<!-- jQuery -->
+<script src={{ asset("bower_components/AdminLTE/plugins/jquery/jquery.min.js") }}></script>
+<!-- Bootstrap 4 -->
+<script src={{ asset("bower_components/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js") }}></script>
+<!-- DataTables -->
+<script src={{ asset("bower_components/AdminLTE/plugins/datatables/jquery.dataTables.min.js") }}></script>
+<script src={{ asset("bower_components/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js") }}></script>
+<script src={{ asset("bower_components/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js") }}></script>
+<script src={{ asset("bower_components/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js") }}></script>
+<!-- AdminLTE App -->
+<script src={{ asset("bower_components/AdminLTE/dist/js/adminlte.min.js") }}></script>
+<!-- AdminLTE for demo purposes -->
+<script src={{ asset("bower_components/AdminLTE/dist/js/demo.js") }}></script>
+<!-- sweet alert -->
+<script src= {{ asset("bower_components/AdminLTE/plugins/sweetalert2/sweetalert2.min.js") }}></script>
+
+{{-- MDD Bootstrap --}} 
+ <!-- Bootstrap tooltips -->
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+ <!-- Bootstrap core JavaScript -->
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+ <!-- MDB core JavaScript -->
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+
+</body>
+</html>

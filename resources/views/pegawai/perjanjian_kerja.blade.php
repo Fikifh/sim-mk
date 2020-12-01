@@ -15,9 +15,11 @@
                         <div class="float-right">
                             <form>
                                 <select name="year" id="" class="form-control">
-                                    <?php $firstYear = \Carbon\Carbon::now()->year - 10; ?>
-                                    @for ($i = 0; $i < 19; $i++)
-                                        <option>{{ $firstYear++ }}</option>
+                                    <?php $firstYear = \Carbon\Carbon::now()->year; 
+                                        $lastYear = $firstYear-10;
+                                    ?>
+                                    @for ($i = $firstYear; $i > $lastYear; $i--)
+                                        <option>{{ $i}}</option>
                                     @endfor
                                 </select>
                                 <button class="btn-sm btn purple-gradient" type="button" data-toggle="collapse"
@@ -26,6 +28,12 @@
                                     Filter
                                 </button>
                             </form>
+                            <a href={{ route('perjanjian_kerja', ['is_print' => true, 'user_id' => $user_id])}}
+                                title="Print Laporan" target="_blank    ">
+                                <button class="btn btn-sm purple-gradient">
+                                   <i class="fas fa-print"></i>
+                                </button>
+                            </a>
                         </div>
                     </div>
                     <!-- /.card-header -->
