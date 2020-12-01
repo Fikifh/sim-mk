@@ -244,8 +244,8 @@
                             <input type="text" name="uraian_kegiatan" class="form-control" required="true"
                                 id="add_kegiiatan_tugas_uraian">
                             <input type="number" hidden="true" name="indikator_kerjas_id" class="form-control"
-                                required="true" id="add_kegiiatan_indikator_kerja_id">
-                            <input type="number" hidden="true" name="user_id" class="form-control" required="true"
+                                 id="add_kegiiatan_indikator_kerja_id">
+                            <input type="number" hidden="true" name="user_id" class="form-control" 
                                 id="add_kegiatan_indikator_kerja_user_id">
                             <small class="text-muted">tanda (*) adalah wajib diisi</small>
                         </div>
@@ -575,21 +575,13 @@
             $('#addKegiatanTugasJabatan').on('show.bs.modal', function(e) {
                 var id = $(e.relatedTarget).data('id');
                 $('#add_kegiiatan_indikator_kerja_id').val(id);
-                $('#add_kegiatan_indikator_kerja_user_id').val({
-                    {
-                        $user - > id
-                    }
-                });
+                $('#add_kegiatan_indikator_kerja_user_id').val({{$user->id}});
             });
 
             $('#editKegiatanTugasJabatan').on('show.bs.modal', function(e) {
                 var id = $(e.relatedTarget).data('id');
                 $('#edit_kegiatan_tugas_id').val(id);
-                $('#edit_kegiatan_tugas_user_id').val({
-                    {
-                        $user - > id
-                    }
-                });
+                $('#edit_kegiatan_tugas_user_id').val({{$user->id}});
                 $.ajax({
                     type: 'GET',
                     url: "{{ url('admin/pegawai/pck/byid') }}?id=" + id,
@@ -611,11 +603,7 @@
             $('#deleteKegiatanTugasJabatan').on('show.bs.modal', function(e) {
                 var id = $(e.relatedTarget).data('id');
                 $('#delete_pck_id').val(id);
-                $('#delete_user_id').val({
-                    {
-                        $user - > id
-                    }
-                });
+                $('#delete_user_id').val({{$user->id}});
             });
 
             $('#deleteIndikator').on('show.bs.modal', function(e) {

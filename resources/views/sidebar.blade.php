@@ -71,16 +71,7 @@
                             </p>
                         </a>
                     </li>
-
-                    <li class="nav-header">Penugasan</li>
-                    <li class="nav-item">
-                        <a href={{ route('kegiatan') }} class="nav-link">
-                            <i class="nav-icon fas fa-calendar-alt"></i>
-                            <p>
-                                Indikator Kerja
-                            </p>
-                        </a>
-                    </li>
+                    
                     <li class="nav-header">Data Pegawai</li>
                     <li class="nav-item">
                         <a href={{ route('admin_pegawai') }} class="nav-link">
@@ -89,16 +80,7 @@
                                 Pegawai
                             </p>
                         </a>
-                    </li>
-                    <li class="nav-header">Data Laporan</li>
-                    <li class="nav-item">
-                        <a href='#' class="nav-link" data-toggle="modal" data-target="#laporanModal">
-                            <i class="nav-icon fas fa-book"></i>
-                            <p>
-                                Laporan
-                            </p>
-                        </a>
-                    </li>
+                    </li>                   
                 @else
                     <li class="nav-item">
                         <a href={{ route('kegiatan_pegawai') }} class="nav-link">
