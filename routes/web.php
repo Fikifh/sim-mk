@@ -42,6 +42,9 @@ Route::group(['prefix' => 'admin/laporan', 'namespace' => 'App\Http\Controllers\
 Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\Admin\Pegawai'], function($router){
     $router->get('penilaian_cap_kinerja', 'PenilaianCapKinerjaController@index')->name('admin_penilaian_capaian_kinerja');
     $router->post('tugas_jabatan', 'PenilaianCapKinerjaController@createTugasJabatan')->name('admin_pegawai_add_tugas_jabatan');
+    $router->get('pck/byid', 'PenilaianCapKinerjaController@byid')->name('pck_byid');
+    $router->post('pck/update', 'PenilaianCapKinerjaController@updatePck')->name('admin_pegawai_update_pck');
+    $router->post('pck/delete', 'PenilaianCapKinerjaController@deletePck')->name('admin_pegawai_delete_pck');    
     
     $router->get('/', 'PegawaiController@index')->name('admin_pegawai');
     $router->get('id', 'PegawaiController@byId')->name('admin_id_pegawai');

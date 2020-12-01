@@ -1,6 +1,6 @@
 @extends('admin_template')
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" onload="window.print();">
         <div class="row">
             <div class="col-4">
                 <table class="" style="margin-bottom:10px;">
@@ -41,7 +41,7 @@
             </div>
             <div class="col-12">
                 <div class="float-right">
-                    <a href={{ route('admin_penilaian_capaian_kinerja', ['is_print' => true, 'user_id' => $user->id, 'periode' => null])}}
+                    <a href={{ route('admin_penilaian_capaian_kinerja', ['user_id' => $user->id, 'periode' => null])}}
                         title="Print Laporan">
                         <button class="btn btn-sm purple-gradient">
                            <i class="fas fa-print"></i>
@@ -531,7 +531,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-
+            window.print();
             $('#filter_id').on('click', function() {
                 var from = $('#from_id').val();
                 var to = $('#to_id').val();
@@ -559,7 +559,7 @@
 
 
         $(document).ready(function() {
-
+            window.print();
             $('#editSasaran').on('show.bs.modal', function(e) {
                 var id = $(e.relatedTarget).data('id');
                 $.ajax({
@@ -706,6 +706,7 @@
                 });
             });
         });
+
 
 
 
