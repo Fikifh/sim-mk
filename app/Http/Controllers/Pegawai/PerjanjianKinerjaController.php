@@ -15,7 +15,7 @@ class PerjanjianKinerjaController extends Controller
     {
         $userId = Auth::user()->id;
         if($req->year != null){
-            $sasaranKegiatan = SasaranKegiatan::whereYear('sasaran_kegiatan.created_at', $req->year)->rightJoin('indikator_kerjas', 'sasaran_kegiatan.id', 'indikator_kerjas.sasaran_kegiatan_id')
+            $sasaranKegiatan = SasaranKegiatan::whereYear('sasaran_kegiatan.created_at', $req->year)->leftjoin('indikator_kerjas', 'sasaran_kegiatan.id', 'indikator_kerjas.sasaran_kegiatan_id')
                 ->where('indikator_kerjas.users_id', $userId)                
                 ->select([
                     "sasaran_kegiatan.id",
@@ -29,9 +29,9 @@ class PerjanjianKinerjaController extends Controller
                     "indikator_kerjas.satuan",
                     "indikator_kerjas.pagu_anggaran",
                     "indikator_kerjas.users_id",
-                ])->get();    
+                ])->groupBy('sasaran_kegiatan.id')->get();    
         } else {
-            $sasaranKegiatan = SasaranKegiatan::whereYear('sasaran_kegiatan.created_at', Carbon::now()->year)->rightJoin('indikator_kerjas', 'sasaran_kegiatan.id', 'indikator_kerjas.sasaran_kegiatan_id')
+            $sasaranKegiatan = SasaranKegiatan::whereYear('sasaran_kegiatan.created_at', Carbon::now()->year)->leftjoin('indikator_kerjas', 'sasaran_kegiatan.id', 'indikator_kerjas.sasaran_kegiatan_id')
                 ->where('indikator_kerjas.users_id', $userId)                
                 ->select([
                     "sasaran_kegiatan.id",
@@ -45,12 +45,11 @@ class PerjanjianKinerjaController extends Controller
                     "indikator_kerjas.satuan",
                     "indikator_kerjas.pagu_anggaran",
                     "indikator_kerjas.users_id",
-                ])->get();    
+                ])->groupBy('sasaran_kegiatan.id')->get();    
         }    
-        if(sizeof($sasaranKegiatan) <= 0){
-            $sasaranKegiatan = SasaranKegiatan::whereYear('sasaran_kegiatan.created_at', Carbon::now()->year)->doesntHave('indikatorKerjas')->get();
-        }
-        $data['sasaran_kegiatan'] = $sasaranKegiatan;
+        
+        $sasaranKegiatanNotIk = SasaranKegiatan::whereYear('sasaran_kegiatan.created_at', Carbon::now()->year)->doesntHave('indikatorKerjas')->get();        
+        $data['sasaran_kegiatan'] = $sasaranKegiatan->merge($sasaranKegiatanNotIk);
         $data['page_title'] = 'Penjajian Kinerja';
         $data['i'] = 1;
         $data['j'] = 1;

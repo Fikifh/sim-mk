@@ -84,22 +84,23 @@
                 <div class="float-right">                                
                     <table>
                         <tr>
-                            <td><p>Kepala Biro Perencanaan dan Organisasi</p></td>
-                        </tr>                                        
+                                <td><p>Ketua Pengadilan Negeri Banjar</p></td>
+                        </tr>
+                    
                         <tr>                                
-                            <td><p></p></td>                                                             
+                            <td><p></p></td>                                                              
                         </tr>
                         <tr>                                
-                            <td><p></p></td>                                                             
+                            <td><p></p></td>                                                           
                         </tr>
                         <tr>                                
-                            <td><p></p></td>                                                          
+                            <td><p></p></td>                                                         
                         </tr>
                         <tr>                                    
-                            <td>Edi Yuniadi</td>
+                            <td>Kusman, S.H., M.H.</td>
                         </tr>
                         <tr>                                    
-                            <td>NIP. 19730601 199402 1 001</td>
+                            <td>NIP. 19761024 200112 1 004</td>
                         </tr>
                     </table>
                 </div>                        
