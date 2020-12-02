@@ -406,14 +406,7 @@
                         <div class="form-group">
                             <label for="periode" class="control-label">Periode:</label>
                             <input type="date" name="periode" class="form-control" required="true" id="update_periode">
-                        </div>
-                        <div class="form-group">
-                            <label for="ditugaskan" class="control-label">Pegawai:</label>
-                            <select required="true" class="form-control" name="ditugaskan" id="update_ditugaskan_id">
-                                <option>
-                                </option>
-                            </select>
-                        </div>
+                        </div>                        
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Ubah</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
