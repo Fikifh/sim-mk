@@ -16,7 +16,7 @@ class PerjanjianKinerjaController extends Controller
         $userId = Auth::user()->id;
         if($req->year != null){
             $sasaranKegiatan = SasaranKegiatan::whereYear('sasaran_kegiatan.created_at', $req->year)->join('indikator_kerjas', 'sasaran_kegiatan.id', 'indikator_kerjas.sasaran_kegiatan_id')
-                ->where('indikator_kerjas.users_id', $userId)
+                ->orWhere('indikator_kerjas.users_id', $userId)
                 ->select([
                     "sasaran_kegiatan.id",
                     "sasaran_kegiatan.nama as nama",                    
@@ -32,7 +32,7 @@ class PerjanjianKinerjaController extends Controller
                 ])->get();    
         } else {
             $sasaranKegiatan = SasaranKegiatan::whereYear('sasaran_kegiatan.created_at', Carbon::now()->year)->join('indikator_kerjas', 'sasaran_kegiatan.id', 'indikator_kerjas.sasaran_kegiatan_id')
-                ->where('indikator_kerjas.users_id', $userId)
+                ->orWhere('indikator_kerjas.users_id', $userId)
                 ->select([
                     "sasaran_kegiatan.id",
                     "sasaran_kegiatan.nama as nama",                    
@@ -47,7 +47,7 @@ class PerjanjianKinerjaController extends Controller
                     "indikator_kerjas.users_id",
                 ])->get();    
         }    
-         
+                 
         $data['sasaran_kegiatan'] = $sasaranKegiatan;
         $data['page_title'] = 'Penjajian Kinerja';
         $data['i'] = 1;
