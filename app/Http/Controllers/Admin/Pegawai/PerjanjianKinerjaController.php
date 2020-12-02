@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Pegawai;
+namespace App\Http\Controllers\Admin\Pegawai;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,7 +17,8 @@ class PerjanjianKinerjaController extends Controller
             $sasaranKegiatan = SasaranKegiatan::whereYear('created_at', $req->year)->get();    
         } else {
             $sasaranKegiatan = SasaranKegiatan::whereYear('created_at', Carbon::now()->year)->get();
-        }       
+        }                
+
         $data['sasaran_kegiatan'] = $sasaranKegiatan;
         $data['page_title'] = 'Penjajian Kinerja';
         $data['i'] = 1;
@@ -25,9 +26,9 @@ class PerjanjianKinerjaController extends Controller
         $data['user_id'] = $req->user_id;
         $data['year'] = $req->year;
         if($req->is_print){
-            return view('pegawai.perjanjian_kerja_print')->with($data);    
+            return view('admin.perjanjian_kerja_print')->with($data);    
         }
-        return view('pegawai.perjanjian_kerja')->with($data);
+        return view('admin.perjanjian_kerja')->with($data);
     }
 
     public function  createSasaran(Request $req)
@@ -36,16 +37,16 @@ class PerjanjianKinerjaController extends Controller
         $sasaran->nama = $req->sasaran;
         $sasaran->created_by = Auth::user()->id;
         $sasaran->save();
-        return redirect()->route('_perjanjian_kerja')->with(['success' => 'Berhasil menambahkan Sasaran !']);
+        return redirect()->route('perjanjian_kerja')->with(['success' => 'Berhasil menambahkan Sasaran !']);
     }
 
     public function deleteSasaran(Request $req) {
         $sasaran = SasaranKegiatan::find($req->sasaran_id);
         if ($sasaran) {
             $sasaran->delete();
-            return redirect()->route('_perjanjian_kerja')->with(['success' => 'Berhasil menghapus Sasaran !']);
+            return redirect()->route('perjanjian_kerja')->with(['success' => 'Berhasil menghapus Sasaran !']);
         } else {
-            return redirect()->route('_perjanjian_kerja')->with(['info' => 'gagal menghapus Sasaran !' ]);
+            return redirect()->route('perjanjian_kerja')->with(['info' => 'gagal menghapus Sasaran !' ]);
         }
     }
 
@@ -56,9 +57,9 @@ class PerjanjianKinerjaController extends Controller
             $sasaran->nama = $req->sasaran;
             $sasaran->created_by = Auth::user()->id;
             $sasaran->save();
-            return redirect()->route('_perjanjian_kerja')->with(['success' => 'Berhasil merubah Sasaran !']);
+            return redirect()->route('perjanjian_kerja')->with(['success' => 'Berhasil merubah Sasaran !']);
         } else {
-            return redirect()->route('_perjanjian_kerja')->with(['info' => 'gagal merubah Sasaran !' ]);
+            return redirect()->route('perjanjian_kerja')->with(['info' => 'gagal merubah Sasaran !' ]);
         }
     }
 
@@ -78,7 +79,7 @@ class PerjanjianKinerjaController extends Controller
         $indikatorKerja->users_id = $req->ditugaskan;
         $indikatorKerja->created_by = Auth::user()->id;
         $indikatorKerja->save();
-        return redirect()->route('_perjanjian_kerja')->with(['success' => 'Berhasil menambahkan Sasaran !']);        
+        return redirect()->route('perjanjian_kerja')->with(['success' => 'Berhasil menambahkan Sasaran !']);        
     }
 
     public function updateIndikatorKinerja(Request $req) {                                
@@ -92,9 +93,9 @@ class PerjanjianKinerjaController extends Controller
             $indikatorKerja->users_id = $req->ditugaskan;
             $indikatorKerja->created_by = Auth::user()->id;
             $indikatorKerja->save();
-            return redirect()->route('_perjanjian_kerja')->with(['success' => 'Berhasil mengubah indikator kerja !']);
+            return redirect()->route('perjanjian_kerja')->with(['success' => 'Berhasil mengubah indikator kerja !']);
         } else {
-            return redirect()->route('_perjanjian_kerja')->with(['info' => 'gagal mengubah indikator kerja ! ']);
+            return redirect()->route('perjanjian_kerja')->with(['info' => 'gagal mengubah indikator kerja ! ']);
         }     
     }
 
@@ -106,9 +107,9 @@ class PerjanjianKinerjaController extends Controller
         $indikatorKerja = IndikatorKerja::find($req->indikator_id);
         if($indikatorKerja){
             $indikatorKerja->delete();
-            return redirect()->route('_perjanjian_kerja')->with(['success' => 'Berhasil menghapus indikator kerja !']);
+            return redirect()->route('perjanjian_kerja')->with(['success' => 'Berhasil menghapus indikator kerja !']);
         } else {
-            return redirect()->route('_perjanjian_kerja')->with(['info' => 'gagal menghapus indikator kerja ! ']);
+            return redirect()->route('perjanjian_kerja')->with(['info' => 'gagal menghapus indikator kerja ! ']);
         }      
     }
 }

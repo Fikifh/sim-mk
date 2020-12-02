@@ -30,7 +30,7 @@
                                     </button>
                                 </a>
                             </form>
-                            <a href={{ route('_perjanjian_kerja', ['is_print' => true, 'user_id' => $user_id])}}
+                            <a href={{ route('perjanjian_kerja', ['is_print' => true, 'user_id' => $user_id])}}
                                 title="Print Laporan" target="_blank    ">
                                 <button class="btn btn-sm purple-gradient">
                                    <i class="fas fa-print"></i>
@@ -220,7 +220,7 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('_pegawai_add_sasaran') }} method="POST">
+                    <form action={{ route('pegawai_add_sasaran') }} method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="recipient-name" class="control-label">Sasaran:</label>
@@ -246,7 +246,7 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('_pegawai_delete_sasaran') }} method="GET">
+                    <form action={{ route('pegawai_delete_sasaran') }} method="GET">
                         @csrf
                         <div class="form-group">
                             <input type="text" name="sasaran_id" hidden="true" class="form-control" required="true"
@@ -298,7 +298,7 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('_pegawai_update_sasaran') }} method="POST">
+                    <form action={{ route('pegawai_update_sasaran') }} method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="recipient-name" class="control-label">Sasaran:</label>
@@ -434,8 +434,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-
-            
+             
             $("select#year_id").change(function(){
                 var selectedYear = $(this).children("option:selected").val();                             
                 var url = "{{ url('pegawai/perjanjian_kinerja?year=')}}"+ selectedYear+ "&user_id=" {{$user_id}};                    
@@ -480,7 +479,7 @@
                 var id = $(e.relatedTarget).data('id');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/pegawai/sasaran/byid') }}?id=" + id,
+                    url: "{{ url('admin/pegawai/sasaran/byid') }}?id=" + id,
                     success: function(data) {
                         $('#edit_sasaran_id').val(data.nama);
                         $('#edit_sasaran_uid').val(data.id);

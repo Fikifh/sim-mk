@@ -24,17 +24,17 @@ class PenilaianCapKinerjaController extends Controller
     public function index(Request $req)
     {
         $userId = $req->user_id;
-        $periode = $req->periode;
-        $year = $req->year;
+        $periode = $req->bulan;
+        $year = $req->tahun;
 
         if($periode != null && $year != null){
-            $indikatorKinerja = IndikatorKerja::where('users_id', $userId)->whereMonth('periode', Carbon::parse($periode)->month)->whereYear('periode', $year)->get();            
+            $indikatorKinerja = IndikatorKerja::where('users_id', $userId)->whereMonth('periode', $periode)->whereYear('periode', $year)->get();            
             $conclusion = User::leftJoin('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
                     ->leftJoin('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')                    
                     ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')
                     ->where('users.id', $userId)       
                     ->whereYear('indikator_kerjas.periode', $year)                    
-                    ->whereMonth('indikator_kerjas.periode', Carbon::parse($periode)->month)                    
+                    ->whereMonth('indikator_kerjas.periode', $periode)                    
                     ->select([
                         'users.id',
                         'users.nama',
@@ -49,12 +49,12 @@ class PenilaianCapKinerjaController extends Controller
                         DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan')
                     ])->groupBy('indikator_kerjas.id')->get();
         } elseif($periode != null && $year == null) {
-            $indikatorKinerja = IndikatorKerja::where('users_id', $userId)->whereMonth('periode', Carbon::parse($periode)->month)->get();
+            $indikatorKinerja = IndikatorKerja::where('users_id', $userId)->whereMonth('periode', $periode)->get();
             $conclusion = User::leftJoin('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
                     ->leftJoin('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')                    
                     ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')
                     ->where('users.id', $userId)       
-                    ->whereMonth('indikator_kerjas.periode', Carbon::parse($periode)->month)                    
+                    ->whereMonth('indikator_kerjas.periode', $periode)                    
                     ->select([
                         'users.id',
                         'users.nama',

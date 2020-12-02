@@ -1,46 +1,47 @@
-@extends('admin_template')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
+<head>    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">    
+
+    <link rel="shortcut icon" href={{asset('asset/logo_icon.jpg')}} type="image/x-icon">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href={{ asset('bower_components/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}>
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href={{ asset('bower_components/AdminLTE/dist/css/adminlte.min.css') }}>
+    <!-- DataTables -->
+    <link rel="stylesheet"
+        href={{ asset('bower_components/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}>
+    <link rel="stylesheet"
+        href={{ asset('bower_components/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}>
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    
+    {{-- MDB Bootstrap --}}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">    
+</head>
+
+<body class="hold-transition sidebar-mini">
+
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="float-left">
-                            <button class="btn-sm btn purple-gradient" style="float : left;" type="button"
-                                data-toggle="modal" data-target="#addSasaran">
-                                <i class="fas fa-plus"> Sasaran</i>
-                            </button>                            
-                        </div>
-                        <div class="float-right">
-                            <form>
-                                <select name="year" id="year_id" class="form-control">
-                                    <?php $firstYear = \Carbon\Carbon::now()->year; 
-                                        $lastYear = $firstYear-10;
-                                    ?>
-                                    @for ($s = $firstYear; $s > $lastYear; $s--)
-                                        <option>{{ $s}}</option>
-                                    @endfor
-                                </select>
-                                <a id="year_filter_id" title="Filter" href={{ route('_perjanjian_kerja', ['year' => $year, 'user_id' => $user_id])}} >
-                                    <button class="btn-sm btn purple-gradient" type="button" data-toggle="collapse"
-                                        data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                                        <i class="fas fa-filter"></i>
-                                        Filter
-                                    </button>
-                                </a>
-                            </form>
-                            <a href={{ route('_perjanjian_kerja', ['is_print' => true, 'user_id' => $user_id])}}
-                                title="Print Laporan" target="_blank    ">
-                                <button class="btn btn-sm purple-gradient">
-                                   <i class="fas fa-print"></i>
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="table-responsive">
+            {{-- <div class="col-12"> --}}
+                <div class="col-12">                    
+                    <!-- /.card-header -->                    
+                    {{-- <div class="col-12"> --}}
+                        <div class="col-12">
                             <table id="table_sasaran" class="table table-bordered ">
                                 <thead>
                                     <tr>
@@ -73,36 +74,13 @@
                                     @foreach ($sasaran_kegiatan as $sasaran)
                                         <tr>
                                             <td rowspan={{ $sasaran->indikatorKerjas->count('id') + 1 }}>
-                                                {{ $i++ . '. ' . $sasaran->nama }}
-                                                <br>
-                                                <meta name="csrf-token" content="{{ csrf_token() }}">
-                                                <a href="#editSasaran" data-toggle="modal" data-id="{{ $sasaran->id }}"
-                                                    title="Edit Sasaran Kegiatan">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#addIndikatorKinerja" data-toggle="modal"
-                                                    data-id="{{ $sasaran->id }}" title="Tambah Indikator Kinerja">
-                                                    <i class="fas fa-plus"></i>
-                                                </a>
-                                                <a href="#deleteSasaran" data-toggle="modal" data-id="{{ $sasaran->id }}"
-                                                    title="Hapus Indikator Kinerja">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
+                                                {{ $i++ . '. ' . $sasaran->nama }}                                                
                                             </td>
                                         </tr>
                                         @foreach ($sasaran->indikatorKerjas as $indikatorKerja)
                                             <tr>
                                                 <td>
-                                                    {{ $j++ . '. ' . $indikatorKerja->nama }}
-                                                    <meta name="csrf-token" content="{{ csrf_token() }}">
-                                                    <a href="#editIndikatorKinerja" data-toggle="modal"
-                                                        data-id="{{ $indikatorKerja->id }}" title="Ubah Indikator Kinerja">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <a href="#deleteIndikator" data-toggle="modal"
-                                                        data-id="{{ $indikatorKerja->id }}" title="Hapus Indikator Kinerja">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </a>
+                                                    {{ $j++ . '. ' . $indikatorKerja->nama }}                                                   
                                                 </td>
                                                 <td>{{ $indikatorKerja->mutu }}</td>
                                                 <td>{{ $indikatorKerja->qty }}</td>
@@ -199,12 +177,69 @@
                                 </tfoot>
                             </table>
                         </div>
-                    </div>
+                    {{-- </div> --}}
                     <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
-            </div>
-            <!-- /.col -->
+                <!-- /.col12 -->
+                <div class="col-12">
+                    <div class="float-right">
+                        <p> Jakarta,  {{\Carbon\Carbon::now()->isoFormat('D MMMM Y') }}
+                    </div>
+                </div>
+                <div class="col-12">                    
+                        <div class="row align-items-center justify-content-center">
+
+                            <div class="col-6" style="padding-left:100px;">
+                                <div class="float-left">   
+                                    <table>
+                                        <tr>
+                                                <td><p>Atasan Pejabat Penilai</p></td>
+                                        </tr>
+                                    
+                                        <tr>                                
+                                            <td><p></p></td>                                                              
+                                        </tr>
+                                        <tr>                                
+                                            <td><p></p></td>                                                           
+                                        </tr>
+                                        <tr>                                
+                                            <td><p></p></td>                                                         
+                                        </tr>
+                                        <tr>                                    
+                                            <td>Joko Upoyo Pribadi</td>
+                                        </tr>
+                                        <tr>                                    
+                                            <td>NIP. 19690321 199403 1 002</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>           
+                            <div class="col-6" >
+                                <div class="float-right">                                
+                                    <table>
+                                        <tr>
+                                            <td><p>Pejabat Penilai</p></td>
+                                        </tr>                                        
+                                        <tr>                                
+                                            <td><p></p></td>                                                             
+                                        </tr>
+                                        <tr>                                
+                                            <td><p></p></td>                                                             
+                                        </tr>
+                                        <tr>                                
+                                            <td><p></p></td>                                                          
+                                        </tr>
+                                        <tr>                                    
+                                            <td>Edi Yuniadi</td>
+                                        </tr>
+                                        <tr>                                    
+                                            <td>NIP. 19730601 199402 1 001</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>                            
+                        </div>                                            
+                </div>
         </div>
     </div>
     <!-- en container fluid -->
@@ -220,7 +255,7 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('_pegawai_add_sasaran') }} method="POST">
+                    <form action={{ route('pegawai_add_sasaran') }} method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="recipient-name" class="control-label">Sasaran:</label>
@@ -246,7 +281,7 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('_pegawai_delete_sasaran') }} method="GET">
+                    <form action={{ route('pegawai_delete_sasaran') }} method="GET">
                         @csrf
                         <div class="form-group">
                             <input type="text" name="sasaran_id" hidden="true" class="form-control" required="true"
@@ -298,7 +333,7 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('_pegawai_update_sasaran') }} method="POST">
+                    <form action={{ route('pegawai_update_sasaran') }} method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="recipient-name" class="control-label">Sasaran:</label>
@@ -434,19 +469,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-
-            
-            $("select#year_id").change(function(){
-                var selectedYear = $(this).children("option:selected").val();                             
-                var url = "{{ url('pegawai/perjanjian_kinerja?year=')}}"+ selectedYear+ "&user_id=" {{$user_id}};                    
-                $('#year_filter_id').attr('href', url);                    
-            });   
-            $('#year_filter_id').on('click', function(){
-                var selectedYear = $("select#year_id").children("option:selected").val();                             
-                var url = "{{ url('pegawai/perjanjian_kinerja?year=')}}"+ selectedYear+ "&user_id=" {{$user_id}};                    
-                $('#year_filter_id').attr('href', url);    
-            });
-            $("select#year_id").val({{$year}});      
 
             $('#filter_id').on('click', function() {
                 var from = $('#from_id').val();
@@ -594,4 +616,44 @@
         }
 
     </script>
-@endSection
+
+</body>  
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $( window ).on( "load",  window.print());
+    });
+</script>
+
+<!-- ion icons -->
+<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+
+<!-- jQuery -->
+<script src={{ asset("bower_components/AdminLTE/plugins/jquery/jquery.min.js") }}></script>
+<!-- Bootstrap 4 -->
+<script src={{ asset("bower_components/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js") }}></script>
+<!-- DataTables -->
+<script src={{ asset("bower_components/AdminLTE/plugins/datatables/jquery.dataTables.min.js") }}></script>
+<script src={{ asset("bower_components/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js") }}></script>
+<script src={{ asset("bower_components/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js") }}></script>
+<script src={{ asset("bower_components/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js") }}></script>
+<!-- AdminLTE App -->
+<script src={{ asset("bower_components/AdminLTE/dist/js/adminlte.min.js") }}></script>
+<!-- AdminLTE for demo purposes -->
+<script src={{ asset("bower_components/AdminLTE/dist/js/demo.js") }}></script>
+<!-- sweet alert -->
+<script src= {{ asset("bower_components/AdminLTE/plugins/sweetalert2/sweetalert2.min.js") }}></script>
+
+{{-- MDD Bootstrap --}} 
+ <!-- Bootstrap tooltips -->
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+ <!-- Bootstrap core JavaScript -->
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+ <!-- MDB core JavaScript -->
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+
+</body>
+</html>

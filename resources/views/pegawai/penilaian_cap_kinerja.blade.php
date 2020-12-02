@@ -7,6 +7,12 @@
                     <?php $user = $indikator_kinerjas->first() ? $indikator_kinerjas->first()->pegawai : null; ?>
                     @if ($user)
                         <tr>
+                            <td></td>
+                            <td>Bulan </td>
+                            <td></td>
+                            <td>{{ \Carbon\Carbon::parse($indikator_kinerjas->first()->periode)->isoFormat('MMMM Y')}}</td>
+                        </tr>                        
+                        <tr>
                             <td>1. </td>
                             <td>Nama</td>
                             <td>:</td>
@@ -41,7 +47,7 @@
             </div>
             <div class="col-12">
                 <div class="float-right">
-                    <a href={{ route('admin_penilaian_capaian_kinerja', ['is_print' => true, 'user_id' => $user ? $user->id : null, 'periode' => null])}}
+                    <a href={{ route('pegawai_penilaian_capaian_kinerja', ['is_print' => true, 'user_id' => $user ? $user->id : null, 'periode' => null])}}
                         title="Print Laporan" target="_blank    ">
                         <button class="btn btn-sm purple-gradient">
                            <i class="fas fa-print"></i>
@@ -154,7 +160,7 @@
                             <?php 
                                 $indikatorKerja = $indikator_kinerjas->first();                                
                                 ?>
-                            REKAPITULASI PENILAIAN CAPAIAN KINERJA REKAPITULASI PENILAIAN CAPAIAN KINERJA {{$indikatorKerja ? \Carbon\Carbon::parse($indikatorKerja->periode)->isoFormat('MMMM Y') : null}}
+                            REKAPITULASI PENILAIAN CAPAIAN KINERJA 
                             {{-- {{$indikatorKerja != null ? \Carbon\Carbon::parse($indikatorKerja->periode)->format('F Y') : null}} --}}
                         </div>
                     </div>
@@ -569,7 +575,7 @@
             $('#addKegiatanTugasJabatan').on('show.bs.modal', function(e) {
                 var id = $(e.relatedTarget).data('id');
                 $('#add_kegiiatan_indikator_kerja_id').val(id);
-                $('#add_kegiatan_indikator_kerja_user_id').val({{$user ? $user->id : null}});
+                $('#add_kegiatan_indikator_kerja_user_id').val({{$user ? $user->id: null }});
             });
 
             $('#editKegiatanTugasJabatan').on('show.bs.modal', function(e) {

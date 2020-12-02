@@ -1,6 +1,42 @@
-@extends('admin_template')
-@section('content')
-    <div class="container-fluid">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Aplikasi Rekap Kinerja</title>
+
+    <link rel="shortcut icon" href={{asset('asset/logo_icon.jpg')}} type="image/x-icon">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href={{ asset('bower_components/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}>
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href={{ asset('bower_components/AdminLTE/dist/css/adminlte.min.css') }}>
+    <!-- DataTables -->
+    <link rel="stylesheet"
+        href={{ asset('bower_components/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}>
+    <link rel="stylesheet"
+        href={{ asset('bower_components/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}>
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    
+    {{-- MDB Bootstrap --}}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">    
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="container-fluid" onload="window.print();">
         <div class="row">
             <div class="col-4">
                 <table class="" style="margin-bottom:10px;">
@@ -39,33 +75,18 @@
                     @endif
                 </table>                               
             </div>
-            <div class="col-12">
-                <div class="float-right">
-                    <a href={{ route('admin_penilaian_capaian_kinerja', ['is_print' => true, 'user_id' => $user ? $user->id : null, 'periode' => null])}}
-                        title="Print Laporan" target="_blank    ">
-                        <button class="btn btn-sm purple-gradient">
-                           <i class="fas fa-print"></i>
-                        </button>
-                    </a>                    
-                </div> 
-            </div>
-            <div class="col-12">
+                        
+            {{-- <div class="col-12"> --}}
                 @foreach ($indikator_kinerjas as $indikator_kinerja)
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="col-12">
+                        <div class="col-12">
                             <h3 class="card-title text-muted" style="margin-top : 10px;">Indikator Kinerja:
                                 {{ $indikator_kinerja->nama }}
-                            </h3>
-                            <div class="float-right">
-                                <a href="#addKegiatanTugasJabatan" data-toggle="modal"
-                                    data-id="{{ $indikator_kinerja->id }}" title="Tambah Kegiatan Tugas Jabatan">
-                                    <i class="fas fa-plus"></i>
-                                </a>
-                            </div>
+                            </h3>                            
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="table-responsive">
+                        <div class="col-12">
+                            {{-- <div class="table-responsive"> --}}
                                 <table id="table_sasaran" class="table table-bordered ">
                                     <thead>
                                         <tr>
@@ -99,17 +120,7 @@
                                         @foreach ($indikator_kinerja->kegiatanTugasJabatan as $tugasJabatan)
                                             <tr>
                                                 <td>
-                                                    {{ $i++ . '. ' . $tugasJabatan->uraian_kegiatan }}
-                                                    <br>
-                                                    <meta name="csrf-token" content="{{ csrf_token() }}">
-                                                    <a href="#editKegiatanTugasJabatan" data-toggle="modal"
-                                                        data-id="{{ $tugasJabatan->id }}" title="Edit Sasaran Kegiatan">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <a href="#deleteKegiatanTugasJabatan" data-toggle="modal"
-                                                        data-id="{{ $tugasJabatan->id }}" title="Hapus Indikator Kinerja">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </a>
+                                                    {{ $i++ . '. ' . $tugasJabatan->uraian_kegiatan }}                                                    
                                                 </td>
                                                 <td>{{ $tugasJabatan->ak_target }}</td>
                                                 <td>{{ $tugasJabatan->qtt_target }}</td>
@@ -138,13 +149,13 @@
                                         </tr>
                                     </tfoot>
                                 </table>
-                            </div>
+                            {{-- </div> --}}
                         </div>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
                 @endforeach
-            </div>
+            {{-- </div> --}}
             <!-- /.col -->
 
             <div class="col-12">
@@ -154,7 +165,7 @@
                             <?php 
                                 $indikatorKerja = $indikator_kinerjas->first();                                
                                 ?>
-                            REKAPITULASI PENILAIAN CAPAIAN KINERJA REKAPITULASI PENILAIAN CAPAIAN KINERJA {{$indikatorKerja ? \Carbon\Carbon::parse($indikatorKerja->periode)->isoFormat('MMMM Y') : null}}
+                            REKAPITULASI PENILAIAN CAPAIAN KINERJA {{$indikatorKerja ? \Carbon\Carbon::parse($indikatorKerja->periode)->isoFormat('MMMM Y') : null}}
                             {{-- {{$indikatorKerja != null ? \Carbon\Carbon::parse($indikatorKerja->periode)->format('F Y') : null}} --}}
                         </div>
                     </div>
@@ -215,7 +226,31 @@
                 </div>
                 <!-- /.card -->
             </div>
-            <!-- /.col -->
+            <!-- /.col -->            
+            <div class="col-12">                                        
+                <div class="float-right">                                
+                    <table>
+                        <tr>
+                            <td><p>Pejabat Penilai</p></td>
+                        </tr>                                        
+                        <tr>                                
+                            <td><p></p></td>                                                             
+                        </tr>
+                        <tr>                                
+                            <td><p></p></td>                                                             
+                        </tr>
+                        <tr>                                
+                            <td><p></p></td>                                                          
+                        </tr>
+                        <tr>                                    
+                            <td>Edi Yuniadi</td>
+                        </tr>
+                        <tr>                                    
+                            <td>NIP. 19730601 199402 1 001</td>
+                        </tr>
+                    </table>
+                </div>                        
+            </div>
         </div>
     </div>
     <!-- en container fluid -->
@@ -238,8 +273,8 @@
                             <input type="text" name="uraian_kegiatan" class="form-control" required="true"
                                 id="add_kegiiatan_tugas_uraian">
                             <input type="number" hidden="true" name="indikator_kerjas_id" class="form-control"
-                                 id="add_kegiiatan_indikator_kerja_id">
-                            <input type="number" hidden="true" name="user_id" class="form-control" 
+                                required="true" id="add_kegiiatan_indikator_kerja_id">
+                            <input type="number" hidden="true" name="user_id" class="form-control" required="true"
                                 id="add_kegiatan_indikator_kerja_user_id">
                             <small class="text-muted">tanda (*) adalah wajib diisi</small>
                         </div>
@@ -521,184 +556,61 @@
             </div>
         </div>
     </div>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-
-            $('#filter_id').on('click', function() {
-                var from = $('#from_id').val();
-                var to = $('#to_id').val();
-                var filterUrl = "{{ url('pegawai/kegiatan') }}?from=" + from + "&to=" + to;
-                $('#filter_id').attr('href', filterUrl);
-            });
+            window.print();
         });
+            </script>
+<!-- ./wrapper -->
 
-        $('.add_kegiatan').on('click', function(e) {
+<!-- REQUIRED SCRIPTS -->
 
-            // var rowid = $(e.relatedTarget).data('id');                
-            $.ajax({
-                type: 'GET',
-                url: "{{ url('/pegawai') }}?is_api=1",
-                success: function(data) {
-                    for (i = 0; i < data.pegawai.length; i++) {
-                        $('#ditugaskan').append(
-                            `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
-                        );
-                    }
-                    console.log(data);
-                }
-            });
-        });
+<!-- ion icons -->
+<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 
+<!-- jQuery -->
+<script src={{ asset("bower_components/AdminLTE/plugins/jquery/jquery.min.js") }}></script>
+<!-- Bootstrap 4 -->
+<script src={{ asset("bower_components/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js") }}></script>
+<!-- DataTables -->
+<script src={{ asset("bower_components/AdminLTE/plugins/datatables/jquery.dataTables.min.js") }}></script>
+<script src={{ asset("bower_components/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js") }}></script>
+<script src={{ asset("bower_components/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js") }}></script>
+<script src={{ asset("bower_components/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js") }}></script>
+<!-- AdminLTE App -->
+<script src={{ asset("bower_components/AdminLTE/dist/js/adminlte.min.js") }}></script>
+<!-- AdminLTE for demo purposes -->
+<script src={{ asset("bower_components/AdminLTE/dist/js/demo.js") }}></script>
+<!-- sweet alert -->
+<script src= {{ asset("bower_components/AdminLTE/plugins/sweetalert2/sweetalert2.min.js") }}></script>
 
-        $(document).ready(function() {
-
-            $('#editSasaran').on('show.bs.modal', function(e) {
-                var id = $(e.relatedTarget).data('id');
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ url('/pegawai/sasaran/byid') }}?id=" + id,
-                    success: function(data) {
-                        $('#edit_sasaran_id').val(data.nama);
-                        $('#edit_sasaran_uid').val(data.id);
-                    }
-                });
-            });
-
-            $('#addKegiatanTugasJabatan').on('show.bs.modal', function(e) {
-                var id = $(e.relatedTarget).data('id');
-                $('#add_kegiiatan_indikator_kerja_id').val(id);
-                $('#add_kegiatan_indikator_kerja_user_id').val({{$user ? $user->id : null}});
-            });
-
-            $('#editKegiatanTugasJabatan').on('show.bs.modal', function(e) {
-                var id = $(e.relatedTarget).data('id');
-                $('#edit_kegiatan_tugas_id').val(id);
-                $('#edit_kegiatan_tugas_user_id').val({{$user ? $user->id : null}});
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ url('admin/pegawai/pck/byid') }}?id=" + id,
-                    success: function(data) {
-                        $('#edit_kegiatan_tugas_uraian').val(data.uraian_kegiatan);
-                        $('#edit_kegiatan_indikator_kerja_id').val(data.id_indikator_kerjas);
-                        $('#edit_kegiatan_tugas_ak_target').val(data.ak_target);
-                        $('#edit_kegiatan_tugas_mutu_target').val(data.mutu_target);
-                        $('#edit_kegiatan_tugas_qty_target').val(data.qtt_target);
-                        $('#edit_kegiatan_tugas_ak_realisasi').val(data.ak_realisasi);
-                        $('#edit_kegiatan_tugas_mutu_realisasi').val(data.mutu_realisasi);
-                        $('#edit_kegiatan_tugas_qty_realisasi').val(data.qty_realisasi);
-                    }
-                });
-
-            });
+{{-- MDD Bootstrap --}} 
+ <!-- Bootstrap tooltips -->
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+ <!-- Bootstrap core JavaScript -->
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+ <!-- MDB core JavaScript -->
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
 
 
-            $('#deleteKegiatanTugasJabatan').on('show.bs.modal', function(e) {
-                var id = $(e.relatedTarget).data('id');
-                $('#delete_pck_id').val(id);
-                $('#delete_user_id').val({{$user ? $user->id : null}});
-            });
-
-            $('#deleteIndikator').on('show.bs.modal', function(e) {
-                var id = $(e.relatedTarget).data('id');
-                $('#delete_indikator_id').val(id);
-            });
-
-            $('#addIndikatorKinerja').on('show.bs.modal', function(e) {
-                var id = $(e.relatedTarget).data('id');
-                $('#add_indikator_sasaran_id').val(id);
-                console.log(id);
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ url('/pegawai') }}?is_api=1",
-                    success: function(data) {
-                        for (i = 0; i < data.pegawai.length; i++) {
-                            $('#ditugaskan_id').append(
-                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
-                            );
-                        }
-                    }
-                });
-            });
-
-            $('#editIndikatorKinerja').on('show.bs.modal', function(e) {
-                var id = $(e.relatedTarget).data('id');
-                $('#update_indikator_sasaran_id').val(id);
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ url('/pegawai') }}?is_api=1",
-                    success: function(data) {
-                        for (i = 0; i < data.pegawai.length; i++) {
-                            $('#update_ditugaskan_id').append(
-                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
-                            );
-                        }
-                    }
-                });
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ url('pegawai/indikator/byid') }}?id=" + id,
-                    success: function(data) {
-                        console.log(data);
-                        $('#update_indikator_kinerja').val(data.nama);
-                        $('#update_mutu').val(data.mutu);
-                        $('#update_qty').val(data.qty);
-                        $('#update_satuan').val(data.satuan);
-                        $('#update_periode').val(data.periode);
-                        $('#update_pagu_anggaran').val(data.pagu_anggaran);
-                        $("#update_ditugaskan_id option[value=" + data.users_id +
-                            "]").attr('selected',
-                            'selected');
-                    }
-                });
-            });
-
-            $('#editModal').on('show.bs.modal', function(e) {
-                var kegiatan_id = $(e.relatedTarget).data('id');
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ url('/pegawai') }}?is_api=1",
-                    success: function(data) {
-                        for (i = 0; i < data.pegawai.length; i++) {
-                            $('#ditugaskan_id').append(
-                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
-                            );
-                        }
-                        console.log(data);
-                    }
-                });
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ url('kegiatan/id') }}?id=" + kegiatan_id,
-                    success: function(data) {
-                        console.log(data)
-                        $('#id').val(data.id);
-                        $('#nama_kegiatan').val(data.kegiatan);
-                        $('#periode').val(data.periode);
-                        $('textarea#uraian').val(data.uraian_kegiatan.uraian_kegiatan);
-                        $('#ak_target').val(data.ak_target);
-                        $('#qtt_target').val(data.qtt_target);
-                        $('#mutu_target').val(data.mutu_target);
-                        $("#ditugaskan_id option[value=" + data.user.id +
-                            "]").attr('selected',
-                            'selected');
-
-                    }
-                });
-            });
-        });
-
-
-
-
-        function tanya() {
-            var agree = confirm("Yakin ingin menghapus kegiatan ini ?");
-            if (agree)
-                return true;
-            else
-                return false
-        }
-
-    </script>
-@endSection
+<!-- page script -->
+<script>
+  $(function () {
+    $("#example2").DataTable({
+      "responsive": true,
+      "autoWidth": true,
+    });
+    $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true,
+      "responsive": true,
+    });
+  });
+</script>
+</body>
+</html>
