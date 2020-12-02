@@ -13,11 +13,41 @@ class PerjanjianKinerjaController extends Controller
 {
     public function index(Request $req)
     {
+        $userId = Auth::user()->id;
         if($req->year != null){
-            $sasaranKegiatan = SasaranKegiatan::whereYear('created_at', $req->year)->get();    
+            $sasaranKegiatan = SasaranKegiatan::whereYear('sasaran_kegiatan.created_at', $req->year)->rightJoin('indikator_kerjas', 'sasaran_kegiatan.id', 'indikator_kerjas.sasaran_kegiatan_id')
+                ->where('indikator_kerjas.users_id', $userId)
+                ->select([
+                    "sasaran_kegiatan.id",
+                    "sasaran_kegiatan.nama as nama",                    
+                    "sasaran_kegiatan.created_by",
+                    "sasaran_kegiatan.created_at",
+                    "sasaran_kegiatan.updated_at",                    
+                    "indikator_kerjas.periode",
+                    "indikator_kerjas.mutu",
+                    "indikator_kerjas.qty",
+                    "indikator_kerjas.satuan",
+                    "indikator_kerjas.pagu_anggaran",
+                    "indikator_kerjas.users_id",
+                ])->get();    
         } else {
-            $sasaranKegiatan = SasaranKegiatan::whereYear('created_at', Carbon::now()->year)->get();
-        }       
+            $sasaranKegiatan = SasaranKegiatan::whereYear('sasaran_kegiatan.created_at', Carbon::now()->year)->rightJoin('indikator_kerjas', 'sasaran_kegiatan.id', 'indikator_kerjas.sasaran_kegiatan_id')
+                ->where('indikator_kerjas.users_id', $userId)
+                ->select([
+                    "sasaran_kegiatan.id",
+                    "sasaran_kegiatan.nama as nama",                    
+                    "sasaran_kegiatan.created_by",
+                    "sasaran_kegiatan.created_at",
+                    "sasaran_kegiatan.updated_at",                    
+                    "indikator_kerjas.periode",
+                    "indikator_kerjas.mutu",
+                    "indikator_kerjas.qty",
+                    "indikator_kerjas.satuan",
+                    "indikator_kerjas.pagu_anggaran",
+                    "indikator_kerjas.users_id",
+                ])->get();    
+        }    
+         
         $data['sasaran_kegiatan'] = $sasaranKegiatan;
         $data['page_title'] = 'Penjajian Kinerja';
         $data['i'] = 1;
