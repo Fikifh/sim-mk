@@ -303,7 +303,7 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('pegawai_add_indikator_kinerja') }} method="POST">
+                    <form action={{ route('admin_add_indikator_kinerja') }} method="POST">
                         @csrf
                         <input type="text" name="id" class="form-control" id="id" hidden="true">
                         <div class="form-group">
@@ -361,7 +361,7 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('pegawai_update_indikator_kinerja') }} method="POST">
+                    <form action={{ route('admin_update_indikator_kinerja') }} method="POST">
                         @csrf
                         <input type="text" name="id" class="form-control" id="id" hidden="true">
                         <div class="form-group">

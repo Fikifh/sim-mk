@@ -56,6 +56,9 @@ Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\
     $router->get('sasaran/delete', 'PerjanjianKinerjaController@deleteSasaran')->name('pegawai_delete_sasaran');
     $router->get('perjanjian_kinerja', 'PerjanjianKinerjaController@index')->name('perjanjian_kerja');    
 
+    $router->post('indikator/byid', 'PerjanjianKinerjaController@createIndikatorKinerja')->name('admin_add_indikator_kinerja');
+    $router->post('indikator/update', 'PerjanjianKinerjaController@updateIndikatorKinerja')->name('admin_update_indikator_kinerja');
+
     
     $router->get('/', 'PegawaiController@index')->name('admin_pegawai');
     $router->get('id', 'PegawaiController@byId')->name('admin_id_pegawai');
@@ -89,8 +92,6 @@ Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawa
     $router->get('perjanjian_kinerja', 'PerjanjianKinerjaController@index')->name('_perjanjian_kerja');    
 
     
-
-
     $router->post('indikator/byid', 'PerjanjianKinerjaController@createIndikatorKinerja')->name('pegawai_add_indikator_kinerja');
     $router->post('indikator/update', 'PerjanjianKinerjaController@updateIndikatorKinerja')->name('pegawai_update_indikator_kinerja');
     $router->get('indikator/byid', 'PerjanjianKinerjaController@findIndikatorKerja')->name('find_indikator_kinerja');

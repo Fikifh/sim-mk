@@ -101,7 +101,7 @@
             <!-- /.col -->
             <div class="col-12">
                 <div class="float-right">
-                    <p> Jakarta,  {{\Carbon\Carbon::now()->isoFormat('D MMMM Y') }}
+                    <p>Banjar,  {{\Carbon\Carbon::now()->isoFormat('D MMMM Y') }}
                 </div>
             </div>
             <div class="col-12">                                        
