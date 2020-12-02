@@ -45,8 +45,8 @@ class PenilaianCapKinerjaController extends Controller
                         'indikator_kerjas.nama as indikator_kerja',
                         DB::raw('avg(uraian_kegiatans.mutu_target) as target'),
                         DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                        DB::raw('((avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
-                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan')
+                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as nilai_capaian'),
+                        DB::raw('avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) as nilai_perhitungan')
                     ])->groupBy('indikator_kerjas.id')->get();
         } elseif($periode != null && $year == null) {
             $indikatorKinerja = IndikatorKerja::where('users_id', $userId)->whereMonth('periode', $periode)->get();
@@ -65,8 +65,8 @@ class PenilaianCapKinerjaController extends Controller
                         'indikator_kerjas.nama as indikator_kerja',
                         DB::raw('avg(uraian_kegiatans.mutu_target) as target'),
                         DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                        DB::raw('((avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
-                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan')
+                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as nilai_capaian'),
+                        DB::raw('avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) as nilai_perhitungan')
                     ])->groupBy('indikator_kerjas.id')->get();
         } elseif($periode == null && $year != null) {
             $indikatorKinerja = IndikatorKerja::where('users_id', $userId)->whereYear('periode', $year)->get();
@@ -85,8 +85,8 @@ class PenilaianCapKinerjaController extends Controller
                         'indikator_kerjas.nama as indikator_kerja',
                         DB::raw('avg(uraian_kegiatans.mutu_target) as target'),
                         DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                        DB::raw('((avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
-                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan')
+                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as nilai_capaian'),
+                        DB::raw('avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) as nilai_perhitungan')
                     ])->groupBy('indikator_kerjas.id')->get();
         } else {
             $indikatorKinerja = IndikatorKerja::where('users_id', $userId)->whereYear('periode', Carbon::now()->year)->get();
@@ -105,8 +105,8 @@ class PenilaianCapKinerjaController extends Controller
                         'indikator_kerjas.nama as indikator_kerja',
                         DB::raw('avg(uraian_kegiatans.mutu_target) as target'),
                         DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                        DB::raw('((avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
-                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan')
+                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as nilai_capaian'),
+                        DB::raw('avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) as nilai_perhitungan')
                     ])->groupBy('indikator_kerjas.id')->get();
         }
         
@@ -190,8 +190,8 @@ class PenilaianCapKinerjaController extends Controller
                         'indikator_kerjas.periode',
                         DB::raw('avg(uraian_kegiatans.mutu_target) as target'),
                         DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                        DB::raw('((avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
-                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan')
+                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as nilai_capaian'),
+                        DB::raw('avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) as nilai_perhitungan')
                     ])->get();                    
 
                     $data['rekap'] = $rekap;                    

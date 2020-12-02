@@ -177,8 +177,8 @@
                                     @foreach ($conclusion as $item)
                                         <tr>
                                             <td>{{ $item->indikator_kerja }}</td>
-                                            <td>{{ round($item->perhitungan == null ? $item->target : $item->perhitungan, 3) }}</td>
-                                            <td>{{ round($item->nilai_capaian == null ? $item->target : $item->nilai_capaian, 3) }}</td>
+                                            <td>{{ round($item->perhitungan == null ? $item->target : $item->perhitungan, 2) }}</td>
+                                            <td>{{ round($item->nilai_capaian == null ? $item->target : $item->nilai_capaian, 2) }}</td>
                                         </tr>
                                         <?php
                                         $finalPerhitungan = $finalPerhitungan + ($item->perhitungan == null ? $item->target : $item->perhitungan);
