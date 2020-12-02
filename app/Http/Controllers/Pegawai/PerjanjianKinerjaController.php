@@ -47,7 +47,9 @@ class PerjanjianKinerjaController extends Controller
                     "indikator_kerjas.users_id",
                 ])->get();    
         }    
-                 
+        if(sizeof($sasaranKegiatan) <= 0){
+            $sasaranKegiatan = SasaranKegiatan::whereYear('sasaran_kegiatan.created_at', Carbon::now()->year)->doesntHave('indikatorKerjas')->get();
+        }
         $data['sasaran_kegiatan'] = $sasaranKegiatan;
         $data['page_title'] = 'Penjajian Kinerja';
         $data['i'] = 1;
