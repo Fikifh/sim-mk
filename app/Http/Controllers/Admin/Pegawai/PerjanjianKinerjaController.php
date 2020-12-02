@@ -72,6 +72,7 @@ class PerjanjianKinerjaController extends Controller
         $indikatorKerja = new IndikatorKerja();
         $indikatorKerja->sasaran_kegiatan_id = $req->sasaran_id;
         $indikatorKerja->nama = $req->indikator_kinerja;
+        $indikatorKerja->periode = $req->periode;
         $indikatorKerja->mutu = $req->mutu;
         $indikatorKerja->qty = $req->qty;
         $indikatorKerja->satuan = $req->satuan;
