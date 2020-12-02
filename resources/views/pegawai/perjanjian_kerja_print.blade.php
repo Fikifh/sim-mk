@@ -184,10 +184,10 @@
                                             <td><p></p></td>                                                         
                                         </tr>
                                         <tr>                                    
-                                            <td>Joko Upoyo Pribadi</td>
+                                            <td>SANTI SOFIA DAMAYANTI, S.S., S.H., M.M.</td>
                                         </tr>
                                         <tr>                                    
-                                            <td>NIP. 19690321 199403 1 002</td>
+                                            <td>NIP. 198208222006042002</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -208,10 +208,10 @@
                                             <td><p></p></td>                                                          
                                         </tr>
                                         <tr>                                    
-                                            <td>Edi Yuniadi</td>
+                                            <td>ARMELIA NOVIYANTI, S.H.</td>
                                         </tr>
                                         <tr>                                    
-                                            <td>NIP. 19730601 199402 1 001</td>
+                                            <td>NIP. 198611062006042002</td>
                                         </tr>
                                     </table>
                                 </div>
