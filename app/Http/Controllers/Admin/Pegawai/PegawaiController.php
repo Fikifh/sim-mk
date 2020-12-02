@@ -41,9 +41,9 @@ class PegawaiController extends Controller
                 'users.jabatan',
                 'users.unit_kerja',
                 'users.nip',
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                DB::raw('((avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan')
+                DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
+                DB::raw('((avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan')
             ])->groupBy('users.id')->get();
         if ($req->is_api) {
             return response()->json($data, 200);
@@ -151,8 +151,8 @@ class PegawaiController extends Controller
                 ->whereMonth('indikator_kerjas.periode', Carbon::now()->month)
                 ->whereYear('indikator_kerjas.periode', Carbon::now()->year)
                 ->select([
-                    DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
-                    DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan')
+                    DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as nilai_capaian'),
+                    DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan')
 
                 ])->first();
         } else {
@@ -161,8 +161,8 @@ class PegawaiController extends Controller
                 ->join('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
                 ->where('indikator_kerjas.users_id', $req->user_id)
                 ->select([
-                    DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
-                    DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan')
+                    DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as nilai_capaian'),
+                    DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan')
 
                 ])->first();
         }

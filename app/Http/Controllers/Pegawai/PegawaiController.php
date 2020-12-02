@@ -54,9 +54,9 @@ class PegawaiController extends Controller
                 'users.jabatan',
                 'users.unit_kerja',
                 'users.nip',
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                DB::raw('((avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
+                DB::raw('((avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan'),
                 DB::raw('month(trans_indikator_kinerjas.created_at) as month'),
                 DB::raw('month(kehadirans.bulan) as month_kehadiran'),                
             ])->groupBy('month', 'month_kehadiran')->orderBy('month')->get();
@@ -76,9 +76,9 @@ class PegawaiController extends Controller
                 'users.jabatan',
                 'users.unit_kerja',
                 'users.nip',
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                DB::raw('((avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
+                DB::raw('((avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan'),
                 DB::raw('year(trans_indikator_kinerjas.created_at) as year'),
                 DB::raw('year(kehadirans.bulan) as year_kehadiran')
             ])->groupBy('year', 'year_kehadiran')->orderBy('year')->get();
@@ -91,9 +91,9 @@ class PegawaiController extends Controller
             ->where('users.role', 'pegawai')
             ->where('users.id', Auth::user()->id)
             ->select([
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                DB::raw('((avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
+                DB::raw('((avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan'),
                 DB::raw('avg(kehadirans.nilai) as kehadiran'),
             ])->first();
             
