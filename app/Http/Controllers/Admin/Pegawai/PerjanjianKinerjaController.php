@@ -20,7 +20,7 @@ class PerjanjianKinerjaController extends Controller
         }                
 
         $data['sasaran_kegiatan'] = $sasaranKegiatan;
-        $data['page_title'] = 'Penjajian Kinerja';
+        $data['page_title'] = 'Perjanjian Kinerja';
         $data['i'] = 1;
         $data['j'] = 1;
         $data['user_id'] = $req->user_id;

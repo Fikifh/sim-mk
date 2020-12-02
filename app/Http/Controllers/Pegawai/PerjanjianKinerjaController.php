@@ -50,7 +50,7 @@ class PerjanjianKinerjaController extends Controller
         
         $sasaranKegiatanNotIk = SasaranKegiatan::whereYear('sasaran_kegiatan.created_at', Carbon::now()->year)->doesntHave('indikatorKerjas')->get();        
         $data['sasaran_kegiatan'] = $sasaranKegiatan->merge($sasaranKegiatanNotIk);
-        $data['page_title'] = 'Penjajian Kinerja';
+        $data['page_title'] = 'Perjanjian Kinerja';
         $data['i'] = 1;
         $data['j'] = 1;
         $data['user_id'] = $req->user_id;
