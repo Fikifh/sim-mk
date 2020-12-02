@@ -152,29 +152,7 @@
                                             } ?>
                                         @endforeach
                                     @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>Sasaran Kegiatan</th>
-                                        <th>Indikator Kinerja</th>
-                                        <th>Target Mutu</th>
-                                        <th>Target Qty</th>
-                                        <th>Satuan</th>
-                                        <th>Jan</th>
-                                        <th>Feb</th>
-                                        <th>Mar</th>
-                                        <th>Apr</th>
-                                        <th>Mei</th>
-                                        <th>Jun</th>
-                                        <th>Jul</th>
-                                        <th>Ag</th>
-                                        <th>Sept</th>
-                                        <th>Okt</th>
-                                        <th>Nov</th>
-                                        <th>Des</th>
-                                        <th>Rp.</th>
-                                    </tr>
-                                </tfoot>
+                                </tbody>                                
                             </table>
                         </div>
                     {{-- </div> --}}
