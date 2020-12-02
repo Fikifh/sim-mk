@@ -120,7 +120,7 @@ class PerjanjianKinerjaController extends Controller
             $indikatorKerja->qty = $req->qty;
             $indikatorKerja->satuan = $req->satuan;
             $indikatorKerja->pagu_anggaran = $req->pagu_anggaran;
-            $indikatorKerja->users_id = $req->ditugaskan;
+            $indikatorKerja->users_id = Auth::user()->id;
             $indikatorKerja->created_by = Auth::user()->id;
             $indikatorKerja->save();
             return redirect()->route('_perjanjian_kerja')->with(['success' => 'Berhasil mengubah indikator kerja !']);
