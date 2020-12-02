@@ -119,6 +119,7 @@ class PerjanjianKinerjaController extends Controller
             $indikatorKerja->mutu = $req->mutu;
             $indikatorKerja->qty = $req->qty;
             $indikatorKerja->satuan = $req->satuan;
+            $indikatorKerja->periode = $req->periode;
             $indikatorKerja->pagu_anggaran = $req->pagu_anggaran;
             $indikatorKerja->users_id = Auth::user()->id;
             $indikatorKerja->created_by = Auth::user()->id;
