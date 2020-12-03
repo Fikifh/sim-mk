@@ -174,8 +174,7 @@ class PenilaianCapKinerjaController extends Controller
     public function rekup(Request $req) {
 
         $rekap = User::leftJoin('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
-                    ->leftJoin('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')                    
-                    ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')                    
+                    ->leftJoin('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')                                                       
                     ->whereYear('indikator_kerjas.periode', $req->tahun)                    
                     ->whereMonth('indikator_kerjas.periode', $req->bulan)                    
                     ->select([
@@ -186,9 +185,8 @@ class PenilaianCapKinerjaController extends Controller
                         'users.unit_kerja',
                         'users.nip',                        
                         'indikator_kerjas.periode',
-                        DB::raw('avg(uraian_kegiatans.mutu_target) as target'),
-                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                        DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2 ) as nilai_capaian'),
+                        DB::raw('avg(uraian_kegiatans.mutu_target) as target'),                        
+                        DB::raw('(avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2  ) /  count(indikator_kerjas.id) as nilai_capaian'),
                         DB::raw('avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) as nilai_perhitungan')
                     ])->groupBy('users.id')->get();                    
 

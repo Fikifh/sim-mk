@@ -250,7 +250,7 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('pegawai_delete_indikator') }} method="GET">
+                    <form action={{ route('admin_delete_indikator') }} method="GET">
                         @csrf
                         <div class="form-group">
                             <input type="text" name="indikator_id" hidden="true" class="form-control" required="true"

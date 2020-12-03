@@ -58,7 +58,7 @@ Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\
 
     $router->post('indikator/byid', 'PerjanjianKinerjaController@createIndikatorKinerja')->name('admin_add_indikator_kinerja');
     $router->post('indikator/update', 'PerjanjianKinerjaController@updateIndikatorKinerja')->name('admin_update_indikator_kinerja');
-
+    $router->get('indikator/delete', 'PerjanjianKinerjaController@deleteIndikator')->name('admin_delete_indikator');
     
     $router->get('/', 'PegawaiController@index')->name('admin_pegawai');
     $router->get('id', 'PegawaiController@byId')->name('admin_id_pegawai');

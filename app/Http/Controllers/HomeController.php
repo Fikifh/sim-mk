@@ -31,58 +31,44 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $bulanan = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
-            ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
-            ->join('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
-            ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')
-            ->where('users.role', 'pegawai')            
-            // ->whereMonth('trans_indikator_kinerjas.created_at', Carbon::now()->month)
-            // ->whereYear('trans_indikator_kinerjas.created_at', Carbon::now()->year)
+        $bulanan = User::rightJoin('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
+            ->leftJoin('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')                    
+            ->where('users.role', 'pegawai')                        
             ->select([
                 'users.id',
                 'users.nama',
                 'users.golongan',
                 'users.jabatan',
                 'users.unit_kerja',
-                'users.nip',
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as nilai_capaian'),
-                DB::raw('avg(uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) as nilai_perhitungan'),
-                DB::raw('month(trans_indikator_kinerjas.created_at) as month'),
-                DB::raw('month(kehadirans.bulan) as month_kehadiran')
-            ])->groupBy('month', 'month_kehadiran')->orderBy('month')->get();
+                'users.nip',                
+                DB::raw('(avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2  ) /  count(indikator_kerjas.id) as nilai_capaian'),
+                DB::raw('avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) as nilai_perhitungan'),
+                DB::raw('month(indikator_kerjas.created_at) as month'),                
+            ])->groupBy('month')->orderBy('month')->get();        
 
-        $tahunan = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
-            ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
-            ->join('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
-            ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')
-            ->where('users.role', 'pegawai')            
-            // ->whereYear('trans_indikator_kinerjas.created_at', Carbon::now()->year)
+        $tahunan = User::rightJoin('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
+            ->leftJoin('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')            
+            ->where('users.role', 'pegawai')                        
             ->select([
                 'users.id',
                 'users.nama',
                 'users.golongan',
                 'users.jabatan',
                 'users.unit_kerja',
-                'users.nip',
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                DB::raw('((avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan'),
-                DB::raw('year(trans_indikator_kinerjas.created_at) as year'),
-                DB::raw('year(kehadirans.bulan) as year_kehadiran')
-            ])->groupBy('year', 'year_kehadiran')->orderBy('year')->get();
+                'users.nip',                
+                DB::raw('(avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2  ) /  count(indikator_kerjas.id) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan'),
+                DB::raw('year(indikator_kerjas.created_at) as year'),                
+            ])->groupBy('year')->orderBy('year')->get();
 
-        $summary = User::join('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
-            ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')
-            ->join('trans_indikator_kinerjas', 'uraian_kegiatans.id', 'trans_indikator_kinerjas.id_uraian_kegiatan')
-            ->leftJoin('kehadirans', 'users.id', 'kehadirans.users_id')
+        $summaries = User::rightJoin('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
+            ->leftJoin('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')                 
             ->where('users.role', 'pegawai')            
-            ->select([
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) as pra_nilai_capaian'),
-                DB::raw('((avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi) / 2 ) + avg(kehadirans.nilai)) / 2) as nilai_capaian'),
-                DB::raw('avg((uraian_kegiatans.mutu_target + trans_indikator_kinerjas.mutu_realisasi)) as nilai_perhitungan'),
-                DB::raw('avg(kehadirans.nilai) as kehadiran')
-            ])->first();
+            ->select([                
+                DB::raw('(avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2  ) /  count(indikator_kerjas.id) as nilai_capaian'),
+                DB::raw('avg((uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi)) as nilai_perhitungan'),                
+            ])->get();
+        $summary = $summaries->first();
                             
         $monthNames = [];
         $monthlyPerformance = [];

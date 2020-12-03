@@ -111,7 +111,7 @@
                   </div>
                   <div class="card-body">
                     <p>
-                        Berdasarkan Perolehan Penilaian yang sudah dilakukan anda mempunyai performa rata - rata <b> {{$kriteria ? $kriteria->nilai_text :  ''}}</b> dengan nilai capaian <b>{{round($summary->pra_nilai_capaian, 2)}}</b> dan nilai akhir <b>{{round($summary->nilai_capaian, 2)}}
+                        Berdasarkan Perolehan Penilaian yang sudah dilakukan anda mempunyai performa rata - rata <b> {{$kriteria ? $kriteria->nilai_text :  ''}}</b> dengan nilai capaian <b>{{round($summary->nilai_capaian, 2)}}
                     </p>
                   </div>
               </div>
