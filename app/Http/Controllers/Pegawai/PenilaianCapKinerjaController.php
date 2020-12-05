@@ -175,32 +175,38 @@ class PenilaianCapKinerjaController extends Controller
 
         $userId = Auth::user()->id;
         $rekap = User::leftJoin('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
-                    ->leftJoin('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')                                                  
+                    ->join('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')                                                  
                     ->whereYear('indikator_kerjas.periode', $req->tahun)                    
-                    ->whereMonth('indikator_kerjas.periode', $req->bulan)             
-                    ->where('users.id', $userId)                    
+                    ->whereMonth('indikator_kerjas.periode', $req->bulan)                                    
+                    ->where('indikator_kerjas.users_id', $userId)
                     ->select([
+                        'indikator_kerjas.id',
                         'users.id',
                         'users.nama',
                         'users.golongan',
                         'users.jabatan',
                         'users.unit_kerja',
-                        'users.nip',                        
-                        'indikator_kerjas.periode',
-                        DB::raw('avg(uraian_kegiatans.mutu_target) as target'), 
-                        DB::raw('count(uraian_kegiatans.id) as count'),
-                        DB::raw('(avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) / 2  ) /  count(indikator_kerjas.id) as nilai_capaian'),
+                        'users.nip',
+                        'indikator_kerjas.*',                        
+                        DB::raw('avg(uraian_kegiatans.mutu_target) as target'),                         
+                        DB::raw("( (avg(uraian_kegiatans.mutu_target) + avg(uraian_kegiatans.mutu_realisasi) ) / 2  ) as nilai_capaian"),
                         DB::raw('avg(uraian_kegiatans.mutu_target + uraian_kegiatans.mutu_realisasi) as nilai_perhitungan')
-                    ])->get();                                        
+                    ])->groupBy('users.id', 'indikator_kerjas.id')->get();    
 
-                    $data['rekap'] = $rekap;                    
-                    $data['page_title'] = 'Rekapitulasi Penilaian Capaian Kinerja Pegawai';
-                    $data['i'] = 1;        
-                    $data['bulan'] = $req->bulan;
-                    $data['tahun'] = $req->tahun;
-                    if($req->is_print){
-                        return view('pegawai.rekap_print')->with($data);    
-                    }
-                    return view('pegawai.rekap')->with($data);
+            $indikatorKinerjaTotal =  IndikatorKerja::whereYear('indikator_kerjas.periode', $req->tahun)                    
+                    ->whereMonth('indikator_kerjas.periode', $req->bulan)                                    
+                    ->where('indikator_kerjas.users_id', $userId)->count();                   
+            
+            $data['indikator_kinerja_total'] = $indikatorKinerjaTotal;
+            $data['rekap'] = $rekap;                
+            $data['page_title'] = 'Rekapitulasi Penilaian Capaian Kinerja Pegawai';
+            $data['i'] = 1;        
+            $data['bulan'] = $req->bulan;
+            $data['tahun'] = $req->tahun;
+            $data['user_id'] = Auth::user()->id;
+            if($req->is_print){
+                return view('pegawai.rekap_print')->with($data);    
+            }
+            return view('pegawai.rekap')->with($data);
     }
 }

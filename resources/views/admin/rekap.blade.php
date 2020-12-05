@@ -54,7 +54,7 @@
                                                     {{$item->nama }}                                                    
                                                 </td>
                                                 <td>{{ $item->ak_target }}</td>
-                                                <td>{{ $item->jabatan }}</td>
+                                                <td>{{ $item->jabatan }}</td>                                                
                                                 <td>{{ round($item->nilai_capaian, 3) }}
                                                     <?php 
                                                     $nilaiCapaian = \App\Models\NilaiCapaian::where('nilai_angka_min', '<=', round($item->nilai_capaian, 3)) ->where('nilai_angka', '>=', round($item->nilai_capaian, 3))->first(); 
