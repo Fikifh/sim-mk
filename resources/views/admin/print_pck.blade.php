@@ -64,7 +64,7 @@
                             <td>4. </td>
                             <td>Jabatan</td>
                             <td>:</td>
-                            <td>{{ $user->nama }}</td>
+                            <td>{{ $user->golongan }}</td>
                         </tr>
                         <tr>
                             <td>5. </td>
