@@ -103,11 +103,11 @@
                                                     <br>
                                                     <meta name="csrf-token" content="{{ csrf_token() }}">
                                                     <a href="#editKegiatanTugasJabatan" data-toggle="modal"
-                                                        data-id="{{ $tugasJabatan->id }}" title="Edit Sasaran Kegiatan">
+                                                        data-id="{{ $tugasJabatan->id }}" title="Edit Kegiatan Tugas Jabatan">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     <a href="#deleteKegiatanTugasJabatan" data-toggle="modal"
-                                                        data-id="{{ $tugasJabatan->id }}" title="Hapus Indikator Kinerja">
+                                                        data-id="{{ $tugasJabatan->id }}" title="Hapus Kegiatan Tugas Jabatan">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
                                                 </td>
