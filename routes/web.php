@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('logout', function(){
+Route::get('logout', function () {
     Auth::logout();
     return redirect()->route('login');
 });
@@ -35,31 +35,31 @@ Route::post('/kegiatan/uraian/edit', [App\Http\Controllers\HomeController::class
 Route::get('/kegiatan/uraian/id', [App\Http\Controllers\HomeController::class, 'uraianKegiatanById'])->name('uraian_kegiatan_by_id')->middleware('role:admin');
 Route::get('/kegiatan/uraian/delete', [App\Http\Controllers\HomeController::class, 'deleteUraianKegiatan'])->name('uraian_kegiatan_delete')->middleware('role:admin');
 
-Route::group(['prefix' => 'admin/laporan', 'namespace' => 'App\Http\Controllers\Admin\Laporan'], function($router){
+Route::group(['prefix' => 'admin/laporan', 'namespace' => 'App\Http\Controllers\Admin\Laporan'], function ($router) {
     $router->get('/', 'LaporanController@index')->name('admin_laporan_pegawai');
 });
 
-Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\Admin\Pegawai'], function($router){
+Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\Admin\Pegawai'], function ($router) {
     //PCK
     $router->get('penilaian_cap_kinerja', 'PenilaianCapKinerjaController@index')->name('admin_penilaian_capaian_kinerja');
     $router->post('tugas_jabatan', 'PenilaianCapKinerjaController@createTugasJabatan')->name('admin_pegawai_add_tugas_jabatan');
     $router->get('pck/byid', 'PenilaianCapKinerjaController@byid')->name('pck_byid');
     $router->post('pck/update', 'PenilaianCapKinerjaController@updatePck')->name('admin_pegawai_update_pck');
-    $router->post('pck/delete', 'PenilaianCapKinerjaController@deletePck')->name('admin_pegawai_delete_pck');    
+    $router->post('pck/delete', 'PenilaianCapKinerjaController@deletePck')->name('admin_pegawai_delete_pck');
     //rekup
-    $router->get('rekup', 'PenilaianCapKinerjaController@rekup')->name('admin_rekup');        
+    $router->get('rekup', 'PenilaianCapKinerjaController@rekup')->name('admin_rekup');
 
     //PK
     $router->post('sasaran', 'PerjanjianKinerjaController@createSasaran')->name('pegawai_add_sasaran');
     $router->post('sasaran/update', 'PerjanjianKinerjaController@updateSasaran')->name('pegawai_update_sasaran');
     $router->get('sasaran/byid', 'PerjanjianKinerjaController@findSasaranById')->name('pegawai_get_sasaran_byid');
     $router->get('sasaran/delete', 'PerjanjianKinerjaController@deleteSasaran')->name('pegawai_delete_sasaran');
-    $router->get('perjanjian_kinerja', 'PerjanjianKinerjaController@index')->name('perjanjian_kerja');    
+    $router->get('perjanjian_kinerja', 'PerjanjianKinerjaController@index')->name('perjanjian_kerja');
 
     $router->post('indikator/byid', 'PerjanjianKinerjaController@createIndikatorKinerja')->name('admin_add_indikator_kinerja');
     $router->post('indikator/update', 'PerjanjianKinerjaController@updateIndikatorKinerja')->name('admin_update_indikator_kinerja');
     $router->get('indikator/delete', 'PerjanjianKinerjaController@deleteIndikator')->name('admin_delete_indikator');
-    
+
     $router->get('/', 'PegawaiController@index')->name('admin_pegawai');
     $router->get('id', 'PegawaiController@byId')->name('admin_id_pegawai');
     $router->post('/', 'PegawaiController@create')->name('add_admin_pegawai');
@@ -69,35 +69,40 @@ Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\
     $router->get('detail', 'PegawaiController@detail')->name('detail_admin_pegawai');
     $router->get('kegiatan', 'PegawaiController@kegiatanByUser')->name('detail_admin_pegawai');
     $router->get('kegiatan/detail', 'PegawaiController@detailKegiatanPegawai')->name('detail_admin_pegawai_kegiatan');
-    
+});
+
+//Envelope Template
+Route::group(['prefix' => 'envelope', 'namespace' => 'App\Http\Controllers\Admin\Envelope', 'middleware' => 'auth'], function ($router) {
+    $router->get('/', 'EnvelopeController@index')->name('envelope');
+    $router->post('leave', 'EnvelopeController@createLeave')->name('createLeave');
 });
 
 //PEGAWAI
-Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawai', 'middleware' => 'auth'], function($router){    
-    
+Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawai', 'middleware' => 'auth'], function ($router) {
+
     //Pegawai PCK
     $router->get('penilaian_cap_kinerja', 'PenilaianCapKinerjaController@index')->name('pegawai_penilaian_capaian_kinerja');
     $router->post('tugas_jabatan', 'PenilaianCapKinerjaController@createTugasJabatan')->name('pegawai_pegawai_add_tugas_jabatan');
     $router->get('pck/byid', 'PenilaianCapKinerjaController@byid')->name('pck_byid');
     $router->post('pck/update', 'PenilaianCapKinerjaController@updatePck')->name('pegawai_pegawai_update_pck');
-    $router->post('pck/delete', 'PenilaianCapKinerjaController@deletePck')->name('pegawai_pegawai_delete_pck');    
+    $router->post('pck/delete', 'PenilaianCapKinerjaController@deletePck')->name('pegawai_pegawai_delete_pck');
     //Pegawai Rekup
-    $router->get('rekup', 'PenilaianCapKinerjaController@rekup')->name('pegawai_rekup');        
+    $router->get('rekup', 'PenilaianCapKinerjaController@rekup')->name('pegawai_rekup');
 
     //Pegawai PK
     $router->post('sasaran', 'PerjanjianKinerjaController@createSasaran')->name('_pegawai_add_sasaran');
     $router->post('sasaran/update', 'PerjanjianKinerjaController@updateSasaran')->name('_pegawai_update_sasaran');
     $router->get('sasaran/byid', 'PerjanjianKinerjaController@findSasaranById')->name('_pegawai_get_sasaran_byid');
     $router->get('sasaran/delete', 'PerjanjianKinerjaController@deleteSasaran')->name('_pegawai_delete_sasaran');
-    $router->get('perjanjian_kinerja', 'PerjanjianKinerjaController@index')->name('_perjanjian_kerja');    
+    $router->get('perjanjian_kinerja', 'PerjanjianKinerjaController@index')->name('_perjanjian_kerja');
 
-    
+
     $router->post('indikator/byid', 'PerjanjianKinerjaController@createIndikatorKinerja')->name('pegawai_add_indikator_kinerja');
     $router->post('indikator/update', 'PerjanjianKinerjaController@updateIndikatorKinerja')->name('pegawai_update_indikator_kinerja');
     $router->get('indikator/byid', 'PerjanjianKinerjaController@findIndikatorKerja')->name('find_indikator_kinerja');
     $router->get('indikator/delete', 'PerjanjianKinerjaController@deleteIndikator')->name('pegawai_delete_indikator');
-    
-    
+
+
     $router->get('/', 'PegawaiController@dashboard')->name('dashboard_pegawai');
     $router->get('kegiatan', 'PegawaiController@kegiatan')->name('kegiatan_pegawai');
     $router->get('detail', 'PegawaiController@detail')->name('detail_kegiatan');
@@ -111,6 +116,6 @@ Route::group(['prefix' => 'pegawai', 'namespace' => 'App\Http\Controllers\Pegawa
     $router->post('edit_uraian_kegiatan', 'PegawaiController@editUraianKegiatan')->name('pegawai_edit_uraian_kegiatan');
     $router->get('uraian_kegiatan_by_id', 'PegawaiController@uraianById')->name('pegawai_getbyid_uraian_kegiatan');
     $router->get('delelte_uraian_kegiatan', 'PegawaiController@deleteUraianKegiatan')->name('delete_pegawai_uraian_kegiatan');
-    
+
     $router->get('report-monthly', 'PegawaiController@reportMonthLy')->name('get_report_monthly');
 });

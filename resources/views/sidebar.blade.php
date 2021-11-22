@@ -80,6 +80,15 @@
                                 Pegawai
                             </p>
                         </a>
+                    </li>  
+                    <li class="nav-header">Template Surat</li>
+                    <li class="nav-item">
+                        <a href={{ route('envelope') }} class="nav-link">
+                            <i class="nav-icon fas fa-envelope"></i>
+                            <p>
+                                Template Surat
+                            </p>
+                        </a>
                     </li>                   
                 @else
                     <li class="nav-header"></li>
