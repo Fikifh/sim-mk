@@ -75,6 +75,7 @@ Route::group(['prefix' => 'admin/pegawai', 'namespace' => 'App\Http\Controllers\
 Route::group(['prefix' => 'envelope', 'namespace' => 'App\Http\Controllers\Admin\Envelope', 'middleware' => 'auth'], function ($router) {
     $router->get('/', 'EnvelopeController@index')->name('envelope');
     $router->post('leave', 'EnvelopeController@createLeave')->name('createLeave');
+    $router->post('kpknl', 'EnvelopeController@createAssignmentKPKNL')->name('createAssignmentKPKNL');
 });
 
 //PEGAWAI

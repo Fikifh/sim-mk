@@ -85,9 +85,44 @@
                                 class="form-control" required="true" id="leave_number">
                         </div>
                         <div class="form-group">
-                            <label for="work_time" class="control-label">Work Time</label>
+                            <label for="work_time" class="control-label">Waktu Kerja</label>
                             <input type="text" name="work_time" placeholder="1 Tahun 2 Bulan" class="form-control"
                                 required="true" id="work_time">
+                        </div>
+                        <div class="form-group">
+                            <label for="leave_type_id" class="control-label">Jenis Cuti</label>
+                            <select name="leave_type" class="form-control" id="leave_type_id" required>
+                                <option value="">pilih</option>
+                                <option value="Cuti Tahunan">Cuti Tahunan</option>
+                                <option value="Cuti Sakit">Cuti Sakit</option>
+                                <option value="Cuti karena Alasan Penting">Cuti karena Alasan Penting</option>
+                                <option value="Cuti Besar">Cuti Besar</option>
+                                <option value="Cuti Cuti Melahirkan">Cuti Cuti Melahirkan</option>
+                                <option value="Cuti Diluar Tanggungan Negara">Cuti Diluar Tanggungan Negara</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="leave_reason" class="control-label">Alasan Cuti</label>
+                            <input type="text" name="leave_reason" placeholder="Alasan Cuti" class="form-control"
+                                required="true" id="leave_reason">
+                        </div>
+                        <div class="form-group">
+                            <label for="leave_date_from" class="control-label">Dari Tanggal</label>
+                            <input type="date" name="leave_date_from" class="form-control col-sm-6"
+                                required="true" id="leave_date_from">
+                            <label for="leave_date_from" class="control-label">Sampai Tanggal</label>
+                            <input type="date" name="leave_date_to" class="form-control col-sm-6"
+                                required="true" id="leave_date_to">
+                        </div>
+                        <div class="form-group">
+                            <label for="leave_address" class="control-label">Alamat Selama Menjalan Cuti</label>
+                            <input type="text" name="leave_address" placeholder="Alamat selama menjalankan cuti" class="form-control"
+                                required="true" id="leave_address_id">
+                        </div>
+                        <div class="form-group">
+                            <label for="leave_address" class="control-label">Telp</label>
+                            <input type="number" name="leave_phone" placeholder="nomor hp" class="form-control"
+                                required="true" id="leave_phone">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Buat</button>
@@ -100,59 +135,37 @@
     </div>
     <!-- End Cuti Modal -->
 
-    <!-- Edit Modal -->
+    <!-- KPKNL Modal -->
     <div class="modal fade" id="id_kpknl_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Buat KPKNL</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">Buat Surat Tugas KPKNL</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('edit_admin_pegawai') }} method="POST">
+                    <form action={{ route('createAssignmentKPKNL') }} method="POST">
                         @csrf
-                        <input type="text" name="id" class="form-control" id="id_edit" hidden="true">
                         <div class="form-group">
-                            <label for="nip" class="control-label">NIP:</label>
-                            <input type="text" name="nip" class="form-control" required="true" id="nip_id">
+                            <label for="employee_id" class="control-label">Pilih Pegawai</label>
+                            <select multiple name="employee_ids[]" class="form-control" required="true" id="kpknl_employee_id">
+                                <option value=""></option>
+                            </select>
+                            <small class="text-muted">Bisa melakukan multiple select dengan menekan tombol CTRL. Jika Pegawai tidak ada di list bisa menambahkan di menu
+                                pegawai</small>
                         </div>
                         <div class="form-group">
-                            <label for="email" class="control-label">Email:</label>
-                            <input type="email" name="email" class="form-control" required="true" id="email_id">
+                            <label for="leave_number" class="control-label">Nomor Surat</label>
+                            <input type="leave_number" name="leave_number" placeholder="W11.U22/932/KP.05.2/XI/2021"
+                                class="form-control" required="true" id="leave_number">
                         </div>
                         <div class="form-group">
-                            <label for="recipient-name" class="control-label">Nama:</label>
-                            <input type="text" name="nama" class="form-control" required="true" id="nama_id">
+                            <label for="work_time" class="control-label">Isi Surat</label>
+                            <textarea name="body_letter" id="" cols="30" rows="10" class="form-control"></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="uraian" class="control-label">Golongan:</label>
-                            <input type="text" name="golongan" class="form-control" required="true" id="golongan_id">
-                        </div>
-                        <div class="form-group">
-                            <label for="jabatan" class="control-label">Jabatan:</label>
-                            <input type="text" name="jabatan" class="form-control" required="true" id="jabatan_id">
-                        </div>
-                        <div class="form-group">
-                            <label for="unit_kerja" class="control-label">Unit Kerja:</label>
-                            <input type="text" name="unit_kerja" class="form-control" required="true" id="unit_kerja_id">
-                        </div>
-                        <div class="form-group">
-                            <label for="kehadiran_id" class="control-label">Tambah Nilai Kehadiran Bulan ini:</label>
-                            <input type="number" name="kehadiran" class="form-control" id="kehadiran_id">
-                            <input type="number" hidden name="user_id" class="form-control" id="user_id">
-                            <small class="text-muted">masukan berupa angka 0 sampai 100</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="checked_change_passwor" class="control-label">Ceklis Jika Ingin Ubah Sandi
-                                :</label>
-                            <input type="checkbox" name="checked_change_passwor" class=""
-                                id="checked_change_passwor">
-                        </div>
-                        <input type="password" name="password" hidden="true" placeholder="Change Password"
-                            class="form-control" id="password_id">
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Ubah</button>
+                            <button type="submit" class="btn btn-primary">Buat</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
                         </div>
                     </form>
@@ -259,6 +272,21 @@
                     success: function(data) {
                         for (i = 0; i < data.pegawai.length; i++) {
                             $('#employee_id').append(
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                            );
+                        }
+                        console.log(data);
+                    }
+                });
+            });
+
+            $('#id_kpknl_modal').on('show.bs.modal', function(e) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url('/pegawai') }}?is_api=1",
+                    success: function(data) {
+                        for (i = 0; i < data.pegawai.length; i++) {
+                            $('#kpknl_employee_id').append(
                                 `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
                             );
                         }

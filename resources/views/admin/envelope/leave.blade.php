@@ -125,44 +125,7 @@
                         </tr>
                         <tr>
                             <td class="table-bordered">
-                                <p class="font-11">1. Cuti Tahunan</p>
-                            </td>
-                            <td class="table-bordered" style="width: 40px;">
-                                <p class="font-11" style="text-align: center">-</p>
-                            </td>
-                            <td class="table-bordered">
-                                <p class="font-11">2. Cuti Besar</p>
-                            </td>
-                            <td class="table-bordered" style="width: 40px;">
-                                <p class="font-11"></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-bordered">
-                                <p class="font-11">2. Cuti Sakit</p>
-                            </td>
-                            <td class="table-bordered">
-                                <p class="font-11" style="text-align: center">-</p>
-                            </td>
-                            <td class="table-bordered">
-                                <p class="font-11">4. Cuti Melahirkan</p>
-                            </td>
-                            <td class="table-bordered" style="width: 40px;">
-                                <p class="font-11"></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-bordered">
-                                <p class="font-11">3. Cuti Karena Alasan Penting</p>
-                            </td>
-                            <td class="table-bordered">
-                                <p class="font-11" style="text-align: center">-</p>
-                            </td>
-                            <td class="table-bordered">
-                                <p class="font-11">4. Cuti Diluar Tanggungan Negara</p>
-                            </td>
-                            <td class="table-bordered" style="width: 90px;">
-                                <p class="font-11"></p>
+                                <p class="font-11">{{$leave_type}}</p>
                             </td>
                         </tr>
                     </table>
@@ -183,7 +146,7 @@
                         </tr>
                         <tr>
                             <td class="table-bordered" colspan="4">
-                                <p class="font-11">{{$reason ?? ''}}</p>
+                                <p class="font-11">{{$leave_reason ?? ''}}</p>
                             </td>
                         </tr>
                     </table>
@@ -206,20 +169,20 @@
                             <td class="table-bordered" style="width: 50px;">
                                 <p class="font-11">Selama</p>
                             </td>
-                            <td class="table-bordered" style="width: 130px;">
-                                <p class="font-11">{{$leave_time ?? ''}}</p>
+                            <td class="table-bordered" style="width: 130px; text-align:center;">
+                                <p class="font-11">{{\Carbon\Carbon::parse($leave_date_from)->diffInDays($leave_date_to)}} Hari</p>
                             </td>
                             <td class="table-bordered" style="width: 100px;">
                                 <p class="font-11">Mulai Tanggal</p>
                             </td>
                             <td class="table-bordered" style="width: 130px;">
-                                <p class="font-11">{{$from_date ?? ''}}</p>
+                                <p class="font-11">{{\Carbon\Carbon::parse($leave_date_from)->format('d F Y')}}</p>
                             </td>
                             <td class="table-bordered" style="text-align: center">
                                 <p class="font-11">s.d</p>
                             </td>
                             <td class="table-bordered"style="width: 130px;">
-                                <p class="font-11">{{$to_date ?? ''}}</p>
+                                <p class="font-11">{{\Carbon\Carbon::parse($leave_date_to)->format('d F Y')}}</p>
                             </td>
                         </tr>
                     </table>
@@ -254,16 +217,16 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="table-bordered">
+                            <td class="table-bordered" style="text-align: center;">
                                 <p class="font-11">TAHUN</p>
                             </td>
                             <td class="table-bordered" style="text-align: center;">
                                 <p class="font-11">SISA</p>
                             </td>
-                            <td class="table-bordered" style="width: 40px;">
+                            <td class="table-bordered" style="width: 40px; text-align:center;">
                                 <p class="font-11">KETERANGAN</p>
                             </td>
-                            <td class="table-bordered">
+                            <td class="table-bordered" >
                                 <p class="font-11">3. CUTI SAKIT</p>
                             </td>
                             <td class="table-bordered" style="width: 30px;">
@@ -274,7 +237,7 @@
                             $currentYear = \Carbon\Carbon::now()->year;
                         @endphp
                         <tr>
-                            <td class="table-bordered" style="width: 20px;">
+                            <td class="table-bordered" style="width: 20px; text-align:center;">
                                 <p class="font-11">{{$currentYear - 2}}</p>
                             </td>
                             <td class="table-bordered" style="width: 40px;">
@@ -294,7 +257,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="table-bordered" style="width: 20px;">
+                            <td class="table-bordered" style="width: 20px; text-align:center;">
                                 <p class="font-11">{{$currentYear - 1}}</p>
                             </td>
                             <td class="table-bordered" style="width: 40px;">
@@ -311,7 +274,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="table-bordered" style="width: 20px;">
+                            <td class="table-bordered" style="width: 20px; text-align:center;">
                                 <p class="font-11">{{$currentYear}}</p>
                             </td>
                             <td class="table-bordered" style="width: 40px;">
@@ -345,13 +308,13 @@
                         </tr>
                         <tr>
                             <td class="table-bordered" style="width: 300px;">
-                                <p class="font-11">Di Bandung</p>
+                                <p class="font-11">{{$leave_address}}</p>
                             </td>
                             <td class="table-bordered" style="width: 100px;">
                                 <p class="font-11">TELP</p>
                             </td>
                             <td class="table-bordered">
-                                <p class="font-11">{{$employee->phone ?? ''}}</p>
+                                <p class="font-11">{{$leave_phone ?? ''}}</p>
                             </td>
                         </tr>
                         <tr>

@@ -39,10 +39,30 @@ class EnvelopeController extends Controller
         if (!$employee) {
             return back()->with(['error' => 'pegawai tidak dapat ditemukan!']);
         }
+
         return view('admin.envelope.leave', [
             'employee' => $employee, 'envelope_number' => $req->envelope_number,
             'work_long' => $req->work_long,
-            ''
+            'leave_type' => $req->leave_type,
+            'leave_reason' => $req->leave_reason,
+            'leave_date_from' => $req->leave_date_from,
+            'leave_date_to' => $req->leave_date_to,
+            'leave_address' => $req->leave_address,
+            'leave_phone' => $req->leave_phone
+        ]);
+    }
+
+    public function createAssignmentKPKNL(Request $req)
+    {
+        $employees = User::whereIn('id', $req->employee_ids)->get();
+        if (count($employees) < 0) {
+            return back()->with(['error' => 'pegawai tidak dapat ditemukan!']);
+        }
+
+        return view('admin.envelope.assignment_letter', [
+            'employees' => $employees, 
+            'envelope_number' => $req->envelope_number,
+            'body_letter' => $req->body_letter
         ]);
     }
 }
