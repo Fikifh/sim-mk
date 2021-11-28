@@ -17,9 +17,8 @@
                     <table>
                         <tr width="">
                             <td rowspan="4">
-                                <img id="logo_id"
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj_G2FIFRiB86YFoSCKCIqMUjU67i-j06a5w&usqp=CAU"
-                                    alt="" height="75.590551181px" width="75.590551181px">
+                                <img id="logo_id" src="{{ url('asset/logo_icon.jpg') }}" alt="" height="75.590551181px"
+                                    width="75.590551181px">
                             </td>
                         </tr>
                         <tr>
@@ -39,8 +38,10 @@
 
         <div class="row">
             <div class="col-12" style="text-align: center;">
-                <p class="font-12" style="margin-top: 20px; letter-spacing: 10px;">SURAT TUGAS</p>
-                <p class="font-12">NOMOR : {{ $envelope_number ?? '' }}</p>
+                <p class="font-12" style="margin-top: 20px; letter-spacing: 1px; font-weight:bold; text-decoration:underline;">
+                    SURAT PERNYATAAN MASIH
+                    MELAKSANAKAN TUGAS</p>
+                <p class="font-12">NOMOR : {{ $letter_number ?? '' }}</p>
             </div>
         </div>
 
@@ -48,53 +49,62 @@
         <div class="d-flex justify-content-center">
             <div class="row">
                 <div class="col-12 body-letter">
-                    <p style="text-indent: 30px;">Kami Ketua Pengadilan Negeri Banjar dengan ini menugaskan kepada:</p>
+                    <p style="text-indent: 30px;">Yang bertanda tangan dibawah ini:</p>
                 </div>
-                @php
-                    $i = 1;
-                @endphp
                 <div class="col-12 body-letter">
-                    <table class="table-width" cellspacing="0" style="border: 1px solid black; margin-left:30px;">
+                    <table class="table-width" cellspacing="0" style="margin-left:30px;">
                         <tr>
-                            <th class="table-bordered" style="text-align: center;">
-                                <p class="font-11">No.</p>
-                            </th>
-                            <th class="table-bordered" style="text-align: center;">
-                                <p class="font-11">Nama</p>
-                            </th>
-                            <th class="table-bordered" style="text-align: center;">
-                                <p class="font-11">Pangkat/Gol.</p>
-                            </th>
-                            <th class="table-bordered" style="text-align: center;">
-                                <p class="font-11">Jabatan</p>
-                            </th>
+                            <td>Nama</td>
+                            <td>: Kusman, S.H., M.H.</td>
                         </tr>
-                        @foreach ($employees as $employee)
-                            <tr>
-                                <td class="table-bordered" style="text-align: center;">
-                                    <p class="font-11">{{ $i }}</p>
-                                </td>
-                                <td class="table-bordered" style="text-align: center;">
-                                    <p class="font-11">{{ $employee->nama }}</p>
-                                </td>
-                                <td class="table-bordered" style="text-align: center;">
-                                    <p class="font-11">{{ $employee->golongan }}</p>
-                                </td>
-                                <td class="table-bordered" style="text-align: center;">
-                                    <p class="font-11">{{ $employee->jabatan }}</p>
-                                </td>
-                            </tr>
-                            @php
-                                $i++;
-                            @endphp
-                        @endforeach
+                        <tr>
+                            <td>NIP</td>
+                            <td>: 197610242001121004</td>
+                        </tr>
+                        <tr>
+                            <td>Pangkat / Golongan Ruang</td>
+                            <td>: Pembina / (IV/a )</td>
+                        </tr>
+                        <tr>
+                            <td>Jabatan</td>
+                            <td>: Ketua Pengadilan Negeri Banjar</td>
+                        </tr>
+                    </table>
+                    <p></p>
+                    <p style="text-indent: 30px; text-align:justify;">Dengan ini menyatakan dengan sesungguhnya bahwa :</p>
+                    <table class="table-width" cellspacing="0" style="margin-left:30px;">
+                        <tr>
+                            <td>Nama</td>
+                            <td>: {{ $employee->nama }}</td>
+                        </tr>
+                        <tr>
+                            <td>NIP</td>
+                            <td>: {{ $employee->nip }}</td>
+                        </tr>
+                        <tr>
+                            <td>Pangkat / Golongan Ruang</td>
+                            <td>: {{ $employee->golongan }}</td>
+                        </tr>
+                        <tr>
+                            <td>Jabatan</td>
+                            <td>: {{ $employee->jabatan }}</td>
+                        </tr>
                     </table>
                 </div>
                 <div class="col-12 body-letter">
                     <p></p>
-                    <p style="text-indent: 30px;">{{ $body_letter }}</p>
-                    <p style="text-indent: 30px;">Demikian Surat tugas ini kami buat agar dilaksanakan sebagaimana
-                        mestinya.</p>
+                    <p style="text-indent: 30px; text-align:justify;">Berdasarkan surat keputusan Direktur Jenderal Badan Peradilan Umum
+                        Nomor: {{ $sk_number }} tanggal {{ $sk_date }} masih melaksanakan tugas tersebut
+                        terhitung mulai tanggal {{ $date_start }}</p>
+                    <p style="text-indent: 30px; text-align:justify;">Berdasarkan Peraturan Presiden RI Nomor : 24 tahun 2007 sdr.
+                        {{ $employee->nama }} berhak menerima tunjangan Jabatan Panitera Pengganti Pengadilan Negeri
+                        Banjar sebesar Rp.{{ $tunjangan }} ({{ $tunjangan_dibaca }}) setiap bulannya</p>
+                    <p style="text-indent: 30px; text-align:justify;">Demikian Surat Pernyataan ini kami buat dengan sesungguhnya mengingat
+                        Sumpah Jabatan Pegawai Negeri Sipil. Apabila dikemudian hari Surat Pernyataan ini ternyata tidak
+                        benar yang mengakibatkan kerugian terhadap negara, maka kami bersedia menanggung kerugian
+                        tersebut.</p>
+                    <p style="text-indent: 30px; text-align:justify;">Asli Surat Pernyataan ini disampaikan kepada Kepala Kantor Pelayanan
+                        Perbendaharaan Negara Tasikmalaya.</p>
                 </div>
                 <div class="col-12 body-letter align-right">
                     <div class="d-flex flex-row-reverse">
@@ -102,28 +112,33 @@
                             <table cellspacing="0" style="">
                                 <tr>
                                     <td class="" style="text-align: left;">
-                                        <p class="font-11">Dikeluarkan di:</p>
-                                    </td>
-                                    <td class="" style="text-align: left;">
-                                        <p class="font-11">Banjar</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="" style="text-align: left;">
-                                        <p class="font-11">Pada Tanggal:</p>
-                                    </td>
-                                    <td class="" style="text-align: left;">
-                                        <p class="font-11">{{ \Carbon\Carbon::now()->format('d F y') }}</p>
+                                        <p class="font-11">Banjar,
+                                            {{ \Carbon\Carbon::now()->isoFormat('D MMMM Y') }}</p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="" style="text-align: center" colspan="2">
                                         <p class="font-11">Ketua Pengadilan Negeri Banjar,</p><br><br><br>
-                                        <p class="font-11">Jan Oktavianus, S.H., M.H.</p>
-                                        <p class="font-11">NIP 197410022000121002</p><br>
+                                        <p class="font-11">Kusman, S.H., M.H.</p>
+                                        <p class="font-11">NIP 197610242001121004</p><br>
                                     </td>
                                 </tr>
                             </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 body-letter align-left">
+                    <div class="d-flex flex-row-start">
+                        <div class="p-2">
+                            <p class="font-footer">Tembusan kepada YTH.</p>
+                            <p class="font-footer">1. Ketua Mahkamah Agung RI. di Jakarta;</p>
+                            <p class="font-footer">2. Sekretaris Mahkamah Agung RI. di Jakarta;</p>
+                            <p class="font-footer">3. Direktur Jenderal Badilum MARI di Jakarta;</p>
+                            <p class="font-footer">4. Ketua Pengadilan Tinggi Bandung di Bandung;</p>
+                            <p class="font-footer">5. Kepala Badan Kepegawaian Negara Reg III di Bandung;</p>
+                            <p class="font-footer">6. Pembuat Daftar Gaji Pengadilan Negeri Banjar di Banjar;</p>
+                            <p class="font-footer">7. Pegawai Negeri Sipil yang bersangkutan;</p>
+                            <p class="font-footer">8. Arsip;</p>
                         </div>
                     </div>
                 </div>
@@ -133,6 +148,11 @@
     </div>
 </body>
 <style>
+    .font-footer {
+        font-size: 9px;
+        margin-bottom: 1px;
+    }
+
     .body-letter {
         padding-left: 170px;
         padding-right: 170px;

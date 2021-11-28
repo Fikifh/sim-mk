@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\IndikatorKerja;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class EnvelopeController extends Controller
@@ -61,8 +62,67 @@ class EnvelopeController extends Controller
 
         return view('admin.envelope.assignment_letter', [
             'employees' => $employees, 
-            'envelope_number' => $req->envelope_number,
+            'letter_number' => $req->letter_number,
             'body_letter' => $req->body_letter
         ]);
     }
+
+    public function createSpmt(Request $req)
+    {
+        $employee = User::find($req->employee_id);
+        if (!$employee) {
+            return back()->with(['error' => 'pegawai tidak dapat ditemukan!']);
+        }
+
+        return view('admin.envelope.spmt', [
+            'employee' => $employee, 
+            'letter_number' => $req->letter_number,
+            'sk_number' => $req->sk_number,
+            'sk_date' => Carbon::parse($req->sk_date)->isoFormat('D MMMM Y'),
+            'sk_date_start' => Carbon::parse($req->sk_date_start)->isoFormat('D MMMM Y'),
+            'date_start' => Carbon::parse($req->date_start)->isoFormat('D MMMM Y'),
+            'tunjangan' => number_format($req->tunjangan, 0, '', '.'),
+            'tunjangan_dibaca' => $req->tunjangan_dibaca
+        ]);
+    }
+
+    public function createSpmj(Request $req)
+    {
+        $employee = User::find($req->employee_id);
+        if (!$employee) {
+            return back()->with(['error' => 'pegawai tidak dapat ditemukan!']);
+        }
+
+        return view('admin.envelope.spmj', [
+            'employee' => $employee, 
+            'letter_number' => $req->letter_number,
+            'sk_number' => $req->sk_number,
+            'sk_date' => Carbon::parse($req->sk_date)->isoFormat('D MMMM Y'),
+            'sk_date_start' => Carbon::parse($req->sk_date_start)->isoFormat('D MMMM Y'),
+            'date_start' => Carbon::parse($req->date_start)->isoFormat('D MMMM Y'),
+            'tunjangan' => number_format($req->tunjangan, 0, '', '.'),
+            'tunjangan_dibaca' => $req->tunjangan_dibaca
+        ]);
+    }
+
+    public function createSpp(Request $req)
+    {
+        $employee = User::find($req->employee_id);
+        if (!$employee) {
+            return back()->with(['error' => 'pegawai tidak dapat ditemukan!']);
+        }
+
+        return view('admin.envelope.spp', [
+            'employee' => $employee, 
+            'letter_number' => $req->letter_number,
+            'sk_number' => $req->sk_number,
+            'sk_date' => Carbon::parse($req->sk_date)->isoFormat('D MMMM Y'),
+            'sk_date_start' => Carbon::parse($req->sk_date_start)->isoFormat('D MMMM Y'),
+            'date_start' => Carbon::parse($req->date_start)->isoFormat('D MMMM Y'),
+            'tunjangan' => number_format($req->tunjangan, 0, '', '.'),
+            'tunjangan_dibaca' => $req->tunjangan_dibaca
+        ]);
+    }
+
+    
 }

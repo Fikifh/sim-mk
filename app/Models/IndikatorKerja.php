@@ -36,4 +36,7 @@ class IndikatorKerja extends Model
     public function kegiatanTugasJabatan(){
         return $this->hasMany(\App\Models\UraianKegiatan::class, 'id_indikator_kerjas');
     }   
+
+    public $timestamps = true;
+
 }

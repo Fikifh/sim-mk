@@ -108,16 +108,16 @@
                         </div>
                         <div class="form-group">
                             <label for="leave_date_from" class="control-label">Dari Tanggal</label>
-                            <input type="date" name="leave_date_from" class="form-control col-sm-6"
-                                required="true" id="leave_date_from">
+                            <input type="date" name="leave_date_from" class="form-control col-sm-6" required="true"
+                                id="leave_date_from">
                             <label for="leave_date_from" class="control-label">Sampai Tanggal</label>
-                            <input type="date" name="leave_date_to" class="form-control col-sm-6"
-                                required="true" id="leave_date_to">
+                            <input type="date" name="leave_date_to" class="form-control col-sm-6" required="true"
+                                id="leave_date_to">
                         </div>
                         <div class="form-group">
                             <label for="leave_address" class="control-label">Alamat Selama Menjalan Cuti</label>
-                            <input type="text" name="leave_address" placeholder="Alamat selama menjalankan cuti" class="form-control"
-                                required="true" id="leave_address_id">
+                            <input type="text" name="leave_address" placeholder="Alamat selama menjalankan cuti"
+                                class="form-control" required="true" id="leave_address_id">
                         </div>
                         <div class="form-group">
                             <label for="leave_address" class="control-label">Telp</label>
@@ -149,16 +149,18 @@
                         @csrf
                         <div class="form-group">
                             <label for="employee_id" class="control-label">Pilih Pegawai</label>
-                            <select multiple name="employee_ids[]" class="form-control" required="true" id="kpknl_employee_id">
+                            <select multiple name="employee_ids[]" class="form-control" required="true"
+                                id="kpknl_employee_id">
                                 <option value=""></option>
                             </select>
-                            <small class="text-muted">Bisa melakukan multiple select dengan menekan tombol CTRL. Jika Pegawai tidak ada di list bisa menambahkan di menu
+                            <small class="text-muted">Bisa melakukan multiple select dengan menekan tombol CTRL. Jika
+                                Pegawai tidak ada di list bisa menambahkan di menu
                                 pegawai</small>
                         </div>
                         <div class="form-group">
                             <label for="leave_number" class="control-label">Nomor Surat</label>
-                            <input type="leave_number" name="leave_number" placeholder="W11.U22/932/KP.05.2/XI/2021"
-                                class="form-control" required="true" id="leave_number">
+                            <input type="text" name="letter_number" placeholder="W11.U22/932/KP.05.2/XI/2021"
+                                class="form-control" required="true" id="letter_number">
                         </div>
                         <div class="form-group">
                             <label for="work_time" class="control-label">Isi Surat</label>
@@ -185,15 +187,58 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('edit_admin_pegawai') }} method="POST">
+                    <form action={{ route('createSPMT') }} method="POST">
                         @csrf
-                        <input type="text" name="id" class="form-control" id="id_edit" hidden="true">
                         <div class="form-group">
-                            <label for="nip" class="control-label">NIP:</label>
-                            <input type="text" name="nip" class="form-control" required="true" id="nip_id">
+                            <label for="employee_id" class="control-label">Yang Dinyatakan</label>
+                            <select name="employee_id" class="form-control" required="true"
+                                id="spmt_employee_stated">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="leave_number" class="control-label">Nomor Surat</label>
+                            <input type="text" name="letter_number" placeholder="W11.U22/932/KP.05.2/XI/2021"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sk_number" class="control-label">Nomor SK</label>
+                            <input type="text" name="sk_number"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sk_date" class="control-label">Tanggal SK</label>
+                            <input type="date" name="sk_date"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sk_date_start" class="control-label">Tanggal SK Dimulai</label>
+                            <input type="date" name="sk_date_start"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="date_start" class="control-label">Tanggal Mulai</label>
+                            <input type="date" name="date_start"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tunjangan" class="control-label">Jumlah Tunjangan Angka</label>
+                            <input type="number" name="tunjangan"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tunjangan_dibaca" class="control-label">Jumlah Tunjangan Dalam Teks</label>
+                            <input type="text" name="tunjangan_dibaca"
+                                class="form-control" required="true" id="letter_number">
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Ubah</button>
+                            <button type="submit" class="btn btn-primary">Buat</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
                         </div>
                     </form>
@@ -214,15 +259,58 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('edit_admin_pegawai') }} method="POST">
+                    <form action={{ route('createSPMJ') }} method="POST">
                         @csrf
-                        <input type="text" name="id" class="form-control" id="id_edit" hidden="true">
                         <div class="form-group">
-                            <label for="nip" class="control-label">NIP:</label>
-                            <input type="text" name="nip" class="form-control" required="true" id="nip_id">
+                            <label for="employee_id" class="control-label">Yang Dinyatakan</label>
+                            <select name="employee_id" class="form-control" required="true"
+                                id="spmj_employee_stated">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="leave_number" class="control-label">Nomor Surat</label>
+                            <input type="text" name="letter_number" placeholder="W11.U22/932/KP.05.2/XI/2021"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sk_number" class="control-label">Nomor SK</label>
+                            <input type="text" name="sk_number"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sk_date" class="control-label">Tanggal SK</label>
+                            <input type="date" name="sk_date"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sk_date_start" class="control-label">Tanggal SK Dimulai</label>
+                            <input type="date" name="sk_date_start"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="date_start" class="control-label">Tanggal Mulai</label>
+                            <input type="date" name="date_start"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tunjangan" class="control-label">Jumlah Tunjangan Angka</label>
+                            <input type="number" name="tunjangan"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tunjangan_dibaca" class="control-label">Jumlah Tunjangan Dalam Teks</label>
+                            <input type="text" name="tunjangan_dibaca"
+                                class="form-control" required="true" id="letter_number">
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Ubah</button>
+                            <button type="submit" class="btn btn-primary">Buat</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
                         </div>
                     </form>
@@ -243,15 +331,58 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action={{ route('edit_admin_pegawai') }} method="POST">
+                    <form action={{ route('createSPP') }} method="POST">
                         @csrf
-                        <input type="text" name="id" class="form-control" id="id_edit" hidden="true">
                         <div class="form-group">
-                            <label for="nip" class="control-label">NIP:</label>
-                            <input type="text" name="nip" class="form-control" required="true" id="nip_id">
+                            <label for="employee_id" class="control-label">Yang Dinyatakan</label>
+                            <select name="employee_id" class="form-control" required="true"
+                                id="spp_employee_stated">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="leave_number" class="control-label">Nomor Surat</label>
+                            <input type="text" name="letter_number" placeholder="W11.U22/932/KP.05.2/XI/2021"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sk_number" class="control-label">Nomor SK</label>
+                            <input type="text" name="sk_number"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sk_date" class="control-label">Tanggal SK</label>
+                            <input type="date" name="sk_date"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sk_date_start" class="control-label">Tanggal SK Dimulai</label>
+                            <input type="date" name="sk_date_start"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="date_start" class="control-label">Tanggal Mulai</label>
+                            <input type="date" name="date_start"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tunjangan" class="control-label">Jumlah Tunjangan Angka</label>
+                            <input type="number" name="tunjangan"
+                                class="form-control" required="true" id="letter_number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tunjangan_dibaca" class="control-label">Jumlah Tunjangan Dalam Teks</label>
+                            <input type="text" name="tunjangan_dibaca"
+                                class="form-control" required="true" id="letter_number">
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Ubah</button>
+                            <button type="submit" class="btn btn-primary">Buat</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
                         </div>
                     </form>
@@ -265,6 +396,48 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
+            $('#id_spmt_modal').on('show.bs.modal', function(e) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url('/pegawai') }}?is_api=1",
+                    success: function(data) {
+                        for (i = 0; i < data.pegawai.length; i++) {
+                            $('#spmt_employee_stated').append(
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                            );
+                        }
+                    }
+                });
+            });
+
+            $('#id_spmj_modal').on('show.bs.modal', function(e) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url('/pegawai') }}?is_api=1",
+                    success: function(data) {
+                        for (i = 0; i < data.pegawai.length; i++) {
+                            $('#spmj_employee_stated').append(
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                            );
+                        }
+                    }
+                });
+            });
+
+            $('#id_spp_modal').on('show.bs.modal', function(e) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url('/pegawai') }}?is_api=1",
+                    success: function(data) {
+                        for (i = 0; i < data.pegawai.length; i++) {
+                            $('#spp_employee_stated').append(
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                            );
+                        }
+                    }
+                });
+            });
+
             $('#id_cuti_modal').on('show.bs.modal', function(e) {
                 $.ajax({
                     type: 'GET',

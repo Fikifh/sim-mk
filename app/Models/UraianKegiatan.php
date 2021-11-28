@@ -30,4 +30,7 @@ class UraianKegiatan extends Model
     public function transIndikator(){
         return $this->hasOne(\App\Models\TransIndikatoriKinerja::class, 'id_uraian_kegiatan');
     }
+
+    public $timestamps = true;
+
 }

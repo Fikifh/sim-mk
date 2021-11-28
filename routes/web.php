@@ -76,6 +76,9 @@ Route::group(['prefix' => 'envelope', 'namespace' => 'App\Http\Controllers\Admin
     $router->get('/', 'EnvelopeController@index')->name('envelope');
     $router->post('leave', 'EnvelopeController@createLeave')->name('createLeave');
     $router->post('kpknl', 'EnvelopeController@createAssignmentKPKNL')->name('createAssignmentKPKNL');
+    $router->post('spmt', 'EnvelopeController@createSpmt')->name('createSPMT');
+    $router->post('spmj', 'EnvelopeController@createSpmj')->name('createSPMJ');
+    $router->post('spp', 'EnvelopeController@createSpp')->name('createSPP');
 });
 
 //PEGAWAI

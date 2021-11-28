@@ -12,4 +12,6 @@ class Kehadiran extends Model
     protected $table = 'kehadirans';
     protected $fillable = ['users_id', 'nilai', 'bulan'];
     protected $dates = ['created_at', 'updated_at'];
+    public $timestamps = true;
+
 }

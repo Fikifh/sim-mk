@@ -17,9 +17,8 @@
                     <table>
                         <tr width="">
                             <td rowspan="4">
-                                <img id="logo_id"
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj_G2FIFRiB86YFoSCKCIqMUjU67i-j06a5w&usqp=CAU"
-                                    alt="" height="75.590551181px" width="75.590551181px">
+                                <img id="logo_id" src="{{ url('asset/logo_icon.jpg') }}" alt="" height="75.590551181px"
+                                    width="75.590551181px">
                             </td>
                         </tr>
                         <tr>
@@ -61,7 +60,7 @@
             </div>
         </div>
 
-        {{-- Table DATA PEGAWAI--}}
+        {{-- Table DATA PEGAWAI --}}
         <div class="d-flex justify-content-center">
             <div class="row">
                 <div class="col-12">
@@ -90,13 +89,13 @@
                                 <p class="font-12">Jabatan</p>
                             </td>
                             <td class="table-bordered">
-                                <p class="font-12">{{$employee->jabatan ? $employee->jabatan : ""}}</p>
+                                <p class="font-12">{{ $employee->jabatan ? $employee->jabatan : '' }}</p>
                             </td>
                             <td class="table-bordered">
                                 <p class="font-12">Masa Kerja</p>
                             </td>
                             <td class="table-bordered">
-                                <p class="font-12">{{$work_long ?? ""}}</p>
+                                <p class="font-12">{{ $work_long ?? '' }}</p>
                             </td>
                         </tr>
                         <tr>
@@ -104,7 +103,7 @@
                                 <p class="font-12">Unit Kerja</p>
                             </td>
                             <td class="table-bordered" colspan="4">
-                                <p class="font-12">{{$employee->unit_kerja ?? ''}}</p>
+                                <p class="font-12">{{ $employee->unit_kerja ?? '' }}</p>
                             </td>
                         </tr>
                     </table>
@@ -113,7 +112,7 @@
         </div>
         {{-- END TABLE DATA PEGAWAI --}}
 
-        {{-- Table JENIS CUTI--}}
+        {{-- Table JENIS CUTI --}}
         <div class="d-flex justify-content-center" style="margin-top: 20px;">
             <div class="row">
                 <div class="col-12">
@@ -125,7 +124,7 @@
                         </tr>
                         <tr>
                             <td class="table-bordered">
-                                <p class="font-11">{{$leave_type}}</p>
+                                <p class="font-11">{{ $leave_type }}</p>
                             </td>
                         </tr>
                     </table>
@@ -134,7 +133,7 @@
         </div>
         {{-- END TABLE JENIS CUTI --}}
 
-        {{-- Table ALASAN CUTI--}}
+        {{-- Table ALASAN CUTI --}}
         <div class="d-flex justify-content-center" style="margin-top: 20px;">
             <div class="row">
                 <div class="col-12">
@@ -146,7 +145,7 @@
                         </tr>
                         <tr>
                             <td class="table-bordered" colspan="4">
-                                <p class="font-11">{{$leave_reason ?? ''}}</p>
+                                <p class="font-11">{{ $leave_reason ?? '' }}</p>
                             </td>
                         </tr>
                     </table>
@@ -155,7 +154,7 @@
         </div>
         {{-- END ALASAN CUTI --}}
 
-        {{-- Table LAMANYA CUTI--}}
+        {{-- Table LAMANYA CUTI --}}
         <div class="d-flex justify-content-center" style="margin-top: 20px;">
             <div class="row">
                 <div class="col-12">
@@ -170,19 +169,22 @@
                                 <p class="font-11">Selama</p>
                             </td>
                             <td class="table-bordered" style="width: 130px; text-align:center;">
-                                <p class="font-11">{{\Carbon\Carbon::parse($leave_date_from)->diffInDays($leave_date_to)}} Hari</p>
+                                <p class="font-11">
+                                    {{ \Carbon\Carbon::parse($leave_date_from)->diffInDays($leave_date_to) }} Hari</p>
                             </td>
                             <td class="table-bordered" style="width: 100px;">
                                 <p class="font-11">Mulai Tanggal</p>
                             </td>
                             <td class="table-bordered" style="width: 130px;">
-                                <p class="font-11">{{\Carbon\Carbon::parse($leave_date_from)->format('d F Y')}}</p>
+                                <p class="font-11">
+                                    {{ \Carbon\Carbon::parse($leave_date_from)->format('d F Y') }}</p>
                             </td>
                             <td class="table-bordered" style="text-align: center">
                                 <p class="font-11">s.d</p>
                             </td>
-                            <td class="table-bordered"style="width: 130px;">
-                                <p class="font-11">{{\Carbon\Carbon::parse($leave_date_to)->format('d F Y')}}</p>
+                            <td class="table-bordered" style="width: 130px;">
+                                <p class="font-11">{{ \Carbon\Carbon::parse($leave_date_to)->format('d F Y') }}
+                                </p>
                             </td>
                         </tr>
                     </table>
@@ -226,7 +228,7 @@
                             <td class="table-bordered" style="width: 40px; text-align:center;">
                                 <p class="font-11">KETERANGAN</p>
                             </td>
-                            <td class="table-bordered" >
+                            <td class="table-bordered">
                                 <p class="font-11">3. CUTI SAKIT</p>
                             </td>
                             <td class="table-bordered" style="width: 30px;">
@@ -238,7 +240,7 @@
                         @endphp
                         <tr>
                             <td class="table-bordered" style="width: 20px; text-align:center;">
-                                <p class="font-11">{{$currentYear - 2}}</p>
+                                <p class="font-11">{{ $currentYear - 2 }}</p>
                             </td>
                             <td class="table-bordered" style="width: 40px;">
                                 <p class="font-11"></p>
@@ -258,7 +260,7 @@
                         </tr>
                         <tr>
                             <td class="table-bordered" style="width: 20px; text-align:center;">
-                                <p class="font-11">{{$currentYear - 1}}</p>
+                                <p class="font-11">{{ $currentYear - 1 }}</p>
                             </td>
                             <td class="table-bordered" style="width: 40px;">
                                 <p class="font-11"></p>
@@ -275,7 +277,7 @@
                         </tr>
                         <tr>
                             <td class="table-bordered" style="width: 20px; text-align:center;">
-                                <p class="font-11">{{$currentYear}}</p>
+                                <p class="font-11">{{ $currentYear }}</p>
                             </td>
                             <td class="table-bordered" style="width: 40px;">
                                 <p class="font-11"></p>
@@ -308,13 +310,13 @@
                         </tr>
                         <tr>
                             <td class="table-bordered" style="width: 300px;">
-                                <p class="font-11">{{$leave_address}}</p>
+                                <p class="font-11">{{ $leave_address }}</p>
                             </td>
                             <td class="table-bordered" style="width: 100px;">
                                 <p class="font-11">TELP</p>
                             </td>
                             <td class="table-bordered">
-                                <p class="font-11">{{$leave_phone ?? ''}}</p>
+                                <p class="font-11">{{ $leave_phone ?? '' }}</p>
                             </td>
                         </tr>
                         <tr>
@@ -323,8 +325,8 @@
                             </td>
                             <td class="table-bordered" style="text-align: center" colspan="2">
                                 <p class="font-11">Hormat Saya</p><br><br><br>
-                                <p class="font-11">{{$employee->nama}}</p>
-                                <p class="font-11">NIP {{$employee->nip}}</p><br>
+                                <p class="font-11">{{ $employee->nama }}</p>
+                                <p class="font-11">NIP {{ $employee->nip }}</p><br>
                             </td>
                         </tr>
                     </table>

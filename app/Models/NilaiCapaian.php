@@ -10,4 +10,6 @@ class NilaiCapaian extends Model
     use HasFactory;
     protected $table = 'nilai_capaians';
     protected $fillable = ['nilai_angka_min', 'nilai_angka', 'nilai_text'];
+    public $timestamps = true;
+
 }

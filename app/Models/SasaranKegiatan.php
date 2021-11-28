@@ -14,4 +14,6 @@ class SasaranKegiatan extends Model
     public function indikatorKerjas(){
         return $this->hasMany(\App\Models\IndikatorKerja::class, 'sasaran_kegiatan_id');
     }
+
+    public $timestamps = true;
 }

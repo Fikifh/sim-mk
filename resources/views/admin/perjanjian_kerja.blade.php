@@ -22,7 +22,7 @@
                                         <option>{{ $s}}</option>
                                     @endfor
                                 </select>
-                                <a id="year_filter_id" title="Filter" href={{ route('_perjanjian_kerja', ['year' => $year, 'user_id' => $user_id])}} >
+                                <a id="year_filter_id" title="Filter" href={{ route('perjanjian_kerja', ['year' => $year, 'user_id' => $user_id])}} >
                                     <button class="btn-sm btn purple-gradient" type="button" data-toggle="collapse"
                                         data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                                         <i class="fas fa-filter"></i>
@@ -415,12 +415,12 @@
              
             $("select#year_id").change(function(){
                 var selectedYear = $(this).children("option:selected").val();                             
-                var url = "{{ url('pegawai/perjanjian_kinerja?year=')}}"+ selectedYear+ "&user_id=" {{$user_id}};                    
+                var url = "{{ url('admin/pegawai/perjanjian_kinerja?year=')}}"+ selectedYear+ "&user_id=" {{$user_id}};                    
                 $('#year_filter_id').attr('href', url);                    
             });   
             $('#year_filter_id').on('click', function(){
                 var selectedYear = $("select#year_id").children("option:selected").val();                             
-                var url = "{{ url('pegawai/perjanjian_kinerja?year=')}}"+ selectedYear+ "&user_id=" {{$user_id}};                    
+                var url = "{{ url('admin/pegawai/perjanjian_kinerja?year=')}}"+ selectedYear+ "&user_id=" {{$user_id}};                    
                 $('#year_filter_id').attr('href', url);    
             });
             $("select#year_id").val({{$year}});      

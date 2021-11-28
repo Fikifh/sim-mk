@@ -18,7 +18,7 @@
                         <tr width="">
                             <td rowspan="4">
                                 <img id="logo_id"
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj_G2FIFRiB86YFoSCKCIqMUjU67i-j06a5w&usqp=CAU"
+                                    src="{{url('asset/logo_icon.jpg')}}"
                                     alt="" height="75.590551181px" width="75.590551181px">
                             </td>
                         </tr>
@@ -40,7 +40,7 @@
         <div class="row">
             <div class="col-12" style="text-align: center;">
                 <p class="font-12" style="margin-top: 20px; letter-spacing: 10px;">SURAT TUGAS</p>
-                <p class="font-12">NOMOR : {{ $envelope_number ?? '' }}</p>
+                <p class="font-12">NOMOR : {{ $letter_number ?? '' }}</p>
             </div>
         </div>
 
