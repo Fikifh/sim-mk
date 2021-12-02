@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>Aplikasi Rekap Kinerja</title>
+    <title>si-LIA</title>
 
     <link rel="shortcut icon" href={{asset('asset/logo_icon.jpg')}} type="image/x-icon">
     <!-- Font Awesome Icons -->

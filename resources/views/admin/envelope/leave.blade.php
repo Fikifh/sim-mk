@@ -56,7 +56,7 @@
         <div class="row">
             <div class="col-12" style="text-align: center;">
                 <p class="font-12" style="margin-top: 20px;">FORMULIR PERMINTAAN DAN PEMBERIAN CUTI</p>
-                <p class="font-12">NOMOR : {{ $envelope_number ?? '' }}</p>
+                <p class="font-12">NOMOR : {{ $letter_number ?? '' }}</p>
             </div>
         </div>
 

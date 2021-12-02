@@ -2,17 +2,17 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link" style="color: #AF5296 !important;">
-        <img src={{ asset('asset/logo_icon.jpg') }} alt="sireki"
-            class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src={{ asset('asset/logo_icon.jpg') }} alt="sireki" class="brand-image img-circle elevation-3"
+            style="opacity: .8">
         <span class="brand-text font-weight-light"><b>
-            @if (Auth::user())
-                @if(Auth::user()->role == 'admin')
-                    Admin
-                @else
-                    Pegawai
+                @if (Auth::user())
+                    @if (Auth::user()->role == 'admin')
+                        Admin
+                    @else
+                        Pegawai
+                    @endif
                 @endif
-            @endif
-        </b>
+            </b>
         </span>
     </a>
 
@@ -21,11 +21,10 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src={{ asset('asset/user_icon.png') }}
-                    class="img-circle elevation-2" alt="User Image">
+                <img src={{ asset('asset/user_icon.png') }} class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">@if(Auth::user())  {{Auth::user()->nama }}@endif</a>
+                <a href="#" class="d-block">@if (Auth::user())  {{ Auth::user()->nama }}@endif</a>
             </div>
         </div>
 
@@ -36,42 +35,6 @@
                with font-awesome or any other icon font library -->
                 <!-- Admin Menu -->
                 @if (Auth::user()->role == 'admin')
-                    <li class="nav-header"></li>
-                    <li class="nav-item">
-                        <a href={{ route('home') }} class="nav-link">
-                            <i class="nav-icon fas fa-home"></i>
-                            <p>
-                                Dashboard
-                            </p>
-                        </a>
-                    </li>
-
-                    <li class="nav-header">Menu</li>
-                    <li class="nav-item">
-                        <a href={{ route('perjanjian_kerja') }} class="nav-link">
-                            <i class="far fa-handshake"></i>
-                            <p>
-                                Perjanjian Kerja (PK)
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-toggle="modal" data-target="#adminPckModal">
-                            <i class="fas fa-file-signature"></i>
-                            <p>
-                                Penilaian Capaian Kinerja (PCK)
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-toggle="modal" data-target="#adminRekapModal">
-                            <i class="fas fa-file-invoice"></i>
-                            <p>
-                                Rekap
-                            </p>
-                        </a>
-                    </li>
-                    
                     <li class="nav-header">Data Pegawai</li>
                     <li class="nav-item">
                         <a href={{ route('admin_pegawai') }} class="nav-link">
@@ -80,7 +43,7 @@
                                 Pegawai
                             </p>
                         </a>
-                    </li>  
+                    </li>
                     <li class="nav-header">Template Surat</li>
                     <li class="nav-item">
                         <a href={{ route('envelope') }} class="nav-link">
@@ -89,7 +52,57 @@
                                 Template Surat
                             </p>
                         </a>
-                    </li>                   
+                    </li>
+                    
+                    <li class="nav-header">Setting</li>
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#collapseExample" role="button"
+                            aria-expanded="false" aria-controls="collapseExample">
+                            <i class="nav-icon fas fa-folder"></i>
+                            <span>General</span>
+                        </a>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <ul>
+                                    <li class="nav-header">Menu</li>
+                                    <li class="nav-item">
+                                        <a href={{ route('home') }} class="nav-link">
+                                            <i class="nav-icon fas fa-home"></i>
+                                            <p>
+                                                Dashboard
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href={{ route('perjanjian_kerja') }} class="nav-link">
+                                            <i class="far fa-handshake"></i>
+                                            <p>
+                                                Perjanjian Kerja (PK)
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" data-toggle="modal" data-target="#adminPckModal">
+                                            <i class="fas fa-file-signature"></i>
+                                            <p>
+                                                Penilaian Capaian Kinerja (PCK)
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" data-toggle="modal" data-target="#adminRekapModal">
+                                            <i class="fas fa-file-invoice"></i>
+                                            <p>
+                                                Rekap
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    
                 @else
                     <li class="nav-header"></li>
                     <li class="nav-item">
@@ -102,7 +115,7 @@
                     </li>
                     <li class="nav-header">Menu</li>
                     <li class="nav-item">
-                        <a href={{ route('_perjanjian_kerja') }} class="nav-link">                            
+                        <a href={{ route('_perjanjian_kerja') }} class="nav-link">
                             <i class="far fa-handshake"></i>
                             <p>
                                 Perjanjian Kerja (PK)
@@ -110,7 +123,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" data-target="#pegawaiPckModal" data-toggle="modal" class="nav-link" >
+                        <a href="#" data-target="#pegawaiPckModal" data-toggle="modal" class="nav-link">
                             <i class="fas fa-file-signature"></i>
                             <p>
                                 Penilaian Capaian Kinerja (PCK)
@@ -179,7 +192,7 @@
             <div class="modal-body">
                 <form action={{ url('pegawai/laporan') }} method="GET">
                     @csrf
-                    <input type="text" name="id" class="form-control" id="id" hidden="true">                    
+                    <input type="text" name="id" class="form-control" id="id" hidden="true">
                     <div class="form-group">
                         <label for="email" class="control-label">Periode:</label><br>
                         Dari
@@ -207,7 +220,7 @@
             </div>
             <div class="modal-body">
                 <form action={{ route('admin_penilaian_capaian_kinerja') }} method="GET">
-                    @csrf                    
+                    @csrf
                     <div class="form-group">
                         <label for="email" class="control-label">Pegawai:</label><br>
                         <select name="user_id" id="pck_user_id" class="form-control">
@@ -236,12 +249,12 @@
                     <div class="form-group">
                         <label for="email" class="control-label">Tahun:</label><br>
                         <select name="tahun" id="rekup_tahun" class="form-control">
-                            <?php 
-                                $currentYear =  \Carbon\Carbon::now()->year ;
-                                $oldYear = $currentYear - 10;
-                                ?>
-                            @for($s=$currentYear; $s >= $oldYear; $s--)
-                                <option value={{$s}}>{{$s}}</option>
+                            <?php
+                            $currentYear = \Carbon\Carbon::now()->year;
+                            $oldYear = $currentYear - 10;
+                            ?>
+                            @for ($s = $currentYear; $s >= $oldYear; $s--)
+                                <option value={{ $s }}>{{ $s }}</option>
                             @endfor
                         </select>
                         <small class="text-muted">silahkan untuk memilih tahun yang ingin ditampilkan </small>
@@ -266,7 +279,7 @@
             </div>
             <div class="modal-body">
                 <form action={{ route('pegawai_penilaian_capaian_kinerja') }} method="GET">
-                    @csrf                                        
+                    @csrf
                     <div class="form-group">
                         <label for="email" class="control-label">Bulan:</label><br>
                         <select name="bulan" id="rekup_bulan" class="form-control">
@@ -288,12 +301,12 @@
                     <div class="form-group">
                         <label for="email" class="control-label">Tahun:</label><br>
                         <select name="tahun" id="rekup_tahun" class="form-control">
-                            <?php 
-                                $currentYear =  \Carbon\Carbon::now()->year ;
-                                $oldYear = $currentYear - 10;
-                                ?>
-                            @for($s=$currentYear; $s >= $oldYear; $s--)
-                                <option value={{$s}}>{{$s}}</option>
+                            <?php
+                            $currentYear = \Carbon\Carbon::now()->year;
+                            $oldYear = $currentYear - 10;
+                            ?>
+                            @for ($s = $currentYear; $s >= $oldYear; $s--)
+                                <option value={{ $s }}>{{ $s }}</option>
                             @endfor
                         </select>
                         <small class="text-muted">silahkan untuk memilih tahun yang ingin ditampilkan </small>
@@ -320,7 +333,7 @@
             </div>
             <div class="modal-body">
                 <form action={{ route('admin_rekup') }} method="GET">
-                    @csrf                    
+                    @csrf
                     <div class="form-group">
                         <label for="email" class="control-label">Bulan:</label><br>
                         <select name="bulan" id="rekup_bulan" class="form-control">
@@ -342,12 +355,12 @@
                     <div class="form-group">
                         <label for="email" class="control-label">Tahun:</label><br>
                         <select name="tahun" id="rekup_tahun" class="form-control">
-                            <?php 
-                                $currentYear =  \Carbon\Carbon::now()->year ;
-                                $oldYear = $currentYear - 10;
-                                ?>
-                            @for($s=$currentYear; $s >= $oldYear; $s--)
-                                <option value={{$s}}>{{$s}}</option>
+                            <?php
+                            $currentYear = \Carbon\Carbon::now()->year;
+                            $oldYear = $currentYear - 10;
+                            ?>
+                            @for ($s = $currentYear; $s >= $oldYear; $s--)
+                                <option value={{ $s }}>{{ $s }}</option>
                             @endfor
                         </select>
                         <small class="text-muted">silahkan untuk memilih tahun yang ingin ditampilkan </small>
@@ -372,7 +385,7 @@
             </div>
             <div class="modal-body">
                 <form action={{ route('pegawai_rekup') }} method="GET">
-                    @csrf                    
+                    @csrf
                     <div class="form-group">
                         <label for="email" class="control-label">Bulan:</label><br>
                         <select name="bulan" id="rekup_bulan" class="form-control">
@@ -394,12 +407,12 @@
                     <div class="form-group">
                         <label for="email" class="control-label">Tahun:</label><br>
                         <select name="tahun" id="rekup_tahun" class="form-control">
-                            <?php 
-                                $currentYear =  \Carbon\Carbon::now()->year ;
-                                $oldYear = $currentYear - 10;
-                                ?>
-                            @for($s=$currentYear; $s >= $oldYear; $s--)
-                                <option value={{$s}}>{{$s}}</option>
+                            <?php
+                            $currentYear = \Carbon\Carbon::now()->year;
+                            $oldYear = $currentYear - 10;
+                            ?>
+                            @for ($s = $currentYear; $s >= $oldYear; $s--)
+                                <option value={{ $s }}>{{ $s }}</option>
                             @endfor
                         </select>
                         <small class="text-muted">silahkan untuk memilih tahun yang ingin ditampilkan </small>
@@ -429,10 +442,9 @@
                     $('#pck_user_id').append(
                         `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
                     );
-                }                
+                }
             }
         });
 
     });
-
 </script>

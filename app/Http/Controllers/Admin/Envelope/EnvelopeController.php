@@ -31,7 +31,7 @@ class EnvelopeController extends Controller
             ],
         ];
 
-        return view('admin.envelope.envelope', ['page_title' => 'Template Surat Menyurat', 'envelopes' => $data]);
+        return view('admin.envelope.envelope', ['page_title' => 'Template Surat', 'envelopes' => $data]);
     }
 
     public function createLeave(Request $req)
@@ -49,7 +49,8 @@ class EnvelopeController extends Controller
             'leave_date_from' => $req->leave_date_from,
             'leave_date_to' => $req->leave_date_to,
             'leave_address' => $req->leave_address,
-            'leave_phone' => $req->leave_phone
+            'leave_phone' => $req->leave_phone,
+            'letter_number' => $req->letter_number
         ]);
     }
 
@@ -61,6 +62,7 @@ class EnvelopeController extends Controller
         }
 
         return view('admin.envelope.assignment_letter', [
+            'first_redaction' => $req->first_redaction,
             'employees' => $employees, 
             'letter_number' => $req->letter_number,
             'body_letter' => $req->body_letter

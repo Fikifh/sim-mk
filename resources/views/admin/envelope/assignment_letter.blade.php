@@ -17,9 +17,8 @@
                     <table>
                         <tr width="">
                             <td rowspan="4">
-                                <img id="logo_id"
-                                    src="{{url('asset/logo_icon.jpg')}}"
-                                    alt="" height="75.590551181px" width="75.590551181px">
+                                <img id="logo_id" src="{{ url('asset/logo_icon.jpg') }}" alt="" height="75.590551181px"
+                                    width="75.590551181px">
                             </td>
                         </tr>
                         <tr>
@@ -48,7 +47,9 @@
         <div class="d-flex justify-content-center">
             <div class="row">
                 <div class="col-12 body-letter">
-                    <p style="text-indent: 30px;">Kami Ketua Pengadilan Negeri Banjar dengan ini menugaskan kepada:</p>
+                    <p style="text-indent: 30px;">
+                        {{ $first_redaction ? $first_redaction : 'Kami Ketua Pengadilan Negeri Banjar dengan ini menugaskan kepada:' }}
+                    </p>
                 </div>
                 @php
                     $i = 1;
@@ -113,7 +114,7 @@
                                         <p class="font-11">Pada Tanggal:</p>
                                     </td>
                                     <td class="" style="text-align: left;">
-                                        <p class="font-11">{{ \Carbon\Carbon::now()->format('d F y') }}</p>
+                                        <p class="font-11">{{ \Carbon\Carbon::now()->isoFormat('D MMMM Y') }}</p>
                                     </td>
                                 </tr>
                                 <tr>

@@ -80,9 +80,9 @@
                                 pegawai</small>
                         </div>
                         <div class="form-group">
-                            <label for="leave_number" class="control-label">Nomor Cuti</label>
-                            <input type="leave_number" name="leave_number" placeholder="W11.U22/932/KP.05.2/XI/2021"
-                                class="form-control" required="true" id="leave_number">
+                            <label for="letter_number" class="control-label">Nomor Cuti</label>
+                            <input type="text" name="letter_number" placeholder="W11.U22/932/KP.05.2/XI/2021"
+                                class="form-control" required="true" id="letter_number">
                         </div>
                         <div class="form-group">
                             <label for="work_time" class="control-label">Waktu Kerja</label>
@@ -161,6 +161,10 @@
                             <label for="leave_number" class="control-label">Nomor Surat</label>
                             <input type="text" name="letter_number" placeholder="W11.U22/932/KP.05.2/XI/2021"
                                 class="form-control" required="true" id="letter_number">
+                        </div>
+                        <div class="form-group">
+                            <label for="work_time" class="control-label">Awal Paragraf</label>
+                            <textarea name="first_redaction" id="" cols="30" rows="10" class="form-control"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="work_time" class="control-label">Isi Surat</label>

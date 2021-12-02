@@ -5,7 +5,7 @@
     <div class="float-right d-none d-sm-inline">      
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2020 <a href={{ url('/admin')}}>Aplikasi Rekap Kinerja</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; {{\Carbon\Carbon::now()->year}} <a href={{ url('/admin')}}>si-LIA</a>.</strong> All rights reserved.
     <strong class="float-right">By: Armelia Noviyanti, S.H.</strong>
   </footer>
 </div>
