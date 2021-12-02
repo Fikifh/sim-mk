@@ -63,7 +63,7 @@ class EnvelopeController extends Controller
 
         return view('admin.envelope.assignment_letter', [
             'first_redaction' => $req->first_redaction,
-            'employees' => $employees, 
+            'employees' => $employees,
             'letter_number' => $req->letter_number,
             'body_letter' => $req->body_letter
         ]);
@@ -72,12 +72,18 @@ class EnvelopeController extends Controller
     public function createSpmt(Request $req)
     {
         $employee = User::find($req->employee_id);
+        $employeed = null;
         if (!$employee) {
+            $employeed = User::find($req->employeed_id);
+            if (!$employeed) {
+                return back()->with(['error' => 'pegawai tidak dapat ditemukan!']);
+            }
             return back()->with(['error' => 'pegawai tidak dapat ditemukan!']);
         }
 
         return view('admin.envelope.spmt', [
-            'employee' => $employee, 
+            'employeed' => $employeed,
+            'employee' => $employee,
             'letter_number' => $req->letter_number,
             'sk_number' => $req->sk_number,
             'sk_date' => Carbon::parse($req->sk_date)->isoFormat('D MMMM Y'),
@@ -96,7 +102,7 @@ class EnvelopeController extends Controller
         }
 
         return view('admin.envelope.spmj', [
-            'employee' => $employee, 
+            'employee' => $employee,
             'letter_number' => $req->letter_number,
             'sk_number' => $req->sk_number,
             'sk_date' => Carbon::parse($req->sk_date)->isoFormat('D MMMM Y'),
@@ -115,7 +121,7 @@ class EnvelopeController extends Controller
         }
 
         return view('admin.envelope.spp', [
-            'employee' => $employee, 
+            'employee' => $employee,
             'letter_number' => $req->letter_number,
             'sk_number' => $req->sk_number,
             'sk_date' => Carbon::parse($req->sk_date)->isoFormat('D MMMM Y'),
@@ -125,6 +131,4 @@ class EnvelopeController extends Controller
             'tunjangan_dibaca' => $req->tunjangan_dibaca
         ]);
     }
-
-    
 }

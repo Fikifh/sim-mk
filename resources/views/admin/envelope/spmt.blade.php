@@ -17,8 +17,8 @@
                     <table>
                         <tr width="">
                             <td rowspan="4">
-                                <img id="logo_id" src="{{ url('asset/logo_icon.jpg') }}" alt="" height="75.590551181px"
-                                    width="75.590551181px">
+                                <img id="logo_id" src="{{ url('asset/logo_icon.jpg') }}" alt=""
+                                    height="75.590551181px" width="75.590551181px">
                             </td>
                         </tr>
                         <tr>
@@ -38,7 +38,8 @@
 
         <div class="row">
             <div class="col-12" style="text-align: center;">
-                <p class="font-12" style="margin-top: 20px; letter-spacing: 1px; font-weight:bold; text-decoration:underline;">
+                <p class="font-12"
+                    style="margin-top: 20px; letter-spacing: 1px; font-weight:bold; text-decoration:underline;">
                     SURAT PERNYATAAN MASIH
                     MELAKSANAKAN TUGAS</p>
                 <p class="font-12">NOMOR : {{ $letter_number ?? '' }}</p>
@@ -55,23 +56,24 @@
                     <table class="table-width" cellspacing="0" style="margin-left:30px;">
                         <tr>
                             <td>Nama</td>
-                            <td>: Kusman, S.H., M.H.</td>
+                            <td>: {{ $employeed->nama ? $employeed->nama : 'Kusman, S.H., M.H.' }}</td>
                         </tr>
                         <tr>
                             <td>NIP</td>
-                            <td>: 197610242001121004</td>
+                            <td>: {{ $employeed->nama ? $employeed->nama : '197610242001121004' }}</td>
                         </tr>
                         <tr>
                             <td>Pangkat / Golongan Ruang</td>
-                            <td>: Pembina / (IV/a )</td>
+                            <td>: {{ $employeed->nama ? $employeed->nama : 'Pembina / (IV/a)' }}</td>
                         </tr>
                         <tr>
                             <td>Jabatan</td>
-                            <td>: Ketua Pengadilan Negeri Banjar</td>
+                            <td>: {{ $employeed->nama ? $employeed->nama : 'Ketua Pengadilan Negeri Banjar' }}</td>
                         </tr>
                     </table>
                     <p></p>
-                    <p style="text-indent: 30px; text-align:justify;">Dengan ini menyatakan dengan sesungguhnya bahwa :</p>
+                    <p style="text-indent: 30px; text-align:justify;">Dengan ini menyatakan dengan sesungguhnya bahwa :
+                    </p>
                     <table class="table-width" cellspacing="0" style="margin-left:30px;">
                         <tr>
                             <td>Nama</td>
@@ -93,17 +95,22 @@
                 </div>
                 <div class="col-12 body-letter">
                     <p></p>
-                    <p style="text-indent: 30px; text-align:justify;">Berdasarkan surat keputusan Direktur Jenderal Badan Peradilan Umum
+                    <p style="text-indent: 30px; text-align:justify;">Berdasarkan surat keputusan Direktur Jenderal
+                        Badan Peradilan Umum
                         Nomor: {{ $sk_number }} tanggal {{ $sk_date }} masih melaksanakan tugas tersebut
                         terhitung mulai tanggal {{ $date_start }}</p>
-                    <p style="text-indent: 30px; text-align:justify;">Berdasarkan Peraturan Presiden RI Nomor : 24 tahun 2007 sdr.
+                    <p style="text-indent: 30px; text-align:justify;">Berdasarkan Peraturan Presiden RI Nomor : 24 tahun
+                        2007 sdr.
                         {{ $employee->nama }} berhak menerima tunjangan Jabatan Panitera Pengganti Pengadilan Negeri
-                        Banjar sebesar Rp.{{ $tunjangan }} ({{ $tunjangan_dibaca }}) setiap bulannya</p>
-                    <p style="text-indent: 30px; text-align:justify;">Demikian Surat Pernyataan ini kami buat dengan sesungguhnya mengingat
+                        Banjar sebesar Rp.{{ $tunjangan }} {{ $tunjangan_dibaca ? "($tunjangan_dibaca)" : null }}
+                        setiap bulannya</p>
+                    <p style="text-indent: 30px; text-align:justify;">Demikian Surat Pernyataan ini kami buat dengan
+                        sesungguhnya mengingat
                         Sumpah Jabatan Pegawai Negeri Sipil. Apabila dikemudian hari Surat Pernyataan ini ternyata tidak
                         benar yang mengakibatkan kerugian terhadap negara, maka kami bersedia menanggung kerugian
                         tersebut.</p>
-                    <p style="text-indent: 30px; text-align:justify;">Asli Surat Pernyataan ini disampaikan kepada Kepala Kantor Pelayanan
+                    <p style="text-indent: 30px; text-align:justify;">Asli Surat Pernyataan ini disampaikan kepada
+                        Kepala Kantor Pelayanan
                         Perbendaharaan Negara Tasikmalaya.</p>
                 </div>
                 <div class="col-12 body-letter align-right">
@@ -118,9 +125,14 @@
                                 </tr>
                                 <tr>
                                     <td class="" style="text-align: center" colspan="2">
-                                        <p class="font-11">Ketua Pengadilan Negeri Banjar,</p><br><br><br>
-                                        <p class="font-11">Kusman, S.H., M.H.</p>
-                                        <p class="font-11">NIP 197610242001121004</p><br>
+                                        <p class="font-11">
+                                            {{ $employeed->jabatan ? $employeed->jabatan : 'Ketua Pengadilan Negeri Banjar' }},
+                                        </p><br><br><br>
+                                        <p class="font-11">
+                                            {{ $employeed->jabatan ? $employeed->jabatan : 'Kusman, S.H., M.H.' }}</p>
+                                        <p class="font-11">NIP
+                                            {{ $employeed->jabatan ? $employeed->jabatan : '197610242001121004' }}</p>
+                                        <br>
                                     </td>
                                 </tr>
                             </table>

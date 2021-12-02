@@ -194,6 +194,13 @@
                     <form action={{ route('createSPMT') }} method="POST">
                         @csrf
                         <div class="form-group">
+                            <label for="employeed_id" class="control-label">Yang Menyatakan</label>
+                            <select name="employeed_id" class="form-control" required="true"
+                                id="spmt_employeed_stated">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="employee_id" class="control-label">Yang Dinyatakan</label>
                             <select name="employee_id" class="form-control" required="true"
                                 id="spmt_employee_stated">
@@ -407,6 +414,9 @@
                     success: function(data) {
                         for (i = 0; i < data.pegawai.length; i++) {
                             $('#spmt_employee_stated').append(
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                            );
+                            $('#spmt_employeed_stated').append(
                                 `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
                             );
                         }
