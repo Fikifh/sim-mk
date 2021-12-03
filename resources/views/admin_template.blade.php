@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>si-LIA</title>
+    <title>si-LIAN</title>
 
     <link rel="shortcut icon" href={{asset('asset/logo_icon.jpg')}} type="image/x-icon">
     <!-- Font Awesome Icons -->
