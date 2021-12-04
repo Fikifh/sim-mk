@@ -72,12 +72,11 @@ class EnvelopeController extends Controller
     public function createSpmt(Request $req)
     {
         $employee = User::find($req->employee_id);
-        $employeed = null;
         if (!$employee) {
-            $employeed = User::find($req->employeed_id);
-            if (!$employeed) {
-                return back()->with(['error' => 'pegawai tidak dapat ditemukan!']);
-            }
+            return back()->with(['error' => 'pegawai tidak dapat ditemukan!']);
+        }
+        $employeed = User::find($req->employeed_id);
+        if (!$employeed) {
             return back()->with(['error' => 'pegawai tidak dapat ditemukan!']);
         }
 

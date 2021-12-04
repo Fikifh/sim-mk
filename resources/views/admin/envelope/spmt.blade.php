@@ -60,15 +60,15 @@
                         </tr>
                         <tr>
                             <td>NIP</td>
-                            <td>: {{ $employeed->nama ? $employeed->nama : '197610242001121004' }}</td>
+                            <td>: {{ $employeed->nip ? $employeed->nip : '197610242001121004' }}</td>
                         </tr>
                         <tr>
                             <td>Pangkat / Golongan Ruang</td>
-                            <td>: {{ $employeed->nama ? $employeed->nama : 'Pembina / (IV/a)' }}</td>
+                            <td>: {{ $employeed->nama ? $employeed->golongan : 'Pembina / (IV/a)' }}</td>
                         </tr>
                         <tr>
                             <td>Jabatan</td>
-                            <td>: {{ $employeed->nama ? $employeed->nama : 'Ketua Pengadilan Negeri Banjar' }}</td>
+                            <td>: {{ $employeed->jabatan ? $employeed->jabatan : 'Ketua Pengadilan Negeri Banjar' }}</td>
                         </tr>
                     </table>
                     <p></p>
@@ -129,9 +129,9 @@
                                             {{ $employeed->jabatan ? $employeed->jabatan : 'Ketua Pengadilan Negeri Banjar' }},
                                         </p><br><br><br>
                                         <p class="font-11">
-                                            {{ $employeed->jabatan ? $employeed->jabatan : 'Kusman, S.H., M.H.' }}</p>
+                                            {{ $employeed->nama ? $employeed->nama : 'Kusman, S.H., M.H.' }}</p>
                                         <p class="font-11">NIP
-                                            {{ $employeed->jabatan ? $employeed->jabatan : '197610242001121004' }}</p>
+                                            {{ $employeed->nip ? $employeed->nip : '197610242001121004' }}</p>
                                         <br>
                                     </td>
                                 </tr>

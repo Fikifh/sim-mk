@@ -6,7 +6,7 @@
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; {{\Carbon\Carbon::now()->year}} <a href={{ url('/admin')}}>si-LIAN</a>.</strong> All rights reserved.
-    <strong class="float-right">By: Armelia Noviyanti, S.H.</strong>
+    <strong class="float-right">By: Armelia Noviyanti, S.H., M.H.</strong>
   </footer>
 </div>
 <!-- ./wrapper -->
