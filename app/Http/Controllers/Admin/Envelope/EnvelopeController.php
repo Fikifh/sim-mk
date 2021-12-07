@@ -18,7 +18,7 @@ class EnvelopeController extends Controller
                 'id' => 'id_cuti', 'name' => 'Izin Cuti'
             ],
             [
-                'id' => 'id_kpknl', 'name' => 'Surat Tugas KPKNL'
+                'id' => 'id_kpknl', 'name' => 'Surat Tugas'
             ],
             [
                 'id' => 'id_spmt', 'name' => 'Surat Pernyataan Masih Melaksanakan Tugas (SPMT)'
@@ -40,7 +40,10 @@ class EnvelopeController extends Controller
         if (!$employee) {
             return back()->with(['error' => 'pegawai tidak dapat ditemukan!']);
         }
-
+        $assigner = null;
+        if($req->assigner_id) {
+            $assigner = User::find($req->assigner_id);
+        }
         return view('admin.envelope.leave', [
             'employee' => $employee, 'envelope_number' => $req->envelope_number,
             'work_long' => $req->work_long,
@@ -50,7 +53,8 @@ class EnvelopeController extends Controller
             'leave_date_to' => $req->leave_date_to,
             'leave_address' => $req->leave_address,
             'leave_phone' => $req->leave_phone,
-            'letter_number' => $req->letter_number
+            'letter_number' => $req->letter_number,
+            'assigner' => $assigner
         ]);
     }
 
@@ -60,12 +64,17 @@ class EnvelopeController extends Controller
         if (count($employees) < 0) {
             return back()->with(['error' => 'pegawai tidak dapat ditemukan!']);
         }
+        $assigner = null;
+        if($req->assigner_id) {
+            $assigner = User::find($req->assigner_id);
+        }
 
         return view('admin.envelope.assignment_letter', [
             'first_redaction' => $req->first_redaction,
             'employees' => $employees,
             'letter_number' => $req->letter_number,
-            'body_letter' => $req->body_letter
+            'body_letter' => $req->body_letter,
+            'assigner' => $assigner
         ]);
     }
 

@@ -17,8 +17,8 @@
                     <table>
                         <tr width="">
                             <td rowspan="4">
-                                <img id="logo_id" src="{{ url('asset/logo_icon.jpg') }}" alt="" height="75.590551181px"
-                                    width="75.590551181px">
+                                <img id="logo_id" src="{{ url('asset/logo_icon.jpg') }}" alt=""
+                                    height="75.590551181px" width="75.590551181px">
                             </td>
                         </tr>
                         <tr>
@@ -38,7 +38,9 @@
 
         <div class="row">
             <div class="col-12" style="text-align: center;">
-                <p class="font-12" style="margin-top: 20px; letter-spacing: 1px; font-weight:bold; text-decoration:underline;">SURAT PERNYATAAN MASIH MENDUDUKI JABATAN</p>
+                <p class="font-12"
+                    style="margin-top: 20px; letter-spacing: 1px; font-weight:bold; text-decoration:underline;">SURAT
+                    PERNYATAAN MASIH MENDUDUKI JABATAN</p>
                 <p class="font-12">NOMOR : {{ $letter_number ?? '' }}</p>
             </div>
         </div>
@@ -53,11 +55,11 @@
                     <table class="table-width" cellspacing="0" style="margin-left:30px;">
                         <tr>
                             <td>Nama</td>
-                            <td>: Kusman, S.H., M.H.</td>
+                            <td>: Agus Ardianto, S.H., M.H.</td>
                         </tr>
                         <tr>
                             <td>NIP</td>
-                            <td>: 197610242001121004</td>
+                            <td>: 197708242001121002</td>
                         </tr>
                         <tr>
                             <td>Pangkat / Golongan Ruang</td>
@@ -69,7 +71,8 @@
                         </tr>
                     </table>
                     <p></p>
-                    <p style="text-indent: 30px; text-align:justify;">Dengan ini menyatakan dengan sesungguhnya bahwa :</p>
+                    <p style="text-indent: 30px; text-align:justify;">Dengan ini menyatakan dengan sesungguhnya bahwa :
+                    </p>
                     <table class="table-width" cellspacing="0" style="margin-left:30px;">
                         <tr>
                             <td>Nama</td>
@@ -91,14 +94,19 @@
                 </div>
                 <div class="col-12 body-letter">
                     <p></p>
-                    <p style="text-indent: 30px; text-align:justify;">Berdasarkan surat keputusan Direktur Jenderal Badan Peradilan Umum
-                        Nomor: {{ $sk_number }} tanggal {{ $sk_date }} telah di angkat dalam Jabatan sebagai Panitera PenggantiPengadilan Negeri Banjar yang di lantik oleh Ketua Pengadilan Negeri Banjar pada tanggal {{ $date_start }}</p>
+                    <p style="text-indent: 30px; text-align:justify;">Berdasarkan surat keputusan Direktur Jenderal
+                        Badan Peradilan Umum
+                        Nomor: {{ $sk_number }} tanggal {{ $sk_date }} telah di angkat dalam Jabatan sebagai
+                        {{ $employee->jabatan }} Pengadilan Negeri Banjar yang di lantik oleh Ketua Pengadilan Negeri
+                        Banjar pada tanggal {{ $date_start }}</p>
 
-                    <p style="text-indent: 30px; text-align:justify;">Demikian Surat Pernyataan ini kami buat dengan sesungguhnya mengingat
+                    <p style="text-indent: 30px; text-align:justify;">Demikian Surat Pernyataan ini kami buat dengan
+                        sesungguhnya mengingat
                         Sumpah Jabatan Pegawai Negeri Sipil. Apabila dikemudian hari Surat Pernyataan ini ternyata tidak
                         benar yang mengakibatkan kerugian terhadap negara, maka kami bersedia menanggung kerugian
                         tersebut.</p>
-                    <p style="text-indent: 30px; text-align:justify;">Asli Surat Pernyataan ini disampaikan kepada Kepala Kantor Pelayanan
+                    <p style="text-indent: 30px; text-align:justify;">Asli Surat Pernyataan ini disampaikan kepada
+                        Kepala Kantor Pelayanan
                         Perbendaharaan Negara Tasikmalaya.</p>
                 </div>
                 <div class="col-12 body-letter align-right">
@@ -113,9 +121,11 @@
                                 </tr>
                                 <tr>
                                     <td class="" style="text-align: center" colspan="2">
-                                        <p class="font-11">Ketua Pengadilan Negeri Banjar,</p><br><br><br>
-                                        <p class="font-11">Kusman, S.H., M.H.</p>
-                                        <p class="font-11">NIP 197610242001121004</p><br>
+                                        <p class="font-11">Ketua Pengadilan Negeri Banjar,
+                                        </p><br><br><br>
+                                        <p class="font-11">Agus Ardianto, S.H., M.H.</p>
+                                        <p class="font-11">NIP 197708242001121002</p>
+                                        <br>
                                     </td>
                                 </tr>
                             </table>

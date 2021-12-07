@@ -27,11 +27,11 @@
                                     <th>Golongan</th>
                                     <th>Jabatan</th>
                                     <th>Unit Kerja</th>
-                                    <th>Nilai Perhitungan</th> 
-                                    <th>Nilai Capaian</th>                                    
-                                    <th>Kehadiran</th>                                    
-                                    <th>Capaian Kinerja</th>
-                                    <th>Nilai Nilai Akhir</th>
+                                    {{-- <th>Nilai Perhitungan</th>  --}}
+                                    {{-- <th>Nilai Capaian</th>                                     --}}
+                                    {{-- <th>Kehadiran</th>                                     --}}
+                                    {{-- <th>Capaian Kinerja</th> --}}
+                                    {{-- <th>Nilai Nilai Akhir</th> --}}
                                     <th>Pilihan</th>
                                 </tr>
                             </thead>
@@ -44,34 +44,38 @@
                                         <td>{{ $item->golongan }}</td>
                                         <td>{{ $item->jabatan }}</td>
                                         <td>{{ $item->unit_kerja }}</td>
-                                        <td>{{round($item->nilai_perhitungan, 2)}}</td>         
-                                        <td>{{round($item->nilai_capaian, 2)}}</td>                                                                           
-                                        <td>
+                                        {{-- <td>{{round($item->nilai_perhitungan, 2)}}</td>         
+                                        <td>{{round($item->nilai_capaian, 2)}}</td>                                                                            --}}
+                                        {{-- <td> --}}
                                             <?php 
-                                                $kehadiran = \App\Models\Kehadiran::where('users_id',  $item->id)->whereMonth('bulan', \Carbon\Carbon::now()->month )->whereYear('bulan', \Carbon\Carbon::now()->year)->first();
-                                                if($kehadiran){
-                                                    echo $kehadiran->nilai;
-                                                }
+                                                // $kehadiran = \App\Models\Kehadiran::where('users_id',  $item->id)->whereMonth('bulan', \Carbon\Carbon::now()->month )->whereYear('bulan', \Carbon\Carbon::now()->year)->first();
+                                                // if($kehadiran){
+                                                //     echo $kehadiran->nilai;
+                                                // }
                                             ?>
-                                        </td>                                        
-                                        <td>
+                                        {{-- </td>                                         --}}
+                                        {{-- <td> --}}
                                             <?php
-                                                $nilaiCapaian = round($item->nilai_capaian,0);                                                
-                                                $nilaiKehadiran = 0;
-                                                $nilaiAkhir = $nilaiCapaian;
-                                                if($kehadiran){
-                                                    $nilaiKehadiran = $kehadiran->nilai;
-                                                    $nilaiAkhir = ($nilaiKehadiran + $nilaiCapaian) / 2;                                                    
-                                                }
-                                                $hasil = \App\Models\NilaiCapaian::where('nilai_angka_min', '<=', $nilaiAkhir)->where('nilai_angka','>=', $nilaiAkhir)->first();                                                
-                                                if($hasil){
-                                                    echo $kehadiran ? $hasil->nilai_text : $hasil->nilai_text." (belum ditambah kehadiran)";
-                                                } else {
-                                                    echo "nilai tidak pada range !";
-                                                }                                                   
+                                                // $nilaiCapaian = round($item->nilai_capaian,0);                                                
+                                                // $nilaiKehadiran = 0;
+                                                // $nilaiAkhir = $nilaiCapaian;
+                                                // if($kehadiran){
+                                                //     $nilaiKehadiran = $kehadiran->nilai;
+                                                //     $nilaiAkhir = ($nilaiKehadiran + $nilaiCapaian) / 2;                                                    
+                                                // }
+                                                // $hasil = \App\Models\NilaiCapaian::where('nilai_angka_min', '<=', $nilaiAkhir)->where('nilai_angka','>=', $nilaiAkhir)->first();                                                
+                                                // if($hasil){
+                                                //     echo $kehadiran ? $hasil->nilai_text : $hasil->nilai_text." (belum ditambah kehadiran)";
+                                                // } else {
+                                                //     echo "nilai tidak pada range !";
+                                                // }                                                   
                                             ?>
-                                        </td>     
-                                        <td><?php echo $nilaiAkhir ?> </td>                                   
+                                        {{-- </td>      --}}
+                                        {{-- <td> --}}
+                                            <?php 
+                                        // echo $nilaiAkhir 
+                                        // ?> 
+                                        {{-- </td>                                    --}}
                                         <td>
                                             <meta name="csrf-token" content="{{ csrf_token() }}">
                                             <a href="#editModal" data-toggle="modal" data-id="{{ $item->id }}" title="Ubah">
@@ -81,11 +85,10 @@
                                                 href={{ url("admin/pegawai/delete?id=$item->id") }}>
                                                 <ion-icon name="trash-outline"></ion-icon>
                                             </a>
-                                            <a title="Detail"
+                                            {{-- <a title="Detail"
                                                 href={{ url("admin/pegawai/kegiatan?user_id=$item->id&id=$item->id") }}>
                                                 <ion-icon name="eye"></ion-icon>
-                                            </a>
-                                        </td>
+                                            </a> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -98,11 +101,11 @@
                                     <th>Golongan</th>
                                     <th>Jabatan</th>
                                     <th>Unit Kerja</th>
-                                    <th>Nilai Perhitungan</th>          
+                                    {{-- <th>Nilai Perhitungan</th>          
                                     <th>Nilai Capaian</th>                                                              
                                     <th>Kehadiran</th>                                    
                                     <th>Capaian Kinerja</th>
-                                    <th>Nilai Akhir</th>
+                                    <th>Nilai Akhir</th> --}}
                                     <th>Pilihan</th>
                                 </tr>
                             </tfoot>

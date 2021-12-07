@@ -31,6 +31,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        return redirect()->route('envelope');
         $bulanan = User::rightJoin('indikator_kerjas', 'users.id', 'indikator_kerjas.users_id')
             ->leftJoin('uraian_kegiatans', 'indikator_kerjas.id', 'uraian_kegiatans.id_indikator_kerjas')                    
             ->where('users.role', 'pegawai')                        

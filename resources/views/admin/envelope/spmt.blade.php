@@ -56,11 +56,11 @@
                     <table class="table-width" cellspacing="0" style="margin-left:30px;">
                         <tr>
                             <td>Nama</td>
-                            <td>: {{ $employeed->nama ? $employeed->nama : 'Kusman, S.H., M.H.' }}</td>
+                            <td>: {{ $employeed->nama ? $employeed->nama : 'Agus Ardianto, S.H., M.H.' }}</td>
                         </tr>
                         <tr>
                             <td>NIP</td>
-                            <td>: {{ $employeed->nip ? $employeed->nip : '197610242001121004' }}</td>
+                            <td>: {{ $employeed->nip ? $employeed->nip : '197708242001121002' }}</td>
                         </tr>
                         <tr>
                             <td>Pangkat / Golongan Ruang</td>
@@ -68,7 +68,8 @@
                         </tr>
                         <tr>
                             <td>Jabatan</td>
-                            <td>: {{ $employeed->jabatan ? $employeed->jabatan : 'Ketua Pengadilan Negeri Banjar' }}</td>
+                            <td>: {{ $employeed->jabatan ? $employeed->jabatan : 'Ketua Pengadilan Negeri Banjar' }}
+                            </td>
                         </tr>
                     </table>
                     <p></p>
@@ -101,7 +102,8 @@
                         terhitung mulai tanggal {{ $date_start }}</p>
                     <p style="text-indent: 30px; text-align:justify;">Berdasarkan Peraturan Presiden RI Nomor : 24 tahun
                         2007 sdr.
-                        {{ $employee->nama }} berhak menerima tunjangan Jabatan Panitera Pengganti Pengadilan Negeri
+                        {{ $employee->nama }} berhak menerima tunjangan Jabatan {{ $employee->jabatan }} Pengadilan
+                        Negeri
                         Banjar sebesar Rp.{{ $tunjangan }} {{ $tunjangan_dibaca ? "($tunjangan_dibaca)" : null }}
                         setiap bulannya</p>
                     <p style="text-indent: 30px; text-align:justify;">Demikian Surat Pernyataan ini kami buat dengan
@@ -129,9 +131,9 @@
                                             {{ $employeed->jabatan ? $employeed->jabatan : 'Ketua Pengadilan Negeri Banjar' }},
                                         </p><br><br><br>
                                         <p class="font-11">
-                                            {{ $employeed->nama ? $employeed->nama : 'Kusman, S.H., M.H.' }}</p>
+                                            {{ $employeed->nama ? $employeed->nama : 'Agus Ardianto, S.H., M.H.' }}</p>
                                         <p class="font-11">NIP
-                                            {{ $employeed->nip ? $employeed->nip : '197610242001121004' }}</p>
+                                            {{ $employeed->nip ? $employeed->nip : '197708242001121002' }}</p>
                                         <br>
                                     </td>
                                 </tr>

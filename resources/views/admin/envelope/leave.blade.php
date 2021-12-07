@@ -17,8 +17,8 @@
                     <table>
                         <tr width="">
                             <td rowspan="4">
-                                <img id="logo_id" src="{{ url('asset/logo_icon.jpg') }}" alt="" height="75.590551181px"
-                                    width="75.590551181px">
+                                <img id="logo_id" src="{{ url('asset/logo_icon.jpg') }}" alt=""
+                                    height="75.590551181px" width="75.590551181px">
                             </td>
                         </tr>
                         <tr>
@@ -170,7 +170,8 @@
                             </td>
                             <td class="table-bordered" style="width: 130px; text-align:center;">
                                 <p class="font-11">
-                                    {{ \Carbon\Carbon::parse($leave_date_from)->diffInDays($leave_date_to) }} Hari</p>
+                                    {{ \Carbon\Carbon::parse($leave_date_from)->diffInDays($leave_date_to) }} Hari
+                                </p>
                             </td>
                             <td class="table-bordered" style="width: 100px;">
                                 <p class="font-11">Mulai Tanggal</p>
@@ -183,7 +184,8 @@
                                 <p class="font-11">s.d</p>
                             </td>
                             <td class="table-bordered" style="width: 130px;">
-                                <p class="font-11">{{ \Carbon\Carbon::parse($leave_date_to)->format('d F Y') }}
+                                <p class="font-11">
+                                    {{ \Carbon\Carbon::parse($leave_date_to)->format('d F Y') }}
                                 </p>
                             </td>
                         </tr>
@@ -438,9 +440,13 @@
                                 <p class="font-11"></p>
                             </td>
                             <td class="table-bordered" style="text-align: center" colspan="3">
-                                <p class="font-11">Ketua Pengadilan Negeri Banjar,</p><br><br><br>
-                                <p class="font-11">Jan Oktavianus, S.H., M.H.</p>
-                                <p class="font-11">NIP 197410022000121002</p><br>
+                                <p class="font-11">
+                                    {{ $assigner ? $assigner->jabatan : 'Ketua Pengadilan Negeri Banjar' }},
+                                </p><br><br><br>
+                                <p class="font-11">
+                                    {{ $assigner ? $assigner->nama : 'Agus Ardianto, S.H., M.H.' }}</p>
+                                <p class="font-11">
+                                    {{ $assigner ? $assigner->nip : 'NIP 197708242001121002' }}</p><br>
                             </td>
                         </tr>
                     </table>

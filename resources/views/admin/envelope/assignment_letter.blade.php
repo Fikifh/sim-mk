@@ -17,8 +17,8 @@
                     <table>
                         <tr width="">
                             <td rowspan="4">
-                                <img id="logo_id" src="{{ url('asset/logo_icon.jpg') }}" alt="" height="75.590551181px"
-                                    width="75.590551181px">
+                                <img id="logo_id" src="{{ url('asset/logo_icon.jpg') }}" alt=""
+                                    height="75.590551181px" width="75.590551181px">
                             </td>
                         </tr>
                         <tr>
@@ -114,14 +114,19 @@
                                         <p class="font-11">Pada Tanggal:</p>
                                     </td>
                                     <td class="" style="text-align: left;">
-                                        <p class="font-11">{{ \Carbon\Carbon::now()->isoFormat('D MMMM Y') }}</p>
+                                        <p class="font-11">{{ \Carbon\Carbon::now()->isoFormat('D MMMM Y') }}
+                                        </p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="" style="text-align: center" colspan="2">
-                                        <p class="font-11">Ketua Pengadilan Negeri Banjar,</p><br><br><br>
-                                        <p class="font-11">Jan Oktavianus, S.H., M.H.</p>
-                                        <p class="font-11">NIP 197410022000121002</p><br>
+                                        <p class="font-11">
+                                            {{ $assigner ? $assigner->jabatan : 'Ketua Pengadilan Negeri Banjar' }},
+                                        </p><br><br><br>
+                                        <p class="font-11">
+                                            {{ $assigner ? $assigner->nama : 'Agus Ardianto, S.H., M.H.' }}</p>
+                                        <p class="font-11">
+                                            {{ $assigner ? $assigner->nip : 'NIP 197708242001121002' }}</p><br>
                                     </td>
                                 </tr>
                             </table>

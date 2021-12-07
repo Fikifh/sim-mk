@@ -80,6 +80,14 @@
                                 pegawai</small>
                         </div>
                         <div class="form-group">
+                            <label for="assigner_id" class="control-label">Pilih Penanda Tangan</label>
+                            <select name="assigner_id" class="form-control" required="true" id="assigner_id">
+                                <option value=""></option>
+                            </select>
+                            <small class="text-muted">Jika Penanda Tangan tidak ada di list bisa menambahkan di menu
+                                pegawai</small>
+                        </div>
+                        <div class="form-group">
                             <label for="letter_number" class="control-label">Nomor Cuti</label>
                             <input type="text" name="letter_number" placeholder="W11.U22/932/KP.05.2/XI/2021"
                                 class="form-control" required="true" id="letter_number">
@@ -140,7 +148,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Buat Surat Tugas KPKNL</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">Buat Surat Tugas</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
@@ -414,10 +422,10 @@
                     success: function(data) {
                         for (i = 0; i < data.pegawai.length; i++) {
                             $('#spmt_employee_stated').append(
-                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} | ${data.pegawai[i].jabatan} </option>`
                             );
                             $('#spmt_employeed_stated').append(
-                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} | ${data.pegawai[i].jabatan} </option>`
                             );
                         }
                     }
@@ -431,7 +439,7 @@
                     success: function(data) {
                         for (i = 0; i < data.pegawai.length; i++) {
                             $('#spmj_employee_stated').append(
-                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} | ${data.pegawai[i].jabatan} </option>`
                             );
                         }
                     }
@@ -459,10 +467,15 @@
                     success: function(data) {
                         for (i = 0; i < data.pegawai.length; i++) {
                             $('#employee_id').append(
-                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} </option>`
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} | ${data.pegawai[i].jabatan}</option>`
                             );
                         }
-                        console.log(data);
+
+                        for (i = 0; i < data.pegawai.length; i++) {
+                            $('#assigner_id').append(
+                                `<option value="${data.pegawai[i].id}"> ${data.pegawai[i].nama} | ${data.pegawai[i].jabatan}</option>`
+                            );
+                        }
                     }
                 });
             });
