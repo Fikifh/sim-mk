@@ -327,7 +327,7 @@
                             </td>
                             <td class="table-bordered" style="text-align: center" colspan="2">
                                 <p class="font-11">Hormat Saya</p><br><br><br>
-                                <p class="font-11">{{ $employee->nama }}</p>
+                                <p class="font-11">{{ ucwords($employee->nama) }}</p>
                                 <p class="font-11">NIP {{ $employee->nip }}</p><br>
                             </td>
                         </tr>
@@ -444,7 +444,7 @@
                                     {{ $assigner ? $assigner->jabatan : 'Ketua Pengadilan Negeri Banjar' }},
                                 </p><br><br><br>
                                 <p class="font-11">
-                                    {{ $assigner ? $assigner->nama : 'Agus Ardianto, S.H., M.H.' }}</p>
+                                    {{ $assigner ? ucwords($assigner->nama) : 'Agus Ardianto, S.H., M.H.' }}</p>
                                 <p class="font-11">
                                     {{ $assigner ? $assigner->nip : 'NIP 197708242001121002' }}</p><br>
                             </td>

@@ -76,7 +76,7 @@
                                     <p class="font-11">{{ $i }}</p>
                                 </td>
                                 <td class="table-bordered" style="text-align: center;">
-                                    <p class="font-11">{{ $employee->nama }}</p>
+                                    <p class="font-11">{{ ucwords($employee->nama) }}</p>
                                 </td>
                                 <td class="table-bordered" style="text-align: center;">
                                     <p class="font-11">{{ $employee->golongan }}</p>
@@ -124,7 +124,7 @@
                                             {{ $assigner ? $assigner->jabatan : 'Ketua Pengadilan Negeri Banjar' }},
                                         </p><br><br><br>
                                         <p class="font-11">
-                                            {{ $assigner ? $assigner->nama : 'Agus Ardianto, S.H., M.H.' }}</p>
+                                            {{ $assigner ? ucwords(strtolower($assigner->nama)) : 'Agus Ardianto, S.H., M.H.' }}</p>
                                         <p class="font-11">
                                             {{ $assigner ? $assigner->nip : 'NIP 197708242001121002' }}</p><br>
                                     </td>

@@ -56,7 +56,7 @@
                     <table class="table-width" cellspacing="0" style="margin-left:30px;">
                         <tr>
                             <td>Nama</td>
-                            <td>: {{ $employeed->nama ? $employeed->nama : 'Agus Ardianto, S.H., M.H.' }}</td>
+                            <td>: {{ $employeed->nama ? ucwords($employeed->nama) : 'Agus Ardianto, S.H., M.H.' }}</td>
                         </tr>
                         <tr>
                             <td>NIP</td>
@@ -78,7 +78,7 @@
                     <table class="table-width" cellspacing="0" style="margin-left:30px;">
                         <tr>
                             <td>Nama</td>
-                            <td>: {{ $employee->nama }}</td>
+                            <td>: {{ ucwords($employee->nama) }}</td>
                         </tr>
                         <tr>
                             <td>NIP</td>
@@ -131,7 +131,7 @@
                                             {{ $employeed->jabatan ? $employeed->jabatan : 'Ketua Pengadilan Negeri Banjar' }},
                                         </p><br><br><br>
                                         <p class="font-11">
-                                            {{ $employeed->nama ? $employeed->nama : 'Agus Ardianto, S.H., M.H.' }}</p>
+                                            {{ $employeed->nama ? ucwords($employeed->nama) : 'Agus Ardianto, S.H., M.H.' }}</p>
                                         <p class="font-11">NIP
                                             {{ $employeed->nip ? $employeed->nip : '197708242001121002' }}</p>
                                         <br>

@@ -76,7 +76,7 @@
                     <table class="table-width" cellspacing="0" style="margin-left:30px;">
                         <tr>
                             <td>Nama</td>
-                            <td>: {{ $employee->nama }}</td>
+                            <td>: {{ ucwords($employee->nama) }}</td>
                         </tr>
                         <tr>
                             <td>NIP</td>
